@@ -106,14 +106,14 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query
-        connection.query('SELECT * FROM User WHERE username = ?', function (err, rows, fields) {
+        connection.query('SELECT * FROM User WHERE username = ?', req.body.username, function (err, rows, fields) {
           if (err) { 
             // if there is an error with the query, release the connection instance and log the error
             connection.release()
             res.status(400).send('Username already exists, please enter a new username'); 
           } else {
             // if there is no error with the query, execute the next query and do not release the connection yet
-            connection.query('INSERT INTO User(name, birthday, username, password) VALUES(?,?,?,?)', [req.name, req.birthday, req.username, req.password], function (err, rows, fields) {
+            connection.query('INSERT INTO User(name, birthday, username, password) VALUES(?,?,?,?)', [req.body.name, req.body.birthday, req.body.username, req.body.password], function (err, rows, fields) {
               if (err) { 
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
