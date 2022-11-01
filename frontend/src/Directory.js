@@ -12,5 +12,25 @@ export const accounts = [
         age: 35,
         bio: "Lorem Ipsum",
         tags: ['placeholder', 'enthusiast', 'legos']
+    },
+    {
+        email: 'ownermail@ownermail',
+        password: 'raisetherent123',
+        accountType: 2,
+        firstName: 'land',
+        lastName: 'lord',
+        age: 55,
+
+    }
+];
+export const properties = [
+    {
+        address: '6120 Bishop',
+        monthlyRent: 4800,
+        capacity: 1,
+        allowsPets: true,
+        allowsSmoking: false,
+        owner: {},
+        tags: ['night life', 'college town', 'community']
     }
 ];

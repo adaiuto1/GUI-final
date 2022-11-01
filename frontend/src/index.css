@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.flex-box{
+  display:flex;
+}
+.searchResult{
+  border:1px solid grey;
+  width:90%;
+  margin-left: 5%;
+  margin-bottom: 1%;
+}
+.searchResult > img{
+  margin:1%;
+}
+.searchResult > #propertyName{
+  color:grey;
+}
