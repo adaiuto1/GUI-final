@@ -22,18 +22,23 @@ function CreateAccount(props){
     }
     return(
         <div>
-            <h1>Edit Tenant Profile</h1>
+            <h1>Edit {acctType} Profile</h1>
             <label>First Name</label>
-            <input type="text" name="firstName" onChange={(e) =>handleChange(e)}></input>
+            <input type="text" name="firstName"
+            onChange={(e) =>handleChange(e)}
+            ></input>
             <br />
             <label>Last Name</label>
-            <input type="text" name="lastName" onChange={(e) =>handleChange(e)}></input>
+            <input type="text" name="lastName"
+            onChange={(e) =>handleChange(e)}></input>
             <br />
             <label>Age</label>
-            <input type="text" name="age" onChange={(e) =>handleChange(e)}></input>
+            <input type="text" name="age"
+            onChange={(e) =>handleChange(e)}></input>
             <br />
             <label>Bio</label>
-            <input type="text" name="bio" onChange={(e) =>handleChange(e)}></input>
+            <input type="text" name="bio"
+            onChange={(e) =>handleChange(e)}></input>
             <br />
             <button to="/" onClick={createNewAccount()}>Create Account</button>
         </div>

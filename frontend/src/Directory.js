@@ -10,7 +10,10 @@ export const accounts = [
         firstName: 'bob',
         lastName: 'jones',
         age: 35,
-        bio: "Lorem Ipsum",
+        bio: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lsum Lorem Ipsum Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ",
+        occupation: "job",
+        lookingFor: 'Summer Housing',
+        tenantRating: 0,
         tags: ['placeholder', 'enthusiast', 'legos']
     }
 ];
