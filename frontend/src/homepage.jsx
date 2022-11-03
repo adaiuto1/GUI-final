@@ -17,23 +17,19 @@ export const Homepage = () => {
     // }
 
     return <>
-        {/* <div> 
-            <p>You clicked {count} times</p>
-            <button onClick={() => setCount(count + 1)}>
-                Click me
-            </button>
-        </div> FIXME this was just me testing things*/}
-
-        <div id="landlord">
-            <button id="inbox">Inbox</button>
+        {/*<div id="landlord">
+            <button class="inbox">Inbox</button>
             <button class="middleButtons">View Listings</button>
             <button class="middleButtons">Search</button>
             <button class="middleButtons">My Profile</button>
-            <button id="logout">Logout</button>
-        </div>
+            <button class="logout">Logout</button>
+        </div>*/}
 
         <div id="tenant">
-
+            <button class="inbox">Inbox</button>
+            <button class="middleButtons">My Properties</button>
+            <button class="middleButtons">My Profile</button>
+            <button class="logout">Logout</button>
         </div>
     </>;
 };

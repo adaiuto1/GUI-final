@@ -7,22 +7,23 @@ button {
     border-color: gray;
     border-style: solid;
     display: block;
-    height: 3em;
+    height: 4em;
     margin-top: 1em;
     margin-left: 25%;
+    font-size: 1.2em;
 }
 
-button:hover {
+button:hover { /* */
     background-color: gray;
 }
 
-#inbox {
-    margin-top: 25%;
+.inbox {
+    margin-top: 6em;
     width: 20%;
     margin-left: 55%;
 }
 
-#logout {
+.logout {
     width: 15%;
     margin-left: 42%;
 }
