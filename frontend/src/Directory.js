@@ -31,6 +31,7 @@ export const properties = [
         allowsPets: true,
         allowsSmoking: false,
         owner: {},
+        headerImg: 'https://via.placeholder.com/140x100',
         tags: ['night life', 'college town', 'community']
     }
 ];

@@ -14,15 +14,26 @@ code {
 .flex-box{
   display:flex;
 }
+#searchResultsPage{
+  height:100ch;
+}
+#searchResultsBox{
+  margin-bottom: 5%;
+  height:80ch;
+  overflow-y:scroll;
+}
 .searchResult{
-  border:1px solid grey;
+  background-color: lightcyan;
+  margin:2%;
   width:90%;
-  margin-left: 5%;
-  margin-bottom: 1%;
 }
 .searchResult > img{
   margin:1%;
 }
-.searchResult > #propertyName{
-  color:grey;
+.horizontalList{
+  list-style: none;
+}
+.horizontalList > li{
+  float:left;
+  margin-right: 8%;
 }
