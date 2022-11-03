@@ -96,6 +96,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // POST for a new user
   app.post('/user', (req, res) => {
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
