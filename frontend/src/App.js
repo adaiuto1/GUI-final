@@ -19,6 +19,8 @@ function App() {
         <Route path="/create_profile" element={<CreateAccount email="email@email" password="password123" accountType={1}/>} />
       </Routes>
     </Router>
+
+
   )
 }
 
