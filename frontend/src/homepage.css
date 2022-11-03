@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
+button {
+    background-color: white;
+    border-color: gray;
+    border-style: solid;
+    display: block;
+    height: 4em;
+    margin-top: 1em;
+    margin-left: 25%;
+    font-size: 1.2em;
+}
+
+button:hover { /* */
+    background-color: gray;
+}
+
+.inbox {
+    margin-top: 6em;
+    width: 20%;
+    margin-left: 55%;
+}
+
+.logout {
+    width: 15%;
+    margin-left: 42%;
+}
+
+.middleButtons {
+    width: 50%;
+}
