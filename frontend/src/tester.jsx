@@ -1,9 +1,12 @@
-import { CurrentView } from './currentView';
-import { Homepage } from './homepage';
-
+import { Link } from 'react-router-dom';
 export const Tester = () => {
+    
     return <>
-        <button value={1} onClick={CurrentView.buttonClick}>Button 1</button>
-        <button value={2}>Button 2</button>
+        <Link to="/tenantHomepage">
+            <button>Tenant</button>
+        </Link>
+        <Link to="/landlordHomepage">
+            <button>Landlord</button>
+        </Link>
     </>;
 };
