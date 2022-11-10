@@ -9,6 +9,7 @@ import { LandlordHomepage } from './components/landlordHomepage';
 import { TenantHomepage } from './components/tenantHomepage';
 import { Tester } from './components/tester';
 import { LandlordProperties } from './components/landlordProperties';
+import { AddProperty } from './components/addProperty';
 
 // React functional component
 function App() {
@@ -26,6 +27,8 @@ function App() {
         <Route path="/tenantHomepage" element={<TenantHomepage />} />
         <Route path="/tester" element={<Tester />} />
         <Route path="/properties" element={<LandlordProperties />} />
+
+        <Route path="/addProperty" element={<AddProperty />}></Route>
 
         {/* <Route path="/create_profile" element={<CreateAccount email="email@email" password="password123" accountType={1}/>} /> */}
       </Routes>

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route, Outlet } from "react-router-dom";
 import { PropertiesList } from "./propertiesList";
 import { Landlord } from "../models/landlord";
 import { LandlordProperty } from "../models/landlordProperty";
 import { LandlordHomepage } from "./landlordHomepage";
+import { AddProperty } from "./addProperty";
 
 export const LandlordProperties = ({landlord}) => {
     const temp1 = [
@@ -23,5 +24,9 @@ export const LandlordProperties = ({landlord}) => {
         <Link to="/landlordHomepage"><button id="back">Back</button></Link>
 
         <PropertiesList properties={temp2.properties} />
+
+        <Link to="/addProperty"><button id="addPropertyButton">Add Property</button></Link>
+
+        <Outlet />
     </>;
 }
