@@ -1,27 +1,19 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import CreateAccount from './CreateAccount';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import {accounts} from './Directory'
+import { LoginForm, RegisterForm } from './login';
+import { Routes, Route } from 'react-router-dom';
+
 // React functional component
+export const App = () => {
+  // const [number, setNumber] = useState("")
+  // const [values, setValues] = useState([])
 
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/create_profile"> Details</Link>
-      </div>
-      <Routes>
-        <Route path="/create_profile" element={<CreateAccount email="email@email" password="password123" accountType={1}/>} />
-      </Routes>
-    </Router>
-
-
-  )
+  return <Routes>
+          <Route path="/login" element={ <LoginForm /> }></Route>
+          <Route path="/register" element={ <RegisterForm /> }></Route>
+         </Routes>;
 }
 
 export default App;

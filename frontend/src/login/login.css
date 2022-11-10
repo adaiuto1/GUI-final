@@ -1,20 +1,19 @@
 * {
     box-sizing: border-box;
-}
-
-body > section {
-    display: none;
+    font-family: 'Playfair Display';
 }
 
 body > section.active {
     display: block;
+    text-align: center;
 }
 
 form {
-    width: 90vw;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 form * {
@@ -24,7 +23,6 @@ form * {
 
 form button {
     width: 10vw;
-    align-items: center;
 }
 
 span {
