@@ -20,7 +20,7 @@ export const LandlordProperties = ({landlord}) => {
     
     //FIXME eventually need to change temp2 to the "landlord" prop
     return <>
-        <Link to="/landlordHomepage"><button>Back</button></Link>
+        <Link to="/landlordHomepage"><button id="back">Back</button></Link>
 
         <PropertiesList properties={temp2.properties} />
     </>;

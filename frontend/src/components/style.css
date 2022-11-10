@@ -7,9 +7,6 @@ button {
     border-color: gray;
     border-style: solid;
     display: block;
-    height: 4em;
-    margin-top: 1em;
-    margin-left: 25%;
     font-size: 1.2em;
 }
 
@@ -23,6 +20,12 @@ ul {
     height: 2em;
     margin-bottom: .5em;
     margin-left: 85%;
+}
+
+#back {
+    width: 12.3%;
+    height: 2em;
+    margin-left: 80.5%;
 }
 
 .propertyListing {
@@ -72,4 +75,12 @@ button:hover { /* */
 
 .middleButtons {
     width: 50%;
+}
+
+.inbox,
+.logout,
+.middleButtons {
+    height: 4em;
+    margin-top: 1em;
+    margin-left: 25%;
 }
