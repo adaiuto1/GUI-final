@@ -16,22 +16,24 @@ function App() {
   return (
     <Router>
       <div>
-        <Link to="/">Home</Link>
+        {/* <Link to="/">Home</Link>
         <Link to="/landlordHomepage">Landlord</Link>
         <Link to="/tenantHomepage">Tenant</Link>
-        <Link to="/tester">Tester</Link>
+        <Link to="/tester">Tester</Link> */}
         {/* {/* <Link to="/create_profile"> Details</Link> */}
       </div>
       <Routes>
         <Route path="/landlordHomepage" element={<LandlordHomepage />} />
         <Route path="/tenantHomepage" element={<TenantHomepage />} />
-        <Route path="/tester" element={<Tester />} />
+        <Route path="/" element={<Tester />} />
         <Route path="/properties" element={<LandlordProperties />} />
 
         <Route path="/addProperty" element={<AddProperty />}></Route>
 
         {/* <Route path="/create_profile" element={<CreateAccount email="email@email" password="password123" accountType={1}/>} /> */}
       </Routes>
+
+
     </Router>
   )
 }
