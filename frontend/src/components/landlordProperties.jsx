@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { PropertiesList } from "./propertiesList";
 import { Landlord } from "../models/landlord";
 import { LandlordProperty } from "../models/landlordProperty";
+import { LandlordHomepage } from "./landlordHomepage";
 
 export const LandlordProperties = ({landlord}) => {
     const temp1 = [
@@ -18,6 +20,8 @@ export const LandlordProperties = ({landlord}) => {
     
     //FIXME eventually need to change temp2 to the "landlord" prop
     return <>
+        <Link to="/landlordHomepage"><button>Back</button></Link>
+
         <PropertiesList properties={temp2.properties} />
     </>;
 }
