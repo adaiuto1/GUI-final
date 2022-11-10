@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export const AddProperty = ( {onPropertyAdded} ) => {
 
-    const [ address, setAddress ] = useState(0);
+    const [ address, setAddress ] = useState('');
 
     return <>
         <TextField label="Address"

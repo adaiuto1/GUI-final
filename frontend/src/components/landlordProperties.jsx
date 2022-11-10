@@ -27,6 +27,5 @@ export const LandlordProperties = ({landlord}) => {
 
         <Link to="/addProperty"><button id="addPropertyButton">Add Property</button></Link>
 
-        <Outlet />
     </>;
 }
