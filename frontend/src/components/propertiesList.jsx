@@ -7,9 +7,9 @@ export const PropertiesList = ({ properties }) => {
                 properties.map((property, index) => 
                     <li key={index} className="propertyListing">
                         <span id="address">{property.address}</span>
-                        <button className="propertyButtons">Edit</button>
-                        <button className="propertyButtons">Remove</button>
-                        <button className="propertyButtons">Promote</button>
+                        <button id="edit" className="propertyButtons">Edit</button>
+                        <button id="remove" className="propertyButtons">Remove</button>
+                        <button id="promote" className="propertyButtons">Promote</button>
                     </li>)
             }
             </ul>

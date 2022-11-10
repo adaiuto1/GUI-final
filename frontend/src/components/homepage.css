@@ -18,21 +18,41 @@ ul {
 }
 
 .propertyButtons {
-    width: 4.5em;
+    position: absolute;
+    width: 14%;
     height: 2em;
-    margin-top: 0;
     margin-bottom: .5em;
+    margin-left: 85%;
 }
 
 .propertyListing {
+    position: relative;
     border: solid;
     margin-bottom: 1em;
     margin-left: 3em;
     margin-right: 3em;
+    padding-bottom: 10em;
 }
 
 #propertyList {
     padding: 0;
+}
+
+#address {
+    position: absolute;
+    font-size: 2.6em;
+}
+
+#edit {
+    margin-top: 0;
+}
+
+#remove {
+    margin-top: 3em;
+}
+
+#promote {
+    margin-top: 6em;
 }
 
 button:hover { /* */
