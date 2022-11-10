@@ -5,9 +5,10 @@ import CreateAccount from './CreateAccount';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {accounts} from './Directory'
-import { LandlordHomepage } from './landlordHomepage';
-import { TenantHomepage } from './tenantHomepage';
-import { Tester } from './tester';
+import { LandlordHomepage } from './components/landlordHomepage';
+import { TenantHomepage } from './components/tenantHomepage';
+import { Tester } from './components/tester';
+import { LandlordProperties } from './components/landlordProperties';
 
 // React functional component
 function App() {
@@ -24,6 +25,8 @@ function App() {
         <Route path="/landlordHomepage" element={<LandlordHomepage />} />
         <Route path="/tenantHomepage" element={<TenantHomepage />} />
         <Route path="/tester" element={<Tester />} />
+        <Route path="/properties" element={<LandlordProperties />} />
+
         {/* <Route path="/create_profile" element={<CreateAccount email="email@email" password="password123" accountType={1}/>} /> */}
       </Routes>
     </Router>
