@@ -1,5 +1,5 @@
 export class LandlordProperty {
-    constructor({address}) {
+    constructor(address) {
         this.address = address;
     }
 }
