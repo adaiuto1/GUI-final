@@ -8,6 +8,7 @@ import { accounts } from './Directory'
 import ProfileView from './ProfileView';
 import CreateProfile from './CreateProfile';
 import LandingPage from './LandingPage';
+import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Router>
         <Routes>
         <Route path='/' element={<LandingPage/>}></Route>
+        <Route path='/homepage' element={<HomePage/>}></Route>
         <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
         <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
         <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
