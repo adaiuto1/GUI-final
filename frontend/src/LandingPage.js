@@ -18,7 +18,7 @@ function LandingPage() {
         <>
             <div className="p-3 border rounded bg-light">
                 <header className="text-center">
-                    <h1>ffff</h1>
+                    <h1>Welcome</h1>
                 </header>
             </div>
             <div className="container pt-5">
