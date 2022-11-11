@@ -49,7 +49,7 @@ function HomePage() {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className=" col-4 my-1 text-center">
-                            <Link to={"/profile_view/" + accountId}>
+                            <Link to={"/my_properties"}>
                                 <button className="btn border border-dark w-100"
                                 >My Properties</button>
                             </Link>

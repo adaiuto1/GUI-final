@@ -10,6 +10,7 @@ import CreateProfile from './CreateProfile';
 import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchResults from './SearchResults';
 function App() {
   return (
     <>
@@ -22,9 +23,10 @@ function App() {
         <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
         <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
         <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
-        </Routes>
+        <Route path='/search_results' element={<SearchResults/>}></Route>
+        <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
+        </Routes> 
       </Router>
-      
     </>
   )
 }
