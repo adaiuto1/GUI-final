@@ -10,5 +10,8 @@ export const getUser = id => {
 }
 
 export const createUser = body => {
-    return axios.post(`${apiEndpoint}/users`).then(x => x.data);
+    debugger;
+    return axios.post(`${apiEndpoint}/user`, body)
+    .then(x => x.data)
+    .catch(error => console.log(error));
 }
