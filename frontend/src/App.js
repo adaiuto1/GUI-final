@@ -9,6 +9,7 @@ import ProfileView from './ProfileView';
 import CreateProfile from './CreateProfile';
 import LandingPage from './LandingPage';
 import HomePage from './HomePage';
+import EditFilters from './EditFilters';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchResults from './SearchResults';
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
         <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
         <Route path='/search_results' element={<SearchResults/>}></Route>
+        <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
         <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
         </Routes> 
       </Router>
