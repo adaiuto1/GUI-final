@@ -34,6 +34,14 @@ function HomePage() {
                             </Link>
                         </div>
                     </div>
+                    <div className="row justify-content-center">
+                        <div className=" col-2 my-1 text-center">
+                            <Link to={"/"}>
+                                <button className="btn border border-dark w-100"
+                                onClick={logout}>Logout</button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </>
         )
