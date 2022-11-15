@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react';
-import axios from 'axios';
 import { LoginForm, RegisterForm } from './login';
 import { Routes, Route } from 'react-router-dom';
 

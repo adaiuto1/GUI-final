@@ -1,5 +1,5 @@
-import axios from "axios";
-const apiEndpoint = 'http://localhost:8000';
+import axios from 'axios';
+const apiEndpoint = '//localhost:8000';
 
 export const getUsers = () => {
     return axios.get(`${apiEndpoint}/users`).then(x => x.data);
@@ -10,8 +10,8 @@ export const getUser = id => {
 }
 
 export const createUser = body => {
-    debugger;
-    return axios.post(`${apiEndpoint}/user`, body)
-    .then(x => x.data)
+    console.log(body);
+    axios.post(`${apiEndpoint}/users`, body)
+    .then(response => console.log(response))
     .catch(error => console.log(error));
 }
