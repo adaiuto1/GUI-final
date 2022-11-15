@@ -30,12 +30,12 @@ function App() {
 
           
 
-          <Route path="/landlordHomepage" element={<LandlordHomepage />} />
+          {/* <Route path="/landlordHomepage" element={<LandlordHomepage />} />
           <Route path="/tenantHomepage" element={<TenantHomepage />} />
           <Route path="/" element={<Tester />} />
           <Route path="/properties" element={<LandlordProperties />} />
           <Route path="/addProperty" element={<AddProperty />}></Route>
-          <Route path="/propertyView" element={<PropertyView />} />
+          <Route path="/propertyView" element={<PropertyView />} /> */}
 
         </Routes> 
       </Router>
