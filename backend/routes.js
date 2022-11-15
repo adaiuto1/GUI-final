@@ -97,7 +97,7 @@ module.exports = function routes(app, logger) {
   });
 
   // POST user
-  app.post('/Users', (req, res) => {
+  app.post('/users', (req, res) => {
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if (err){
@@ -133,7 +133,7 @@ module.exports = function routes(app, logger) {
   });
 
   // GET user
-  app.get('/Users', (req, res) => {
+  app.get('/users', (req, res) => {
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if(err){
@@ -177,7 +177,7 @@ module.exports = function routes(app, logger) {
           res.status(400).send('Problem obtaining MySQL connection'); 
         } else {
           // if there is no issue obtaining a connection, execute query and release connection
-          connection.query('SELECT * FROM Users WHERE id = ?', req.params.id, function (err, rows, fields) {
+          connection.query('SELECT * FROM Users WHERE user_id = ?', req.params.id, function (err, rows, fields) {
             connection.release();
             if (err) {
               logger.error("Error while fetching users: \n", err);
