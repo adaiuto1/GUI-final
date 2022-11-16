@@ -28,6 +28,7 @@ function App() {
           <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
           <Route path='/search_results' element={<SearchResults/>}></Route>
           <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
+          <Route path='/my_properties/edit_filters/:cb' element={<EditFilters/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
           <Route path='/property_view/:id' element={<PropertyView />}></Route>
         </Routes> 
