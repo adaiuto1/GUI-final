@@ -22,3 +22,6 @@ export var searchQuery = "";
 export function setSearchQuery(x){
     searchQuery = x;
 }
+export function clearSearchQuery(){
+    searchQuery = '';
+}

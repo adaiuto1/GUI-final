@@ -3,6 +3,7 @@ import { AccountList } from "../data/AccountList";
 import { Link, useParams } from 'react-router-dom';
 import TrueFalseLabel from '../common/TrueFalseLabel';
 import { Rating } from '../common/rating';
+import { currentUser } from "../api/getterApi";
 
 export const PropertyView = () => {
     let id = useParams().id;
@@ -18,6 +19,16 @@ export const PropertyView = () => {
 
     return <>
         <div className="p-3 border rounded bg-light">
+            {currentUser.accountType === 1 ? 
+            <Link to="/search_results">
+                <button className="float-start my-2">Back</button>
+            </Link>
+            : 
+            <Link to="/my_properties">
+                <button className="float-start my-2">Back</button>
+            </Link>
+            }
+                
                 <header className="text-center">
                     <h1>{currProfile.address}</h1>
                 </header>

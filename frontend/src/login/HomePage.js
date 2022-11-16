@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { currentUser, setCurrentUser } from "../api/getterApi";
+import {clearSearchQuery, clearFilter} from '../api/getterApi';
+import { useEffect } from 'react';
+
 function HomePage() {
+
+    useEffect(() => {
+        clearSearchQuery(); //ensures the search query is empty when the properties list is re-accessed
+        clearFilter(); //ensures the filters are empty when the properties list is re-accessed
+    }, [])
 
     let accountType = currentUser.accountType;
     let acctTypeString = accountType === 1 ? "Tenant" : "Landlord"
