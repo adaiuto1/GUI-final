@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
-import { UserContext } from './App';
-import { createUser, getUser } from "./api/userApi";
+import { UserContext } from '../App';
+import { createUser, getUser } from "../api/userApi";
 // import { AccountList } from "./data/AccountList";
 // import { currentUser, setCurrentUser } from "./getterApi";
 
@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { LoginForm, RegisterForm } from "./login";
+import { LoginForm, RegisterForm } from './index';
 
 const theme = createTheme();
 

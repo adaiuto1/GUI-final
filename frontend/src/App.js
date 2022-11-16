@@ -1,15 +1,15 @@
 import './App.css';
 import React, { createContext, useState } from 'react';
-import CreateAccount from './CreateAccount';
+import CreateAccount from './account/CreateAccount';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
-// import { accounts } from './Directory'
-import ProfileView from './ProfileView';
-import CreateProfile from './CreateProfile';
-import LandingPage from './LandingPage';
-import HomePage from './HomePage';
-import EditFilters from './EditFilters';
-import SearchResults from './SearchResults';
+// import { accounts } from './data/Directory'
+import ProfileView from './account/ProfileView';
+import CreateProfile from './account/CreateProfile';
+import LandingPage from './login/LandingPage';
+import HomePage from './login/HomePage';
+import EditFilters from './search/EditFilters';
+import SearchResults from './search/SearchResults';
 
 export const UserContext = createContext();
 
@@ -43,7 +43,7 @@ export const App = () => {
           <Route path='/search_results' element={<SearchResults/>}></Route>
           <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
-          <Route path='/property_view/:id' element={<PropertyView />}></Route>
+          {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
         </Routes> 
       </Router>
     </UserContext.Provider>
