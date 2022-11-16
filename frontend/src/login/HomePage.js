@@ -12,12 +12,12 @@ function HomePage() {
     }, [])
 
     let accountType = currentUser.accountType;
-    let acctTypeString = accountType == 1 ? "Tenant" : "Landlord"
+    let acctTypeString = accountType === 1 ? "Tenant" : "Landlord"
     let accountId = currentUser.accountId;
     function logout(){
         setCurrentUser(undefined)
     }
-    if (accountType == 1) {
+    if (accountType === 1) {
         return (
             <>
                 <div className="p-3 mb-5 border rounded bg-light">
@@ -54,7 +54,7 @@ function HomePage() {
             </>
         )
     }
-    else if(accountType == 2){
+    else if(accountType === 2){
         return(
             <>
             <div className="p-3 mb-5 border rounded bg-light">
