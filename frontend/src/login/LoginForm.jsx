@@ -1,18 +1,109 @@
-import './login.css'
-import { Link } from 'react-router-dom'
+import Visibility from '@mui/icons-material/Visibility';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Box,
+    Avatar,
+    Typography,
+    TextField,
+    FormControlLabel,
+    Grid,
+    FormControl, 
+    Button, 
+    OutlinedInput, 
+    InputLabel, 
+    InputAdornment,
+    IconButton,
+    Link } from '@mui/material'
 
-export const LoginForm = ({ changeView }) => {
-   return <div>
-        <h2>Login</h2>
-        <form className="login-form">
-            <label htmlFor="email">Email</label>
-            <input type="text" id="email" name="email" />
-            <br/>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" />
-            <br/>
-            <button type="submit">Submit</button>
-        </form>
-        <p>New user? <Link to='/register'>Click here</Link> to Create an account</p>
-    </div>
+export const LoginForm = ({ values, onChange, onSubmit, changeView }) => {
+    return (
+        <Box
+        sx={{
+            my: 8,
+            mx: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}
+        >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+            Sign in
+        </Typography>
+        <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                value={ values.username }
+                onChange={ e => onChange({ username: e.target.value }) }/>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={ values.password }
+                onChange={ e => onChange({ password: e.target.value }) }/>
+            <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={ () => onSubmit() }>Sign In</Button>
+            <Grid container>
+            <Grid item>
+                <Link onClick={ () => changeView('register') } variant="body2">
+                {"Don't have an account? Sign Up"}
+                </Link>
+            </Grid>
+            </Grid>
+        </Box>
+        </Box>
+    )
+
+//    return <Box component='form'>
+//         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+//             <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
+//             <OutlinedInput
+//                 id="outlined-adornment-username"
+//                 type="text"
+//                 value={ values.username }
+//                 onChange={ e => onUsernameChanged({ username: e.target.value }) }
+//                 label="Username"
+//                 required />
+//         </FormControl>
+//         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+//             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+//             <OutlinedInput
+//                 id="outlined-adornment-password"
+//                 type='password'
+//                 value={ values.password }
+//                 onChange={ e => onPasswordChanged({ password: e.target.value }) }
+//                 endAdornment={
+//                 <InputAdornment position="end">
+//                     <IconButton
+//                     aria-label="toggle password visibility"
+//                     // onClick={handleClickShowPassword}
+//                     // onMouseDown={handleMouseDownPassword}
+//                     edge="end">
+//                     <Visibility />
+//                     </IconButton>
+//                 </InputAdornment>
+//                 }
+//                 label="Password"
+//                 required/>
+//         </FormControl>
+//         <Button onClick={ () => onSubmit() }>Submit</Button>
+//         <span>Don't have an account?  <Link onClick={ () => changeView('register') }>Create one!</Link></span>
+//     </Box>
 }
