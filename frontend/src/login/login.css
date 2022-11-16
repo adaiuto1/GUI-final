@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Playfair Display';
+}
+
+body > section.active {
+    display: block;
+    text-align: center;
+}
+
+form {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+form * {
+    width: 20vw;
+    margin: 1rem;
+}
+
+form button {
+    width: 10vw;
+}
+
+span {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

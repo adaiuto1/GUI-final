@@ -63,8 +63,8 @@ function SearchResults(props) {
                     <div className="col-6 w-75">
                         <ol className="list-group ">
                             {filteredProperties.map((x) =>
-                                <li className="list-group-item p-0 border-0
-                                "><PropertyResult property={x} /></li>
+                                <Link to={"/property_view/" + x.propertyId} style={{textDecoration: 'none'}}><li className="list-group-item p-0 border-0
+                                "><PropertyResult property={x} /></li></Link>
                             )}
                         </ol>
                     </div>

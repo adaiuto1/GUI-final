@@ -12,6 +12,8 @@ import HomePage from './HomePage';
 import EditFilters from './EditFilters';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchResults from './SearchResults';
+import { PropertyView } from './components/PropertyView';
+
 function App() {
   return (
     <>
@@ -28,6 +30,7 @@ function App() {
           <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
 
+          <Route path='/property_view/:id' element={<PropertyView />}></Route>
           
 
           {/* <Route path="/landlordHomepage" element={<LandlordHomepage />} />
