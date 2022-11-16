@@ -17,3 +17,8 @@ export function setCurrentUser(setUser){
 }
 export var filterOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
 'Public Transportation', 'Families', 'Low Crime'];
+
+export var searchQuery = "";
+export function setSearchQuery(x){
+    searchQuery = x;
+}
