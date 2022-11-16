@@ -20,6 +20,9 @@ function ProfileView() {
     return (
         <>
             <div className="p-3 border rounded bg-light">
+                <Link to="/homepage">
+                    <button className="float-start my-2">Back</button>
+                </Link>
                 <header className="text-center">
                     <h1>{currProfile.firstName + ' ' + currProfile.lastName}</h1>
                 </header>

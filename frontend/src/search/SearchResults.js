@@ -11,8 +11,12 @@ function SearchResults(props) {
             x.owner == currentUser.accountId)
         : PropertyList;
     let filteredProperties = [];
+
+    console.log('Properties:');
+    console.log(properties);
+
     properties.forEach(x => {
-        if (filters.length != 0) {
+        if (filters.length !== 0) {
             let fitsFilters = true;
             let currTags = [];
             for (let i = 1; i <= 7; i++) {
@@ -39,18 +43,20 @@ function SearchResults(props) {
         }
     })
 
+    console.log('Filters:')
     console.log(filters);
     let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
     const [query, updateQuery] = useState('');
     useEffect(() => {
-
+        updateQuery(searchQuery);
     }, [])
     return (
         <>
             <div className="p-3 border rounded bg-light">
                 <Link to="./edit_filters/handleFilters">
-                    <button className="float-end my-2"
-                        onClick={clearFilter}>Filter Results</button>
+                    <button className="float-end my-2">
+                        Filter Results
+                    </button>
                 </Link>
                 <Link to="/homepage">
                     <button className="float-start my-2">Back</button>
@@ -61,15 +67,18 @@ function SearchResults(props) {
 
             </div>
             <div className="text-center">
-                <input type="text"
+                <div className="d-block">Search</div>
+                <input defaultValue={searchQuery}
+                    type="text"
                     name="searchQuery"
                     onChange={x => { updateQuery(x.target.value); setSearchQuery(x.target.value)/*; search(x.target.value)*/}}></input>
-                <h1>Search results for {"'" + query + "'"}</h1>
-                {console.log(filteredProperties)}
+                {query.length !== 0 && <h1>Search results for {"'" + query + "'"}</h1>}
+                {query.length === 0 && <h1 className="py-4"></h1>} {/* This is purely for spacing purposes */}
+                {/* {console.log(filteredProperties)} */}
                 <div className="row justify-content-center">
                     <div className="col-6 w-75">
                         <ol className="list-group ">
-                            {filteredProperties.length === 0 && <h2>No properties match the given search criteria</h2>}
+                            {filteredProperties.length === 0 && <h2>No properties match your search</h2>}
                             {filteredProperties.map((x) =>
                                 <Link to={"/property_view/" + x.propertyId} style={{textDecoration: 'none'}}><li className="list-group-item p-0 border-0
                                 "><PropertyResult property={x} /></li></Link>
