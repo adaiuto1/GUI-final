@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from 'react';
 import PropertyResult from "./PropertyResult";
-import { PropertyList } from "./data/PropertyList";
-import { AccountList } from "./data/AccountList";
-import { currentUser, filterOptions, filters, addFilter, clearFilter } from "./getterApi";
+import { PropertyList } from "../data/PropertyList";
+import { AccountList } from "../data/AccountList";
+import { currentUser, filterOptions, filters, addFilter, clearFilter } from "../api/getterApi";
 import { Link } from 'react-router-dom';
 function SearchResults(props) {
     let properties = (props.onlyMine == true) ?

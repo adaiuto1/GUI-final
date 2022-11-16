@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { clearFilter, filters , addFilter, filterOptions} from './getterApi'
+import { clearFilter, filters , addFilter, filterOptions} from '../api/getterApi'
 function EditFilters() {
     
     function handleToggle(x) {

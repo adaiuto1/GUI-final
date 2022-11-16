@@ -1,8 +1,8 @@
 import React from 'react';
-import { AccountList } from './data/AccountList';
-import { ProfileList } from './data/ProfileList';
-import { PropertyList } from './data/PropertyList';
-import { currentUser } from './getterApi';
+import { AccountList } from '../data/AccountList';
+import { ProfileList } from '../data/ProfileList';
+import { PropertyList } from '../data/PropertyList';
+import { currentUser } from '../api/getterApi';
 import { Link } from 'react-router-dom';
 //tag1: college town
 //tag2: quiet neighbourhood

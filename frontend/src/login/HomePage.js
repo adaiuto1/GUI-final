@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import { currentUser, setCurrentUser } from "./getterApi";
+import { currentUser, setCurrentUser } from "../api/getterApi";
 function HomePage() {
 
     let accountType = currentUser.accountType;

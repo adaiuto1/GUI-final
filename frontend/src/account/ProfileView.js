@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
-import { ProfileList } from './data/ProfileList';
-import TrueFalseLabel from './common/TrueFalseLabel';
+import { ProfileList } from '../data/ProfileList';
+import TrueFalseLabel from '../common/TrueFalseLabel';
 function EditButton(props) {
     if (props.isMyAcct) {
         return (

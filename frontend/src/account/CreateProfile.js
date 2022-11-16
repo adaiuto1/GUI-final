@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
-import { AccountList } from './data/AccountList';
-import { ProfileList } from './data/ProfileList';
+import { AccountList } from '../data/AccountList';
+import { ProfileList } from '../data/ProfileList';
 function CreateProfile() {
 
     let tags = ['Student', 'Married', 'Early Bird', 'Night Owl', 'Introvert', 'Extrovert'];

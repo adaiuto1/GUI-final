@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from 'react';
 import { Route, Routes, BrowserRouter, Link, Navigate } from 'react-router-dom';
-import { AccountList } from "./data/AccountList";
-import { currentUser, setCurrentUser } from "./getterApi";
+import { AccountList } from "../data/AccountList";
+import { currentUser, setCurrentUser } from "../api/getterApi";
 function LandingPage() {
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
