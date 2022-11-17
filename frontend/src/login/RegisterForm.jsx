@@ -12,7 +12,15 @@ import { Box,
     InputLabel, 
     InputAdornment,
     IconButton,
-    Link } from '@mui/material'
+    Link,
+    FormLabel,
+    RadioGroup,
+    Radio } from '@mui/material'
+
+const userTypes = {
+    'tenant': 1,
+    'landlord': 2
+}
 
 export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
     return (
@@ -29,20 +37,9 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
             <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-            Sign in
+            Register
         </Typography>
         <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value={ values.name }
-                onChange={ e => onChange({ name: e.target.value }) }/>
             <TextField
                 margin="normal"
                 required
@@ -76,12 +73,23 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                 autoComplete="current-password"
                 value={ values.passwordConfirmation }
                 onChange={ e => onChange({ passwordConfirmation: e.target.value }) }/>
+            <FormControl>
+                {/* <FormLabel id="demo-radio-buttons-group-label"></FormLabel> */}
+                <RadioGroup
+                    // aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="tenant"
+                    name="user-types"
+                    onChange={ e => onChange({userType: userTypes[e.target.value]}) }>
+                    <FormControlLabel value="tenant" control={<Radio />} label="Tenant" />
+                    <FormControlLabel value="landlord" control={<Radio />} label="Landlord" />
+                </RadioGroup>
+            </FormControl>
             <Button
                 type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={ () => onSubmit() }>Sign In</Button>
+                onClick={ () => onSubmit() }>Register</Button>
             <Grid container>
             <Grid item>
                 <Link onClick={ () => changeView('login') } variant="body2">
