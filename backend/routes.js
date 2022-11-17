@@ -115,7 +115,7 @@ module.exports = function routes(app, logger) {
             res.status(400).send('Username already exists, please enter a new username'); 
           } else {
             // if there is no error with the query, execute the next query and do not release the connection yet
-            connection.query('INSERT INTO Users(name, username, password) VALUES(?,?,?)', [req.body.name, req.body.username, req.body.password], function (err, rows, fields) {
+            connection.query('INSERT INTO Users(username, password, account_type) VALUES(?,?,?)', [req.body.username, req.body.password, req.body.account_type], function (err, rows, fields) {
               if (err) { 
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
