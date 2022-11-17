@@ -3,7 +3,6 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../App';
 import { createUser, getUser } from "../api/userApi";
 // import { AccountList } from "./data/AccountList";
-// import { currentUser, setCurrentUser } from "./getterApi";
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
@@ -20,9 +19,11 @@ const formValues = { // add user attributes here
     username:             '',
     password:             '',
     passwordConfirmation: '',
+    accountType:          ''
 }
 
 const LandingPage = ({ setCurrentUser }) => {
+    const currentUser = useContext(UserContext);
     const [ values, setValues ] = useState(formValues); 
     const [ active, setActive ] = useState('login');
 
@@ -33,6 +34,7 @@ const LandingPage = ({ setCurrentUser }) => {
       if (values.username && values.password) {
         setCurrentUser(values);
       }
+      console.log(currentUser)
     }
 
     const passwordsMatch = () => values.password === values.passwordConfirmation;

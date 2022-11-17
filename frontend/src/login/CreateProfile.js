@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
 import { AccountList } from '../data/AccountList';
 import { ProfileList } from '../data/ProfileList';
+import { useContext } from 'react';
+import { UserContext } from '../App';
 function CreateProfile() {
-
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+    
     let tags = ['Student', 'Married', 'Early Bird', 'Night Owl', 'Introvert', 'Extrovert'];
     let [tag1, setTag1] = useState(false);
     let [tag2, setTag2] = useState(false);
