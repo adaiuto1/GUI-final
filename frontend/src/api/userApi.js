@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { useContext } from 'react';
 const apiEndpoint = '//localhost:8000';
+
 
 export const getUsers = () => {
     return axios.get(`${apiEndpoint}/users`).then(x => x.data);
