@@ -198,7 +198,7 @@ module.exports = function routes(app, logger) {
   });
 
   // GET Users by username
-  app.get('/users/:username', (req, res) => {
+  app.get('/users/username/:username/', (req, res) => {
     // obtain a connection from our pool of connections
     if (!("username" in req.params)){
       res.status(400).send({
