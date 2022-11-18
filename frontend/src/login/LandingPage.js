@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
 import { createUser, getUser } from "../api/userApi";
+import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 // import { currentUser, setCurrentUser } from "./getterApi";
 
@@ -16,10 +17,10 @@ import { LoginForm, RegisterForm } from './index';
 const theme = createTheme();
 
 const formValues = { // add user attributes here
-    name:                 '',
     username:             '',
     password:             '',
     passwordConfirmation: '',
+    userType:              1
 }
 
 const LandingPage = ({ setCurrentUser }) => {
@@ -30,11 +31,12 @@ const LandingPage = ({ setCurrentUser }) => {
     const _setActive = view  => setActive(view);
 
     const validateUser = () => {
-      if (values.username && values.password) {
+      if (values.username && values.password) { // update logic to check password
         setCurrentUser(values);
       }
     }
 
+    const checkFields    = () => values.username && values.password && values.passwordConfirmation && values.userType;
     const passwordsMatch = () => values.password === values.passwordConfirmation;
     const passwordRegex  = () => (/[a-zA-Z]/).test(values.password) 
                               && (/[0-9]/).test(values.password) 
@@ -42,6 +44,10 @@ const LandingPage = ({ setCurrentUser }) => {
                               && values.password.length <= 30;
 
     const registerUser = () => {
+      // check if username already exists
+      if (!(values.username && values.password && values.passwordConfirmation && values.userType)) {
+        alert("Please enter a value for each field!");
+      }
       try {
         passwordsMatch();
       } catch (error) {
@@ -52,7 +58,11 @@ const LandingPage = ({ setCurrentUser }) => {
       } catch (error) {
         alert("Password must contain a letter, a number, and be between 8 and 30 characters");
       }
-      // createUser in backend
+
+      createUser({username: values.username, password: values.password, account_type: values.userType});
+      // .then() // getUserByUsername.id
+      // .catch((error) => alert(error));
+      <Navigate to='profiles/:id' />
     }
 
     return (
@@ -80,7 +90,7 @@ const LandingPage = ({ setCurrentUser }) => {
                       changeView={ _setActive } /> : 
                       <RegisterForm values={ values }
                       onChange={ _setValue }
-                      onSubmit={ validateUser }
+                      onSubmit={ registerUser }
                       changeView={ _setActive }/> }
 
           </Grid>
