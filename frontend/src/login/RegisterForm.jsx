@@ -26,10 +26,6 @@ const userTypes = {
 }
 
 export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
-    function onSubmit() {
-        createUser(values)
-        changeView('login')
-    }
     return (
         <Box
             sx={{
