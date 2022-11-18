@@ -23,6 +23,7 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={ <LandingPage setCurrentUser={ _setCurrentUser }/> }></Route>
+          <Route path='/profiles/:id' element={<CreateProfile/>}></Route>
         </Routes>
       </Router>
   )}
