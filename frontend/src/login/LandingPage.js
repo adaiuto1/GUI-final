@@ -4,7 +4,6 @@ import { UserContext } from '../App';
 import { createUser, getUser } from "../api/userApi";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
-// import { currentUser, setCurrentUser } from "./getterApi";
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
@@ -24,6 +23,7 @@ const formValues = { // add user attributes here
 }
 
 const LandingPage = ({ setCurrentUser }) => {
+    const currentUser = useContext(UserContext);
     const [ values, setValues ] = useState(formValues); 
     const [ active, setActive ] = useState('login');
 
@@ -34,6 +34,7 @@ const LandingPage = ({ setCurrentUser }) => {
       if (values.username && values.password) { // update logic to check password
         setCurrentUser(values);
       }
+      console.log(currentUser)
     }
 
     const checkFields    = () => values.username && values.password && values.passwordConfirmation && values.userType;

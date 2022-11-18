@@ -1,11 +1,11 @@
 import './App.css';
 import React, { createContext, useState } from 'react';
-import CreateAccount from './account/CreateAccount';
+import CreateAccount from './login/CreateAccount';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 // import { accounts } from './data/Directory'
 import ProfileView from './account/ProfileView';
-import CreateProfile from './account/CreateProfile';
+import CreateProfile from './login/CreateProfile';
 import LandingPage from './login/LandingPage';
 import HomePage from './login/HomePage';
 import EditFilters from './search/EditFilters';
@@ -36,7 +36,7 @@ export const App = () => {
       <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
       <Router>
         <Routes>
-          <Route path='/' element={<h1>Logged in!</h1>} />
+          <Route path='/' element={<HomePage setCurrentUser={ _setCurrentUser }/>} />
           {/* <Route path='/' element={<HomePage/>}></Route> */}
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
           <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>

@@ -1,15 +1,18 @@
 import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Box,
+import {
+    Box,
     Avatar,
     Typography,
     TextField,
     FormControlLabel,
     Grid,
-    FormControl, 
-    Button, 
-    OutlinedInput, 
-    InputLabel, 
+    Select,
+    FormControl,
+    Button,
+    MenuItem,
+    OutlinedInput,
+    InputLabel,
     InputAdornment,
     IconButton,
     Link,
@@ -23,15 +26,19 @@ const userTypes = {
 }
 
 export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
+    function onSubmit() {
+        createUser(values)
+        changeView('login')
+    }
     return (
         <Box
-        sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        }}
+            sx={{
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
         >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
