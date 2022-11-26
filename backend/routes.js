@@ -1,10 +1,96 @@
 const pool = require('./db')
+// Do I need to export the functions from the profile model?
 
 module.exports = function routes(app, logger) {
   // GET /
   app.get('/', (req, res) => {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });
+
+  app.get('/current', async (req, res, next) => { //what is next? 
+    try {
+        const result = await req.models.user.findUserByEmail(req.body.email);
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Failed to load current user:' , err);
+        res.status(500).json({ message: err.toString() });
+    }
+  });
+
+  // post for creating a new user? not entirely sure how to call it tho
+  // still kinda confused what the /____ is 
+app.post('/submitprofile', (req, res) => { 
+  try {
+      const {id} = req.params;
+      const body = req.body;
+      console.log(body);
+      console.log(req.models); //what does this do
+      const result = req.models.profiles.createNewProfile(body);
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Failed to create new user:', err);
+      res.status(500).json({ message: err.toString() });
+  }
+  next();
+});
+
+app.put('/editprofile', (req, res) => { // I'm finding this online so I hope it works
+  const {id} = req.params;
+  const changes = req.body;
+  try {
+    const count = req.models.profiles.editProfile({id},changes);
+    if (count) {
+      res.status(200).json({updated: count})
+    } else {
+      res.status(404).json({message: "Record not found"})
+    }
+  } catch (err) {
+    res.status(500).json({message: "Error updating profile", error: err})
+  }
+
+});
+
+app.delete('/deleteprofile', (req, res) => {
+  const {id} = req.params;
+  try {
+    const count = req.models.profiles.deleteProfile({id});
+    if (count) {
+      res.status(200).json({updated: count})
+    } else {
+      res.status(404).json({message: "Record not found"})
+    }
+  } catch (err) {
+    res.status(500).json({message: "Error deleting profile", error: err})
+  }
+})
+
+app.get('/getprofile', (req, res) => {
+  const {id} = req.params;
+  try {
+    const count = req.models.profiles.getProfile({id});
+    if (count) {
+      res.status(200).json({updated: count})
+    } else {
+      res.status(404).json({message: "Record not found"})
+    }
+  } catch (err) {
+    res.status(500).json({message: "Error retrieving profile", error: err})
+  }
+})
+
+app.get('/getallprofiles', (req, res) => {
+  try {
+    const count = req.models.profiles.fetchAllProfiles();
+    if (count) {
+      res.status(200).json({updated: count})
+    } else {
+      res.status(404).json({message: "Record not found"})
+    }
+  } catch (err) {
+    res.status(500).json({message: "Error retrieving all profiles", error: err})
+  }
+})
+
 
   // POST /reset
   app.post('/reset', (req, res) => {
@@ -68,6 +154,61 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // When a user signs up for the first time this is called, then after calls createprofile
+  // insert a newly created user into the database 
+   // POST /createuser
+   app.post('/createuser', (req, res) => {
+    console.log(req.body.product);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // how do I use the insert into the password with a hash?
+        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+          // ^ and how does this work anyways
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into profiles table: \n", err);
+            res.status(400).send('Problem inserting into profiles stable'); 
+          } else {
+            res.status(200).send(`added ${req.body.product} to the table!`);
+          }
+        });
+      }
+    });
+  });
+
+   // insert a newly created user into the database 
+   // POST /createprofile
+   app.post('/createprofile', (req, res) => {
+    console.log(req.body.product);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // how is something like the profile going to be created? Will all the entries be at once or seperate?
+        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+          // ^ and how does this work anyways
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into profiles table: \n", err);
+            res.status(400).send('Problem inserting into profiles stable'); 
+          } else {
+            res.status(200).send(`added ${req.body.product} to the table!`);
+          }
+        });
+      }
+    });
+  });
+
   // GET /checkdb
   app.get('/values', (req, res) => {
     // obtain a connection from our pool of connections
@@ -78,7 +219,7 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('SELECT value FROM `db`.`test_table`', function (err, rows, fields) {
+        connection.query('SELECT value FROM `db`.`test_table`', function (err, rows, fields) { //create a function for post
           connection.release();
           if (err) {
             logger.error("Error while fetching values: \n", err);
@@ -233,3 +374,4 @@ module.exports = function routes(app, logger) {
     }
   });
 }
+
