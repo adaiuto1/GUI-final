@@ -10,7 +10,6 @@ export const getUsers = () => {
 export const getUser = id => {
     return axios.get(`${apiEndpoint}/users/id`).then(x => x.data);
 }
-
 export const createUser = body => {
     console.log(body);
     axios.post(`${apiEndpoint}/users`, body)

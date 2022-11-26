@@ -12,7 +12,7 @@ import EditFilters from './search/EditFilters';
 import SearchResults from './search/SearchResults';
 
 export const UserContext = createContext();
-
+ 
 export const App = () => {
   const [ currentUser, setCurrentUser ] = useState(undefined);
 
@@ -23,7 +23,7 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={ <LandingPage setCurrentUser={ _setCurrentUser }/> }></Route>
-          <Route path='/profiles/:id' element={<CreateProfile/>}></Route>
+          <Route path='/create_profile/' element={<CreateProfile/>}></Route>
         </Routes>
       </Router>
   )}
@@ -39,11 +39,9 @@ export const App = () => {
           <Route path='/' element={<HomePage setCurrentUser={ _setCurrentUser }/>} />
           {/* <Route path='/' element={<HomePage/>}></Route> */}
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
-          <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
+          <Route path='/create_profile/' element={<CreateProfile/>}></Route>
           <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
           <Route path='/search_results' element={<SearchResults/>}></Route>
-          <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
-          <Route path='/my_properties/edit_filters/:cb' element={<EditFilters/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
           {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
         </Routes> 

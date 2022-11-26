@@ -18,8 +18,8 @@ import {
     Link,
     FormLabel,
     RadioGroup,
-    Radio } from '@mui/material'
-
+    Radio } from '@mui/material';
+import { Navigate, NavLink } from 'react-router-dom';
 const userTypes = {
     'tenant': 1,
     'landlord': 2
@@ -87,12 +87,13 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     <FormControlLabel value="landlord" control={<Radio />} label="Landlord" />
                 </RadioGroup>
             </FormControl>
+            <NavLink to="create_profile">
             <Button
                 type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={ () => onSubmit() }>Register</Button>
+                onClick={ () => onSubmit() }>Register</Button></NavLink>
             <Grid container>
             <Grid item>
                 <Link onClick={ () => changeView('login') } variant="body2">

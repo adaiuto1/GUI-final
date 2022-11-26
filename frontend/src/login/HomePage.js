@@ -4,8 +4,10 @@ import { clearSearchQuery, clearFilter } from '../api/getterApi';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import {UserContext} from '../App';
+import {getNumberOfUsers, getUsers} from '../api/userApi'
 
 function HomePage({setCurrentUser}) {
+    
     const currentUser = useContext(UserContext);
     console.log(currentUser);
     useEffect(() => {
@@ -20,11 +22,11 @@ function HomePage({setCurrentUser}) {
         <>
             <div className="p-3 mb-5 border rounded bg-light">
                 <header className="text-center">
-                    <h1>{ currentUser.accountType == 1 ? "Tenant " : "Landlord " +" "}Home Page</h1>
+                    <h1>{ currentUser.userType == 1 ? "Tenant " : "Landlord " +" "}Home Page</h1>
                 </header>
             </div>
             <div className="container">
-                {currentUser.accountType == 1 &&
+                {currentUser.userType == 1 &&
                 <div className="row justify-content-center">
                     <div className=" col-4 my-1 text-center">
                         <Link to={"/search_results"}>

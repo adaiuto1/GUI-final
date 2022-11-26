@@ -59,11 +59,11 @@ const LandingPage = ({ setCurrentUser }) => {
       } catch (error) {
         alert("Password must contain a letter, a number, and be between 8 and 30 characters");
       }
-
+      let users = 
       createUser({username: values.username, password: values.password, account_type: values.userType});
       // .then() // getUserByUsername.id
       // .catch((error) => alert(error));
-      <Navigate to='profiles/:id' />
+      
     }
 
     return (
@@ -93,7 +93,6 @@ const LandingPage = ({ setCurrentUser }) => {
                       onChange={ _setValue }
                       onSubmit={ registerUser }
                       changeView={ _setActive }/> }
-
           </Grid>
       </Grid>
     </ThemeProvider>
