@@ -1,89 +1,55 @@
-import React, { useEffect, useState } from 'react';
 import './App.css';
-import axios from 'axios';
+import React, { createContext, useState } from 'react';
+import CreateAccount from './login/CreateAccount';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+// import { accounts } from './data/Directory'
+import ProfileView from './account/ProfileView';
+import CreateProfile from './login/CreateProfile';
+import LandingPage from './login/LandingPage';
+import HomePage from './login/HomePage';
+import EditFilters from './search/EditFilters';
+import SearchResults from './search/SearchResults';
 
-// React functional component
-function App () {
-  // state for storage of the information on the webpage of forms and list, uses hooks
-  const [number, setNumber] = useState("")
-  const [values, setValues] = useState([])
+export const UserContext = createContext();
 
-  // ENTER YOUR EC2 PUBLIC IP/URL HERE
-  const ec2_url = ''
-  // CHANGE THIS TO TRUE IF HOSTING ON EC2, MAKE SURE TO ADD IP/URL ABOVE
-  const ec2 = false;
-  // USE localhost OR ec2_url ACCORDING TO ENVIRONMENT
-  const url = ec2 ? ec2_url : 'localhost'
+export const App = () => {
+  const [ currentUser, setCurrentUser ] = useState(undefined);
 
-  // handle input field state change
-  const handleChange = (e) => {
-    setNumber(e.target.value);
-  }
+  const _setCurrentUser = user => setCurrentUser(user);
 
-  const fetchBase = () => {
-    axios.get(`http://${url}:8000/`).then((res)=>{
-      alert(res.data);
-    })
-  }
+  if (!currentUser) {
+    return (
+      <Router>
+        <Routes>
+          <Route path='/' element={ <LandingPage setCurrentUser={ _setCurrentUser }/> }></Route>
+          <Route path='/profiles/:id' element={<CreateProfile/>}></Route>
+        </Routes>
+      </Router>
+  )}
 
-  // fetches vals of db via GET request
-  const fetchVals = () => {
-    axios.get(`http://${url}:8000/values`).then(
-      res => {
-        const values = res.data.data;
-        console.log(values);
-        setValues(values)
-    }).catch(err => {
-      console.log(err)
-    });
-  }
-
-  // handle input form submission to backend via POST request
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let prod = number * number;
-    axios.post(`http://${url}:8000/multplynumber`, {product: prod}).then(res => {
-      console.log(res);
-      fetchVals();
-    }).catch(err => {
-      console.log(err)
-    });;
-    setNumber("");
-  }
-
-  // handle intialization and setup of database table, can reinitialize to wipe db
-  const reset = () => {
-    axios.post(`http://${url}:8000/reset`).then(res => {
-      console.log(res);
-      fetchVals();
-    }).catch(err => {
-      console.log(err)
-    });;
-  }
-
-  // tell app to fetch values from db on first load (if initialized)
-  // the comment below silences an error that doesn't matter.=
-  useEffect(() => {
-    fetchVals();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  console.log(currentUser);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={fetchBase} style={{marginBottom: '1rem'}}> {`GET: http://${url}:8000/`} </button>
-        <button onClick={reset}> Reset DB </button>
-        <form onSubmit={handleSubmit}>
-          <input type="text" value={number} onChange={handleChange}/>
-          <br/>
-          <input type="submit" value="Submit" />
-        </form>
-        <ul>
-          { values.map((value, i) => <li key={i}>{value.value}</li>) }
-        </ul>
-      </header>
-    </div>
-  );
+    <UserContext.Provider value={ currentUser }>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
+      <Router>
+        <Routes>
+          <Route path='/' element={<HomePage setCurrentUser={ _setCurrentUser }/>} />
+          {/* <Route path='/' element={<HomePage/>}></Route> */}
+          <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
+          <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
+          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
+          <Route path='/search_results' element={<SearchResults/>}></Route>
+          <Route path='/search_results/edit_filters/:cb' element={<EditFilters/>}></Route>
+          <Route path='/my_properties/edit_filters/:cb' element={<EditFilters/>}></Route>
+          <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
+          {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
+        </Routes> 
+      </Router>
+    </UserContext.Provider>
+  )
 }
 
 export default App;
