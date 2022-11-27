@@ -17,7 +17,7 @@ export const EditFilters = ({
 
         <Grid m={3}>
             <Typography variant="h5">Filters</Typography>
-            <ToggleButtonGroup color="primary">
+            <ToggleButtonGroup color="primary" value="filters">
                 <Grid>
                     {
                         filterOptions.map(tag => {

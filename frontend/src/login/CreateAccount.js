@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import CreateProfile from './CreateProfile';
 import { AccountList } from '../data/AccountList';
 function CreateAccount(props) {
     const [email, setEmail] = useState('');

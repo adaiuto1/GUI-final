@@ -51,7 +51,7 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
             autoFocus
             value={values.lastName}
             onChange={e => onChange({ lastName: e.target.value })} />
-        <ToggleButtonGroup sx={{ mx: 3 }}>
+        <ToggleButtonGroup sx={{ mx: 3 }} color="primary">
             <ToggleButton value="Student"
                 onClick={e => onChange({ tag1: !values.tag1 })}
             >Student</ToggleButton>
@@ -71,11 +71,17 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                 onClick={e => onChange({ tag6: !values.tag6 })}
             >Extrovert</ToggleButton>
         </ToggleButtonGroup>
-        <Grid container>
+        <Grid container m={3}>
             <FormControl>
-                <Switch onChange={e=>onChange({smoker:e.target.checked})}></Switch>
+                <Typography>Do you smoke?</Typography>
+                <Switch
+                onChange={e=>onChange({smoker:!values.smoker})}></Switch>
+                <Typography>Are you Pet-Friendly?</Typography>
+
+                <Switch onChange={e=>onChange({petFriendly:!values.petFriendly})}></Switch>
             </FormControl>
         </Grid>
+        
         <Button
             type="button"
             fullWidth

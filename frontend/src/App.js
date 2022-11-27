@@ -1,11 +1,9 @@
 import './App.css';
 import React, { createContext, useState } from 'react';
-import CreateAccount from './login/CreateAccount';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 // import { accounts } from './data/Directory'
 import ProfileView from './account/ProfileView';
-import CreateProfile from './login/CreateProfile';
 import LandingPage from './login/LandingPage';
 import HomePage from './login/HomePage';
 import EditFilters from './search/EditFilters';
@@ -23,7 +21,6 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={ <LandingPage setCurrentUser={ _setCurrentUser }/> }></Route>
-          <Route path='/create_profile/' element={<CreateProfile/>}></Route>
         </Routes>
       </Router>
   )}
@@ -38,8 +35,6 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<HomePage setCurrentUser={ _setCurrentUser }/>} />
           {/* <Route path='/' element={<HomePage/>}></Route> */}
-          <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
-          <Route path='/create_profile/' element={<CreateProfile/>}></Route>
           <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
           <Route path='/search_results' element={<SearchResults/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
