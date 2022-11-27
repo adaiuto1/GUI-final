@@ -21,7 +21,7 @@ function HomePage({ setCurrentUser }) {
     }
     return (
         <>
-            <Grid container width="75%" mx="auto" mt="12em">
+            <Grid container rows={3} columns={3}>
                 <NavLink to="/search_results" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -57,7 +57,6 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
-
             </Grid>
             <Grid container>
                 <Button sx={{ width: '40%', marginX: 'auto', marginY:"2%" }}

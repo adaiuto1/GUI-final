@@ -11,9 +11,9 @@ import { NavLink } from "react-router-dom";
 import { filterOptions } from "./SearchResults";
 function Listing({ property }) {
     let currTags = [];
-    for (let i = 1; i < 7; i++) {
+    for (let i = 1; i <= 7; i++) {
         if (property['tag' + i]) {
-            currTags.push(filterOptions[i])
+            currTags.push(filterOptions[i-1])
         }
     }
     return <>
