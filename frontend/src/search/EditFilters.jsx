@@ -6,7 +6,12 @@ import {
     CardHeader, Avatar, Typography, Chip,
     ToggleButton, ToggleButtonGroup
 } from "@mui/material";
-export const EditFilters = ({ filters: filters, onClose: onClose, addFilter: addFilter }) => {
+import { filters } from "../api/getterApi";
+export const EditFilters = ({
+    filterOptions: filterOptions,
+    onClose: onClose,
+    addFilter: addFilter,
+    removeFilter: removeFilter }) => {
 
     return <>
 
@@ -15,11 +20,19 @@ export const EditFilters = ({ filters: filters, onClose: onClose, addFilter: add
             <ToggleButtonGroup color="primary">
                 <Grid>
                     {
-                        filters.map(tag => {
+                        filterOptions.map(tag => {
                             return <ToggleButton aria-label={tag}
                                 value={tag}
                                 aria-key={tag}
-                                onClick={()=>addFilter(filters.indexOf(tag) + 1)}>{tag}</ToggleButton>
+                                onClick={() => {
+                                    let cf = filterOptions.indexOf(tag) + 1;
+                                    if (filters.includes(cf)) {
+                                        removeFilter(cf)
+                                    }
+                                    else {
+                                        addFilter(cf)
+                                    }
+                                }}>{tag}</ToggleButton>
                         })
                     }
                 </Grid>
