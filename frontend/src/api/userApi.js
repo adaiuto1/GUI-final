@@ -14,7 +14,6 @@ export const getUserById = id => {
 export const getUserByUsername = username => {
     return axios.get(`${apiEndpoint}/users?username=${username}`).then(x => x.data);
 }
-
 export const createUser = body => {
     console.log(body);
     axios.post(`${apiEndpoint}/users`, body)
