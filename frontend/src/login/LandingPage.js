@@ -103,11 +103,6 @@ const LandingPage = ({ setCurrentUser }) => {
     // .then() // getUserByUsername.id
     // .catch((error) => alert(error));
     setActive('createProfile')
-  }
-  const registerProfile = () =>{
-    console.log(profileValues)
-    setActive('login')
-  }
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -139,7 +134,6 @@ const LandingPage = ({ setCurrentUser }) => {
           <ProfileForm changeView={_setActive}
           values={profileValues}
           onChange={_setProfileValue}
-          onSubmit={registerProfile}
           /> : <></>}
         </Grid>
       </Grid>
