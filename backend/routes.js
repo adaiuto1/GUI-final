@@ -1,4 +1,5 @@
 const pool = require('./db')
+const connectToDatabase = require('./connection.js')
 // Do I need to export the functions from the profile model?
 
 module.exports = function routes(app, logger) {
