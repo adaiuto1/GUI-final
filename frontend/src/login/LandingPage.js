@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, getUser } from "../api/userApi";
+import { createUser, getUserByUsername } from "../api/userApi";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 
@@ -60,10 +60,19 @@ const LandingPage = ({ setCurrentUser }) => {
         alert("Password must contain a letter, a number, and be between 8 and 30 characters");
       }
 
-      createUser({username: values.username, password: values.password, account_type: values.userType});
-      // .then() // getUserByUsername.id
+      var tempUser;
+      createUser({username: values.username, password: values.password, account_type: values.userType})
+      // .then( x => { tempUser = getUserByUsername(values.username)} )
       // .catch((error) => alert(error));
-      <Navigate to='profiles/:id' />
+      
+      // if (tempUser) {
+      //   debugger;
+      //   <Navigate to={`/profiles/${tempUser.id}`} />
+      // } else {
+      //   debugger;
+      //   alert("Error creating user");
+      // }
+      
     }
 
     return (
