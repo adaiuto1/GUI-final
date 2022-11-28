@@ -3,6 +3,7 @@ const pool = require('./db')
 
 module.exports = function routes(app, logger) {
   // GET /
+
   app.get('/', (req, res) => {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });
@@ -16,47 +17,31 @@ module.exports = function routes(app, logger) {
         res.status(500).json({ message: err.toString() });
     }
   });
+  
 
-  // post for creating a new user? not entirely sure how to call it tho
-  // still kinda confused what the /____ is 
-app.post('/createprofile', (req, res) => { 
-  console.log(req.body.product);
-  const {id} = req.params;
-  const body = req.body;
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how do I use the insert into the password with a hash?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  try {
-      const {id} = req.params;
-      const body = req.body;
-      console.log(body);
-      console.log(req.models); //what does this do
-      const result = req.models.profiles.createNewProfile(body);
-      res.status(201).json(result);
+// insert a newly created user into the database 
+   // POST /createprofile
+   app.post('/createprofile', async (req, res) => {
+    try {
+      console.log('Initiating POST /createprofile request');
+      console.log('Request has a body / payload containing:', request.body);
+      const payload = request.body; // This payload should be an object containing all profile data
+      const { DBQuery, disconnect } = await connectToDatabase(); //surely theres a better way to do this \/
+      const results = await DBQuery('INSERT INTO profiles(user_id, firstname, lastname, smoker, petFriendly, bio, tag1, tag2, tag3, tag4, tag5, tag6 )',
+      [req.query.id, payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+      payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6]);
+      console.log('Results of my INSERT statement:', results);
+      
+      // ** I think the ID req.ID will throw an error, unsure how it will get passed exaclty 
+     
+      const newlyCreatedRecord = await DBQuery('SELECT * FROM profiles WHERE id = ?', [req.query.id]);
+      disconnect();
+      response.status(201).json(newlyCreatedRecord); // 201 status = resource created
   } catch (err) {
-      console.error('Failed to create new user:', err);
-      res.status(500).json({ message: err.toString() });
+      console.error('There was an error in POST /createprofile', err);
+      response.status(500).json({ message: err.message });
   }
-  next();
-});
+  });
 
 app.put('/editprofile', async (request, response) => { //this needs more work
   try {
@@ -67,11 +52,13 @@ app.put('/editprofile', async (request, response) => { //this needs more work
       const payload = request.body; // This payload should be an object containing update profile data
       const id = request.query.id; // And pull the ID from the request params
       const { DBQuery, disconnect } = await connectToDatabase();
-      const results = await DBQuery('UPDATE Profiles SET firstname = ? WHERE id = ?', [payload.firstname, id]);
+      var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6, WHERE id=?  '
+      const results = await DBQuery(query,[payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+      payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, req.query.id]);
       console.log('Results of my UPDATE statement:', results);
     
       // Since we already know the id we're looking for, let's load the most up to date data
-      const newlyCreatedRecord = await DBQuery('SELECT * FROM Profiles WHERE id = ?', [id]);
+      const newlyCreatedRecord = await DBQuery('SELECT * FROM profiles WHERE id = ?', [id]);
       disconnect();
       response.status(200).json(newlyCreatedRecord);
   } catch (err) {
@@ -80,7 +67,7 @@ app.put('/editprofile', async (request, response) => { //this needs more work
   }
 });
 
-});
+
 
 app.delete('/deleteprofile', async (req, res) => {
   try {
@@ -91,7 +78,7 @@ app.delete('/deleteprofile', async (req, res) => {
   
     const { DBQuery, disconnect } = await connectToDatabase();
     // Add a WHERE clause to fetch that particular student
-    const results = await DBQuery('DELETE FROM Profiles WHERE id = ?', [id]);
+    const results = await DBQuery('DELETE FROM profiles WHERE id = ?', [id]);
     disconnect();
     response.status(200).json(results);
 } catch (err) {
@@ -109,7 +96,7 @@ app.get('/getprofile', async (request, response) => {
     
       const { DBQuery, disconnect } = await connectToDatabase();
       // Add a WHERE clause to fetch that particular student
-      const results = await DBQuery('SELECT * FROM Profiles WHERE id = ?', [id]);
+      const results = await DBQuery('SELECT * FROM profiles WHERE id = ?', [id]);
       disconnect();
       response.status(200).json(results);
   } catch (err) {
@@ -134,7 +121,7 @@ app.get('/getallprofiles', (req, res) => {
 
 
   // POST /reset
-  app.post('/reset', (req, res) => {
+app.post('/reset', (req, res) => {
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if (err){
@@ -199,32 +186,6 @@ app.get('/getallprofiles', (req, res) => {
     });
   });
 
-   // insert a newly created user into the database 
-   // POST /createprofile
-   app.post('/createprofile', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how is something like the profile going to be created? Will all the entries be at once or seperate?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
 
   // GET /checkdb
   app.get('/values', (req, res) => {
@@ -390,5 +351,5 @@ app.get('/getallprofiles', (req, res) => {
       });
     }
   });
-}
 
+}
