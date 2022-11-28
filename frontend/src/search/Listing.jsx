@@ -12,11 +12,11 @@ import { useContext } from "react";
 import { UserContext } from "../App";
 import { filterOptions } from "./SearchResults";
 
-function Contact(){
+function Contact() {
     let currentUser = useContext(UserContext)
-    if(currentUser.userType == 1){
-        return<>
-        <button>Contact Owner</button>
+    if (currentUser.userType == 1) {
+        return <>
+            <button>Contact Owner</button>
         </>
     }
 }
@@ -24,7 +24,7 @@ function Listing({ property }) {
     let currTags = [];
     for (let i = 1; i <= 7; i++) {
         if (property['tag' + i]) {
-            currTags.push(filterOptions[i-1])
+            currTags.push(filterOptions[i - 1])
         }
     }
     return <>
@@ -49,7 +49,9 @@ function Listing({ property }) {
                         <button>View Details</button>
                         <br></br>
                     </NavLink>
-                    <Contact></Contact>
+                    <NavLink to={'/apply/' + property.propertyId}>
+                        <Contact></Contact>
+                    </NavLink>
                 </Grid>
             </CardContent>
         </Card>

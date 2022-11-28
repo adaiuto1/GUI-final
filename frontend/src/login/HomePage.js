@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { UserContext } from '../App';
 import { NavLink } from "react-router-dom";
 import { getNumberOfUsers, getUsers } from '../api/userApi'
-import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography } from '@mui/material'
+import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box } from '@mui/material'
 function HomePage({ setCurrentUser }) {
 
     const currentUser = useContext(UserContext);
@@ -20,18 +20,17 @@ function HomePage({ setCurrentUser }) {
         setCurrentUser(undefined)
     }
     return (
-        <>
-            <Grid container rows={3} columns={3}>
+        <><Box container width={'max-content'} mx={'auto'} my={'5em'}>
+            <Grid item container rows={3} columns={1}>
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
                             avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
                                 width="25em" />}
-                            title={<h3>Search Properties</h3>} />
+                            title={<h3>{currentUser.userType == 1 ? 'Search Properties' : "My Properties"}</h3>} />
                         <CardContent sx={{ backgroundColor: 'white' }}>
-                            <Typography variant="p">
-                                Browse listings in your area
-                            </Typography>
+                            <Typography>
+                                {currentUser.userType == 1 ? "Browse listings in your area" : "View Your Listings"}</Typography>
                         </CardContent>
                         <div style={{ maxHeight: '200px' }}>
                             <CardMedia
@@ -41,7 +40,6 @@ function HomePage({ setCurrentUser }) {
                                 image="https://images.pexels.com/photos/2077937/pexels-photo-2077937.jpeg?cs=srgb&dl=pexels-luis-quintero-2077937.jpg&fm=jpg"
                             />
                         </div>
-
                     </Card>
                 </NavLink>
                 <NavLink to={"/profile_view/"} style={{ textDecoration: 'none' }}>
@@ -57,14 +55,33 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
+                {currentUser.userType == 1 ? <>
+
+                </> :
+                    <>
+                        <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
+                            <Card elevation="10" sx={{ marginX: '1em' }}>
+                                <CardHeader
+                                    avatar={<img src="https://icons.veryicon.com/png/o/internet--web/billion-square-cloud/mail-213.png"
+                                        width="25em" />}
+                                    title={<h3>Inbox</h3>} />
+                                <CardContent sx={{ backgroundColor: 'white' }}>
+                                    <Typography variant="p">
+                                        See and repsond to applicants
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </NavLink>
+                    </>}
             </Grid>
             <Grid container>
-                <Button sx={{ width: '40%', marginX: 'auto', marginY:"2%" }}
+                <Button sx={{ width: '40%', marginX: 'auto', marginY: "2%" }}
                     variant="outlined"
                     align="center"
                     onClick={logout}
                 >Logout</Button>
             </Grid>
+        </Box>
         </>
     )
 }

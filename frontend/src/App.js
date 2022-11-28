@@ -10,6 +10,7 @@ import LandingPage from './login/LandingPage';
 import HomePage from './login/HomePage';
 import EditFilters from './search/EditFilters';
 import SearchResults from './search/SearchResults';
+import Application from './application/Application';
 
 export const UserContext = createContext();
 
@@ -40,7 +41,8 @@ export const App = () => {
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
           <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
           <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
-          <Route path='/search_results' element={<SearchResults/>}></Route>
+          <Route path='/properties' element={<SearchResults/>}></Route>
+          <Route path='/apply/:id' element={<Application/>}></Route>
           {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
         </Routes> 
       </Router>
