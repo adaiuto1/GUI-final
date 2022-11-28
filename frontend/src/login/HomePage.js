@@ -22,7 +22,7 @@ function HomePage({ setCurrentUser }) {
     return (
         <>
             <Grid container rows={3} columns={3}>
-                <NavLink to="/search_results" style={{ textDecoration: 'none' }}>
+                <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
                             avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"

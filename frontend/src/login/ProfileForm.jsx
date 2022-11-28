@@ -72,12 +72,13 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
             >Extrovert</ToggleButton>
         </ToggleButtonGroup>
         <Grid container m={3}>
+            <Typography>Create a bio</Typography>
+            <TextField onChange={e=>onChange({bio: e.target.value})}/>
             <FormControl>
                 <Typography>Do you smoke?</Typography>
                 <Switch
                 onChange={e=>onChange({smoker:!values.smoker})}></Switch>
                 <Typography>Are you Pet-Friendly?</Typography>
-
                 <Switch onChange={e=>onChange({petFriendly:!values.petFriendly})}></Switch>
             </FormControl>
         </Grid>
