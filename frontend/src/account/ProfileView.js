@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileList } from '../data/ProfileList';
 import TrueFalseLabel from '../common/TrueFalseLabel';
+import { Paper, Typography, Box, Card, Avatar, CardHeader, CardContent, Grid, Chip } from '@mui/material';
+import { blue } from '@mui/material/colors';
 function EditButton(props) {
     if (props.isMyAcct) {
         return (
@@ -12,55 +14,56 @@ function EditButton(props) {
 }
 
 function ProfileView() {
+    let tags = ['Student', 'Married', 'Early Bird', 'Night Owl', 'Introvert', 'Extrovert'];
+
     let id = useParams().id;
     //REPLACE WITH API CALL
     let currProfile = ProfileList.find((x) =>
         x.accountId == id
     )
+    let currTags = [];
+    for (let i = 1; i < 6; i++) {
+        if (currProfile['tag' + i]) {
+            currTags.push(tags[i])
+        }
+    }
     return (
         <>
-            <div className="p-3 border rounded bg-light">
-                <Link to="/homepage">
-                    <button className="float-start my-2">Back</button>
-                </Link>
-                <header className="text-center">
-                    <h1>{currProfile.firstName + ' ' + currProfile.lastName}</h1>
-                </header>
-            </div>
-            <div>
-                <div className="rounded-5 w-25 m-3 bg-dark d-flex justify-content-center float-start">
-                    <img className="rounded-circle w-100 m-5"
-                        src="https://cdn.discordapp.com/attachments/747682640118808697/1040685789652201553/unknown.png" />
-                </div>
-                <div className="rounded border w-25 m-3 float-start">
-                    <span>
-                        <h4 className="rounded-top bg-dark text-light p-3">Bio</h4>
-                    </span>
-                    <div className="p-2"
-                        style={{ 'max-height': '500px', 'overflow': 'scroll' }}>
-                        <p>{currProfile.bio}</p>
-                    </div>
-                </div>
-                <div className='float-start m-3'>
-                    <span>
-                        <h4 className="rounded-top bg-dark text-light p-3">Habits</h4>
-                    </span>
-                    <div className="mx-3">
-                        <div>
-                            <h5  className="float-start ">Smoker: </h5>
-                            <div className="float-end">
-                                <TrueFalseLabel isTrue={currProfile.smoker} height="1.5em" />
-                            </div>
-                        </div>
-                        <div>
-                            <h5 className="float-start">Pet Friendly: </h5>
-                            <div className="float-end">
-                                <TrueFalseLabel isTrue={currProfile.petFriendly} height="1.5em" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Box width="66%" mx="auto" my={4}>
+                <Card elevation="10">
+                    <CardHeader avatar={<Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>}
+                        title={<h1>
+                            {currProfile.firstName + " " + currProfile.lastName}</h1>
+                        }
+                    />
+                    <CardContent>
+                        <Grid container rowSpacing={1}>
+                            <Grid item xs={6}>
+                                <img src="https://img.icons8.com/pastel-glyph/2x/person-male--v2.png" />
+                            </Grid>
+                            <Grid item xs={6} sx={{ overflowY: 'scroll' }}>
+                                <Typography variant="p"
+                                >
+                                    {currProfile.bio}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Grid container>
+                                    {currTags.map(x => <>
+                                        <Chip key={x}
+                                            label={x}></Chip>
+                                    </>)}
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={6}>
+                                hj
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+
+                </Card>
+
+            </Box>
         </>
     )
 }
