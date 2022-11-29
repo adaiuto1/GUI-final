@@ -29,7 +29,6 @@ export const PropertyView = () => {
     useEffect(() => {
         //getPropertyById(id).then(x=>setCurrentProperty(x))
         setCurrentProperty(PropertyList.find(x => x.propertyId == id))
-
     }, [])
     useEffect(() => {
         let ct = [];

@@ -14,7 +14,7 @@ import { filterOptions } from "./SearchResults";
 
 function Contact() {
     let currentUser = useContext(UserContext)
-    if (currentUser.userType == 1) {
+    if (currentUser.account_type == 1) {
         return <>
             <button>Contact Owner</button>
         </>
@@ -30,7 +30,7 @@ function Listing({ property }) {
     return <>
         <Card>
             <CardHeader avatar={
-                <NavLink to={"/profile_view/" + property.owner}>
+                <NavLink to={"/profile/" + property.owner}>
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>
                 </NavLink>
             }
