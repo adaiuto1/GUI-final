@@ -22,7 +22,7 @@ module.exports = function routes(app, logger) {
 
 // insert a newly created user into the database 
    // POST /createprofile
-   app.post('/postprofile', async (req, res) => {
+   app.post('/profile', async (req, res) => {
    pool.getConnection(function (err, connection){
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -221,89 +221,6 @@ app.post('/reset', (req, res) => {
     });
   });
 
-
-  // When a user signs up for the first time this is called, then after calls createprofile
-  // insert a newly created user into the database 
-   // POST /createuser
-   app.post('/createuser', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how do I use the insert into the password with a hash?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
-
-  // When a user signs up for the first time this is called, then after calls createprofile
-  // insert a newly created user into the database 
-   // POST /createuser
-   app.post('/createuser', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how do I use the insert into the password with a hash?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
-
-   // insert a newly created user into the database 
-   // POST /createprofile
-   app.post('/createprofile', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how is something like the profile going to be created? Will all the entries be at once or seperate?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
 
   // GET /checkdb
   app.get('/values', (req, res) => {
@@ -526,7 +443,7 @@ app.post('/reset', (req, res) => {
     });
   });
 
-  app.post('/postproperty', async (req, res) => {
+  app.post('/property', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -556,7 +473,7 @@ app.post('/reset', (req, res) => {
      });
    });
 
-   app.put('/putproperty/:id', async (req, res) => {
+   app.put('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
