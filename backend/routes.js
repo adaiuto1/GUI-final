@@ -32,9 +32,9 @@ module.exports = function routes(app, logger) {
       const payload = request.body; // This payload should be an object containing update profile data
 
       // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'INSERT INTO profiles(firstname, lastname, smoker, petFriendly, bio, tag1, tag2, tag3, tag4, tag5, tag6 )'
+      var query = 'INSERT INTO profiles(firstname, lastname, user_id, smoker, petFriendly, bio, tag1, tag2, tag3, tag4, tag5, tag6 )'
       //none of this is refered to as the payload now, update it
-      connection.query(query,[payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+      connection.query(query,[payload.firstName, payload.lastName, payload.userId, payload.smoker, payload.petFriendly, payload.bio,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6], function (err, rows, fields) {
         connection.release();
         if (err) {
