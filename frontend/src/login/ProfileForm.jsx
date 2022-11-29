@@ -33,24 +33,24 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
             margin="normal"
             required
             fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            autoComplete="firstName"
+            id="firstname"
+            label="First name"
+            name="firstname"
+            autoComplete="firstname"
             autoFocus
-            value={values.firstName}
-            onChange={e => onChange({ firstName: e.target.value })} />
+            value={values.firstname}
+            onChange={e => onChange({ firstname: e.target.value })} />
         <TextField sx={{ mx: 3 }}
             margin="normal"
             required
             fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="lastName"
+            id="lastname"
+            label="Last name"
+            name="lastname"
+            autoComplete="lastname"
             autoFocus
-            value={values.lastName}
-            onChange={e => onChange({ lastName: e.target.value })} />
+            value={values.lastname}
+            onChange={e => onChange({ lastname: e.target.value })} />
         <ToggleButtonGroup sx={{ mx: 3 }} color="primary">
             <ToggleButton value="Student"
                 onClick={e => onChange({ tag1: !values.tag1 })}
