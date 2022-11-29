@@ -7,8 +7,8 @@ export const getUsers = () => {
     return axios.get(`${apiEndpoint}/users`).then(x => x.data);
 }
 
-export const getUser = id => {
-    return axios.get(`${apiEndpoint}/users/id`).then(x => x.data);
+export const getUserById = id => {
+    return axios.get(`${apiEndpoint}/users/${id}`).then(x => x.data);
 }
 export const createUser = body => {
     console.log(body);
@@ -16,3 +16,5 @@ export const createUser = body => {
     .then(response => console.log(response))
     .catch(error => console.log(error));
 }
+
+export const getUserByUsername = username => axios.get(`${apiEndpoint}/users?username=${username}`);

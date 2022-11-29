@@ -13,7 +13,8 @@ import SearchResults from './search/SearchResults';
 import Application from './application/Application';
 import AddProperty from './property/addProperty';
 export const UserContext = createContext();
-
+import { PropertyView } from './property/PropertyView';
+ 
 export const App = () => {
   const [ currentUser, setCurrentUser ] = useState(undefined);
 
@@ -40,11 +41,12 @@ export const App = () => {
           {/* <Route path='/' element={<HomePage/>}></Route> */}
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
           <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
-          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
-          <Route path='/properties' element={<SearchResults/>}></Route>
           <Route path='/apply/:id' element={<Application/>}></Route>
           <Route path='/newListing' element={<AddProperty/>}/>
-          {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
+          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
+          <Route path='/properties' element={<SearchResults/>}></Route>
+          <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
+          /* <Route path='/property/:id' element={<PropertyView />}></Route> */
         </Routes> 
       </Router>
     </UserContext.Provider>

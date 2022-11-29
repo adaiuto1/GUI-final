@@ -22,6 +22,7 @@ function HomePage({ setCurrentUser }) {
     return (
         <><Box container width={'max-content'} mx={'auto'} my={'5em'}>
             <Grid item container rows={3} columns={1}>
+            {/* <Grid container rows={3} columns={3}> */}
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
