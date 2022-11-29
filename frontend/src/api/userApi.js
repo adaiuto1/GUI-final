@@ -7,8 +7,8 @@ export const getUsers = () => {
     return axios.get(`${apiEndpoint}/users`).then(x => x.data);
 }
 
-export const getUser = id => {
-    return axios.get(`${apiEndpoint}/users/id`).then(x => x.data);
+export const getUserById = id => {
+    return axios.get(`${apiEndpoint}/users/${id}`).then(x => x.data);
 }
 
 export const getUserByUsername = username => axios.get(`${apiEndpoint}/users?username=${username}`);
