@@ -19,8 +19,9 @@
   "homepage": "https://github.com/j-kynerd/GUI-DB#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "axios": "^1.1.3",
     "bootstrap": "^5.2.2",
     "express": "^4.18.2",
-    "axios": "^1.1.3"
+    "util": "^0.12.5"
   }
 }
