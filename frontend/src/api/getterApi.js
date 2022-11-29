@@ -9,6 +9,12 @@ export var filters = [];
 export function addFilter(x){
     filters.push(x);
 }
+export function removeFilter(x){
+    const index = filters.indexOf(x);
+    if (index > -1) {
+        filters.splice(index, 1)
+    }
+}
 export function clearFilter(){
     filters.splice(0, filters.length)
 }
