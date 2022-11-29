@@ -7,11 +7,11 @@ import { UserContext } from '../App';
 import { NavLink } from "react-router-dom";
 import { getNumberOfUsers, getUserById, getUsers } from '../api/userApi'
 import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box } from '@mui/material'
+import { getProfileById } from "../api/profileApi";
 function HomePage({ setCurrentUser }) {
 
     const currentUser = useContext(UserContext);
     console.log(currentUser);
-    
     useEffect(() => {
         clearSearchQuery(); //ensures the search query is empty when the    properties list is re-accessed
         clearFilter(); //ensures the filters are empty when the properties list is re-accessed

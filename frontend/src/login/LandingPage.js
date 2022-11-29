@@ -23,41 +23,40 @@ const formValues = { // add user attributes here
   userType: 1
 };
 const profileFormValues = {
-  firstName:  '',
-  lastName:   '',
+  firstName: '',
+  lastName: '',
   id: '',
-  bio:    '',
+  bio: '',
   smoker: false,
   petFriendly: false,
-  tag1:   false,
-  tag2:   false,
-  tag3:   false,
-  tag4:   false,
-  tag5:   false,
-  tag6:   false
+  tag1: false,
+  tag2: false,
+  tag3: false,
+  tag4: false,
+  tag5: false,
+  tag6: false
 }
 const LandingPage = ({ setCurrentUser }) => {
   const currentUser = useContext(UserContext);
   const [values, setValues] = useState(formValues);
   const [active, setActive] = useState('login');
-  const [user, setUser]     = useState(undefined);
+  const [user, setUser] = useState(undefined);
   const [profileValues, setProfileValues] = useState(profileFormValues)
 
   const _setValue = delta => setValues({ ...values, ...delta });
-  const _setProfileValue = delta => setProfileValues({...profileValues, ...delta})
+  const _setProfileValue = delta => setProfileValues({ ...profileValues, ...delta })
   const _setActive = view => setActive(view);
 
   const validateUser = () => {
-    console.log("values")
-    console.log(values)
-    getUserByUsername('landlord').then(x=>x.data.data.forEach(u=>{
-      if(u.username==values.username){
+    getUserByUsername(values.username).then(x => x.data.data.forEach(u => {
+      if (u.username == values.username) {
         setCurrentUser(u);
+        console.log(currentUser)
+      }else{
+        console.log('No account matching credentials')
       }
     }))
-    if(currentUser.username!= values.username){
-      alert('No account matching credentials')
-    }
+    
     // if (values.username && values.password) { // update logic to check password
     //   getUserByUsername(values.username).then(x => {
     //     if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
@@ -78,38 +77,37 @@ const LandingPage = ({ setCurrentUser }) => {
     && values.password.length >= 8
     && values.password.length <= 30;
 
-  const registerUser = () => {
-    // check if username already exists
-    try { 
-      checkFields()
-    } catch (error) {
-      alert("Please enter a value for each field!");
+    const registerUser = () => {
+      // check if username already exists
+      try { 
+        checkFields()
+      } catch (error) {
+        alert("Please enter a value for each field!");
+      }
+      try {
+        passwordsMatch();
+      } catch (error) {
+        alert("Passwords did not match");
+      }
+      try {
+        passwordRegex();
+      } catch (error) {
+        alert("Password must contain a letter, a number, and be between 8 and 30 characters");
+      }
+      createUser({ username: values.username, password: values.password, account_type: values.userType })
+          .then(x => {
+          
+          getUserByUsername(values.username)
+          .then(x => {
+            setUser(x.data.data[0]);
+            console.log(x.data.data[0])
+            setActive('createProfile');
+          })})
+          .catch(error => alert(error));
     }
-    try {
-      passwordsMatch();
-    } catch (error) {
-      alert("Passwords did not match");
-    }
-    try {
-      passwordRegex();
-    } catch (error) {
-      alert("Password must contain a letter, a number, and be between 8 and 30 characters");
-    }
-
-    createUser({ username: values.username, password: values.password, account_type: values.userType })
-        .then(x => {
-        
-        getUserByUsername(values.username)
-        .then(x => {
-          setUser(x.data.data[0]);
-          console.log(x.data.data[0])
-          setActive('createProfile');
-        })})
-        .catch(error => alert(error));
-
-  }
   const registerProfile = () =>{
     console.log(profileValues)
+    _setProfileValue({id:1})
     createProfile(profileValues, 1)
     setActive('login')
   }
@@ -141,11 +139,11 @@ const LandingPage = ({ setCurrentUser }) => {
               onSubmit={registerUser}
               changeView={_setActive} />}
           {active === 'createProfile' ?
-          <ProfileForm changeView={_setActive}
-          values={profileValues}
-          onChange={_setProfileValue}
-          onSubmit={registerProfile}
-          /> : <></>}
+            <ProfileForm changeView={_setActive}
+              values={profileValues}
+              onChange={_setProfileValue}
+              onSubmit={registerProfile}
+            /> : <></>}
         </Grid>
       </Grid>
     </ThemeProvider>

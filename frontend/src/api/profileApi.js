@@ -6,5 +6,5 @@ export const createProfile = (profile, id) =>{
     axios.post(`${apiEndpoint}/profile/${id}`, profile);
 }
 export const getProfileById = (id) =>{
-   return axios.get(`${apiEndpoint}/profiles/${id}`).then(x=>x.data)
+   return axios.get(`${apiEndpoint}/profile/${id}`).then(x=>x.data)
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { UserContext } from "../App";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
@@ -24,7 +24,9 @@ import {
     RadioGroup,
     Switch
 } from '@mui/material';
+import { currentUser } from "../api/getterApi";
 function ProfileForm({ values, onChange, onSubmit, changeView }) {
+    
     return <>
         <Typography component="h1" variant="h5">
             Create Profile

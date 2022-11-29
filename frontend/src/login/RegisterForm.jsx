@@ -93,6 +93,7 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    
                     onClick={() => onSubmit()}>Register</Button>
 
                 <Grid container>

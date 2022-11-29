@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileList } from '../data/ProfileList';
 import TrueFalseLabel from '../common/TrueFalseLabel';
 import { Paper, Typography, Box, Card, Avatar, CardHeader, CardContent, Grid, Chip } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import { getProfileById } from '../api/profileApi';
 function EditButton(props) {
     if (props.isMyAcct) {
         return (
@@ -15,12 +16,12 @@ function EditButton(props) {
 
 function ProfileView() {
     let tags = ['Student', 'Married', 'Early Bird', 'Night Owl', 'Introvert', 'Extrovert'];
-
+    let [currProfile, setCurrProfile] = useState({})
     let id = useParams().id;
     //REPLACE WITH API CALL
-    let currProfile = ProfileList.find((x) =>
-        x.accountId == id
-    )
+    useEffect(()=>{
+        getProfileById(id).then(x=>setCurrProfile(x))
+    }, [])
     let currTags = [];
     for (let i = 1; i < 6; i++) {
         if (currProfile['tag' + i]) {
