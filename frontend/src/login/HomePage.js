@@ -67,7 +67,7 @@ function HomePage({ setCurrentUser }) {
                                     title={<h3>Inbox</h3>} />
                                 <CardContent sx={{ backgroundColor: 'white' }}>
                                     <Typography variant="p">
-                                        See and repsond to applicants
+                                        See and respond to applicants
                                     </Typography>
                                 </CardContent>
                             </Card>
