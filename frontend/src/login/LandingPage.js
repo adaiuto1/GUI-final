@@ -38,6 +38,7 @@ const LandingPage = ({ setCurrentUser }) => {
   const currentUser = useContext(UserContext);
   const [values, setValues] = useState(formValues);
   const [active, setActive] = useState('login');
+  const [user, setUser]     = useState(undefined);
   const [profileValues, setProfileValues] = useState(profileFormValues)
 
   const _setValue = delta => setValues({ ...values, ...delta });
@@ -46,7 +47,13 @@ const LandingPage = ({ setCurrentUser }) => {
 
   const validateUser = () => {
     if (values.username && values.password) { // update logic to check password
-      setCurrentUser(values);
+      getUserByUsername(values.username).then(x => {
+        if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
+          setCurrentUser(x.data.data[0]);
+        } else {
+          alert('No account matching credentials')
+        }
+      })
     }
     console.log(currentUser)
   }
@@ -55,6 +62,7 @@ const LandingPage = ({ setCurrentUser }) => {
   const passwordsMatch = () => values.password === values.passwordConfirmation;
   const passwordRegex = () => (/[a-zA-Z]/).test(values.password)
     && (/[0-9]/).test(values.password)
+    && !(/ /).test(values.password)
     && values.password.length >= 8
     && values.password.length <= 30;
 
@@ -80,14 +88,15 @@ const LandingPage = ({ setCurrentUser }) => {
         .then(x => {
         getUserByUsername(values.username)
         .then(x => {
-          setCurrentUser(x.data.data[0]);
+          setUser(x.data.data[0]);
           setActive('createProfile');
-        })
-      })
+        })})
+        .catch(error => alert(error));
 
   }
   const registerProfile = () =>{
     console.log(profileValues)
+    setCurrentUser(user);
     setActive('login')
   }
   return (
