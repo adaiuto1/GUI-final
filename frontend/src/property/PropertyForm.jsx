@@ -29,6 +29,20 @@ function PropertyForm({ values, onChange, onSubmit }) {
                     id="MonthlyRent"
                     onChange={e => onChange({ monthlyRent: e.target.value })}>
                 </TextField>
+                <TextField
+                    label="Capacity"
+                    required
+                    value={values.monthlyRent}
+                    id="Capacity"
+                    onChange={e => onChange({ capacity: e.target.value })}>
+                </TextField>
+                <TextField
+                    label="Size (sqft)"
+                    required
+                    value={values.monthlyRent}
+                    id="Size"
+                    onChange={e => onChange({ sqft: e.target.value })}>
+                </TextField>
                 <Grid>
                     {
                         tagOptions.map(x => {
