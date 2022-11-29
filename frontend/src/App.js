@@ -12,8 +12,8 @@ import EditFilters from './search/EditFilters';
 import SearchResults from './search/SearchResults';
 import Application from './application/Application';
 import AddProperty from './property/addProperty';
-export const UserContext = createContext();
 import { PropertyView } from './property/PropertyView';
+export const UserContext = createContext();
  
 export const App = () => {
   const [ currentUser, setCurrentUser ] = useState(undefined);
