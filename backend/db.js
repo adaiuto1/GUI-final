@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const util = require('util');
 
 // mysql connection
 var pool = mysql.createPool({ //what is this
