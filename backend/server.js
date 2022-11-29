@@ -9,15 +9,12 @@ const routes = require('./routes');
 
 // set up some configs for express.
 const config = {
-  // host: process.env.MYSQL_CLOUD_HOST,
-  // port: process.env.MYSQL_PORT,
-  // name: 'roommate-finder-express-app',
   name: 'sample-express-app',
   port: 8000,
   host: '0.0.0.0',
 };
 
-// create the express.js object,  I guess this is the app? 
+// create the express.js object
 const app = express();
 
 // create a logger object.  Using logger is preferable to simply writing to the console.
