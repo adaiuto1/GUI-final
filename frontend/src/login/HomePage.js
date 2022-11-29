@@ -56,8 +56,8 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
-                {currentUser.userType == 1 ? <>
-
+                {currentUser.account_type == 1 ? <>
+                
                 </> :
                     <>
                         <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
