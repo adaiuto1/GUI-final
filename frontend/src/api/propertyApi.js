@@ -1,11 +1,30 @@
 import axios from 'axios';
 const apiEndpoint = '//localhost:8000';
 
-export const getProperties = () => {
-    return axios.get(`${apiEndpoint}/users`).then(x => x.data); //FIXME fix
-}
+export const getProperties = () => new Promise((resolve, reject) => {
+    axios.get(`${apiEndpoint}/getallproperties`)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
 
-export const getSomeProperties = (searchQuery) => {
-    return axios.get(`${apiEndpoint}/users/id`).then(x => x.data); //FIXME fix
-}
+export const addProperty = (property) => new Promise ((resolve, reject) => { //FIXME not working
+    axios.post(`${apiEndpoint}/postproperty`, property)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
+
+export const getSomeProperties = (searchQuery) => new Promise((resolve, reject) => {
+    axios.get(`${apiEndpoint}/getallproperties`)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
 
