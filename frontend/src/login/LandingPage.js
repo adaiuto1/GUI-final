@@ -22,8 +22,9 @@ const formValues = { // add user attributes here
   userType: 1
 };
 const profileFormValues = {
-  firstName:  '',
-  lastName:   '',
+  user_id: null,
+  firstname:  '',
+  lastname:   '',
   bio:    '',
   smoker: '',
   petFriendly: '',
