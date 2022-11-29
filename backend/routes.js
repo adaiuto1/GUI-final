@@ -249,6 +249,60 @@ app.post('/reset', (req, res) => {
     });
   });
 
+  // When a user signs up for the first time this is called, then after calls createprofile
+  // insert a newly created user into the database 
+   // POST /createuser
+   app.post('/createuser', (req, res) => {
+    console.log(req.body.product);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // how do I use the insert into the password with a hash?
+        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+          // ^ and how does this work anyways
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into profiles table: \n", err);
+            res.status(400).send('Problem inserting into profiles stable'); 
+          } else {
+            res.status(200).send(`added ${req.body.product} to the table!`);
+          }
+        });
+      }
+    });
+  });
+
+   // insert a newly created user into the database 
+   // POST /createprofile
+   app.post('/createprofile', (req, res) => {
+    console.log(req.body.product);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // how is something like the profile going to be created? Will all the entries be at once or seperate?
+        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+          // ^ and how does this work anyways
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into profiles table: \n", err);
+            res.status(400).send('Problem inserting into profiles stable'); 
+          } else {
+            res.status(200).send(`added ${req.body.product} to the table!`);
+          }
+        });
+      }
+    });
+  });
 
   // GET /checkdb
   app.get('/values', (req, res) => {
@@ -325,7 +379,8 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('SELECT * FROM Users', function (err, rows, fields) {
+        const query = req.query.username ? `SELECT * FROM Users WHERE username = '${req.query.username}'` : 'SELECT * FROM Users';
+        connection.query(query, function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching users: \n", err);
@@ -378,41 +433,4 @@ app.post('/reset', (req, res) => {
       });
     }
   });
-
-  // GET Users by username
-  app.get('/users/username/:username/', (req, res) => {
-    // obtain a connection from our pool of connections
-    if (!("username" in req.params)){
-      res.status(400).send({
-        success: false,
-        response: "Missing required field: `username`",
-      });
-    } 
-    else{
-      pool.getConnection(function (err, connection){
-        if(err){
-          // if there is an issue obtaining a connection, release the connection instance and log the error
-          logger.error('Problem obtaining MySQL connection',err)
-          res.status(400).send('Problem obtaining MySQL connection'); 
-        } else {
-          // if there is no issue obtaining a connection, execute query and release connection
-          connection.query('SELECT * FROM Users WHERE username = ?', req.params.username, function (err, rows, fields) {
-            connection.release();
-            if (err) {
-              logger.error("Error while fetching users: \n", err);
-              res.status(400).json({
-                "data": [],
-                "error": "Error obtaining users"
-              })
-            } else {
-              res.status(200).json({
-                "data": rows
-              });
-            }
-          });
-        }
-      });
-    }
-  });
-
 }
