@@ -5,12 +5,13 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../App';
 import { NavLink } from "react-router-dom";
-import { getNumberOfUsers, getUsers } from '../api/userApi'
+import { getNumberOfUsers, getUserById, getUsers } from '../api/userApi'
 import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box } from '@mui/material'
 function HomePage({ setCurrentUser }) {
 
     const currentUser = useContext(UserContext);
     console.log(currentUser);
+    
     useEffect(() => {
         clearSearchQuery(); //ensures the search query is empty when the    properties list is re-accessed
         clearFilter(); //ensures the filters are empty when the properties list is re-accessed
@@ -27,10 +28,10 @@ function HomePage({ setCurrentUser }) {
                         <CardHeader
                             avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
                                 width="25em" />}
-                            title={<h3>{currentUser.userType == 1 ? 'Search Properties' : "My Properties"}</h3>} />
+                            title={<h3>{currentUser.account_type == 1 ? 'Search Properties' : "My Properties"}</h3>} />
                         <CardContent sx={{ backgroundColor: 'white' }}>
                             <Typography>
-                                {currentUser.userType == 1 ? "Browse listings in your area" : "View Your Listings"}</Typography>
+                                {currentUser.account_type == 1 ? "Browse listings in your area" : "View Your Listings"}</Typography>
                         </CardContent>
                         <div style={{ maxHeight: '200px' }}>
                             <CardMedia
@@ -42,7 +43,7 @@ function HomePage({ setCurrentUser }) {
                         </div>
                     </Card>
                 </NavLink>
-                <NavLink to={"/profile_view/"} style={{ textDecoration: 'none' }}>
+                <NavLink to={"/profile/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
                     <Card xs={3} elevation="10">
                         <CardHeader
                             avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
@@ -55,7 +56,7 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
-                {currentUser.userType == 1 ? <>
+                {currentUser.account_type == 1 ? <>
 
                 </> :
                     <>

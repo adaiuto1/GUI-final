@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileForm from "./ProfileForm";
 import { LoginForm, RegisterForm } from './index';
+import { createProfile, getProfileById } from "../api/profileApi";
 
 const theme = createTheme();
 
@@ -24,9 +25,10 @@ const formValues = { // add user attributes here
 const profileFormValues = {
   firstName:  '',
   lastName:   '',
+  id: '',
   bio:    '',
-  smoker: '',
-  petFriendly: '',
+  smoker: false,
+  petFriendly: false,
   tag1:   false,
   tag2:   false,
   tag3:   false,
@@ -46,15 +48,25 @@ const LandingPage = ({ setCurrentUser }) => {
   const _setActive = view => setActive(view);
 
   const validateUser = () => {
-    if (values.username && values.password) { // update logic to check password
-      getUserByUsername(values.username).then(x => {
-        if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
-          setCurrentUser(x.data.data[0]);
-        } else {
-          alert('No account matching credentials')
-        }
-      })
+    console.log("values")
+    console.log(values)
+    getUserByUsername('landlord').then(x=>x.data.data.forEach(u=>{
+      if(u.username==values.username){
+        setCurrentUser(u);
+      }
+    }))
+    if(currentUser.username!= values.username){
+      alert('No account matching credentials')
     }
+    // if (values.username && values.password) { // update logic to check password
+    //   getUserByUsername(values.username).then(x => {
+    //     if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
+    //       setCurrentUser(x.data.data[0]);
+    //     } else {
+    //       
+    //     }
+    //   })
+    // }
     console.log(currentUser)
   }
 
@@ -86,9 +98,11 @@ const LandingPage = ({ setCurrentUser }) => {
 
     createUser({ username: values.username, password: values.password, account_type: values.userType })
         .then(x => {
+        
         getUserByUsername(values.username)
         .then(x => {
           setUser(x.data.data[0]);
+          console.log(x.data.data[0])
           setActive('createProfile');
         })})
         .catch(error => alert(error));
@@ -96,7 +110,7 @@ const LandingPage = ({ setCurrentUser }) => {
   }
   const registerProfile = () =>{
     console.log(profileValues)
-    setCurrentUser(user);
+    createProfile(profileValues, 1)
     setActive('login')
   }
   return (

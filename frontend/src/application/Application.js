@@ -27,7 +27,7 @@ function Application() {
         console.log(values)
     }
     useEffect(() => {
-        changeValue({property:id, recipient:currProperty.owner})
+        changeValue({property:id, recipient:currProperty.owner, applicant:currentUser.user_id})
         //getPropertyById(id).then(x =>changeValue(property:x.propertyId))
     }, [])
     return values['property'] && <>
