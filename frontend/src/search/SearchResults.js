@@ -55,31 +55,6 @@ function SearchResults(props) {
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
         })
-
-        let property = {
-            address: "6120 Bishop Blvd",
-            city: 'Dallas',
-            zipcode: '75219',
-            propertyId: 2,
-            monthlyRent: 800,
-            owner: 5,
-            ratingSum: 3,
-            numRatings: null,
-            allowsPets: false,
-            allowsSmoking:true,
-            img: "https://via.placeholder.com/140x100",
-            tag1: true,
-            tag2: true,
-            tag3: true,
-            tag4: true,
-            tag5: true,
-            tag6: true
-        }
-
-        addProperty(property).then(x => {
-            console.log('Just Added:')
-            console.log(x)
-        })
     }, [])
     const [anchor, setAnchor] = useState(null);
     const openPopover = (event) => {
