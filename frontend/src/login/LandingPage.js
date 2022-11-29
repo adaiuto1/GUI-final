@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, getUserByUsername } from "../api/userApi";
+import { createUser, getUser, getUserByUsername } from "../api/userApi";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 
@@ -38,6 +38,7 @@ const LandingPage = ({ setCurrentUser }) => {
   const currentUser = useContext(UserContext);
   const [values, setValues] = useState(formValues);
   const [active, setActive] = useState('login');
+  const [user, setUser]     = useState(undefined);
   const [profileValues, setProfileValues] = useState(profileFormValues)
 
   const _setValue = delta => setValues({ ...values, ...delta });
@@ -46,7 +47,13 @@ const LandingPage = ({ setCurrentUser }) => {
 
   const validateUser = () => {
     if (values.username && values.password) { // update logic to check password
-      setCurrentUser(values);
+      getUserByUsername(values.username).then(x => {
+        if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
+          setCurrentUser(x.data.data[0]);
+        } else {
+          alert('No account matching credentials')
+        }
+      })
     }
     console.log(currentUser)
   }
@@ -55,38 +62,16 @@ const LandingPage = ({ setCurrentUser }) => {
   const passwordsMatch = () => values.password === values.passwordConfirmation;
   const passwordRegex = () => (/[a-zA-Z]/).test(values.password)
     && (/[0-9]/).test(values.password)
+    && !(/ /).test(values.password)
     && values.password.length >= 8
     && values.password.length <= 30;
 
-    const registerUser = () => {
-      // check if username already exists
-      if (!(values.username && values.password && values.passwordConfirmation && values.userType)) {
-        alert("Please enter a value for each field!");
-      }
-      try {
-        passwordsMatch();
-      } catch (error) {
-        alert("Passwords did not match");
-      }
-      try {
-        passwordRegex();
-      } catch (error) {
-        alert("Password must contain a letter, a number, and be between 8 and 30 characters");
-      }
-
-      var tempUser;
-      createUser({username: values.username, password: values.password, account_type: values.userType})
-      // .then( x => { tempUser = getUserByUsername(values.username)} )
-      // .catch((error) => alert(error));
-      
-      // if (tempUser) {
-      //   debugger;
-      //   <Navigate to={`/profiles/${tempUser.id}`} />
-      // } else {
-      //   debugger;
-      //   alert("Error creating user");
-      // }
-      
+  const registerUser = () => {
+    // check if username already exists
+    try { 
+      checkFields()
+    } catch (error) {
+      alert("Please enter a value for each field!");
     }
     try {
       passwordsMatch();
@@ -98,11 +83,22 @@ const LandingPage = ({ setCurrentUser }) => {
     } catch (error) {
       alert("Password must contain a letter, a number, and be between 8 and 30 characters");
     }
-    let users =
-      createUser({ username: values.username, password: values.password, account_type: values.userType });
-    // .then() // getUserByUsername.id
-    // .catch((error) => alert(error));
-    setActive('createProfile')
+
+    createUser({ username: values.username, password: values.password, account_type: values.userType })
+        .then(x => {
+        getUserByUsername(values.username)
+        .then(x => {
+          setUser(x.data.data[0]);
+          setActive('createProfile');
+        })})
+        .catch(error => alert(error));
+
+  }
+  const registerProfile = () =>{
+    console.log(profileValues)
+    setCurrentUser(user);
+    setActive('login')
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -134,6 +130,7 @@ const LandingPage = ({ setCurrentUser }) => {
           <ProfileForm changeView={_setActive}
           values={profileValues}
           onChange={_setProfileValue}
+          onSubmit={registerProfile}
           /> : <></>}
         </Grid>
       </Grid>

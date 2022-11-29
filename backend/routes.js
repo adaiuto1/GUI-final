@@ -1,8 +1,11 @@
 const pool = require('./db')
+const connectToDatabase = require('./connection.js')
+
 // Do I need to export the functions from the profile model?
 
 module.exports = function routes(app, logger) {
   // GET /
+
   app.get('/', (req, res) => {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });
@@ -16,84 +19,172 @@ module.exports = function routes(app, logger) {
         res.status(500).json({ message: err.toString() });
     }
   });
+  
 
-  // post for creating a new user? not entirely sure how to call it tho
-  // still kinda confused what the /____ is 
-app.post('/submitprofile', (req, res) => { 
-  try {
-      const {id} = req.params;
-      const body = req.body;
-      console.log(body);
-      console.log(req.models); //what does this do
-      const result = req.models.profiles.createNewProfile(body);
-      res.status(201).json(result);
-  } catch (err) {
-      console.error('Failed to create new user:', err);
-      res.status(500).json({ message: err.toString() });
-  }
-  next();
+// insert a newly created user into the database 
+   // POST /createprofile
+   app.post('/postprofile', async (req, res) => {
+   pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      const payload = request.body; // This payload should be an object containing update profile data
+      const id = request.query.id; // And pull the ID from the request params
+      // if there is no issue obtaining a connection, execute query and release connection
+      var query = 'INSERT INTO profiles(user_id, firstname, lastname, smoker, petFriendly, bio, tag1, tag2, tag3, tag4, tag5, tag6 )'
+      //none of this is reffered to as the payload now, update it
+      connection.query(query,[req.query.id, payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6], function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error while inserting new profile: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error creating profile"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
+    }
+    });
+  });
+
+app.put('/profile/:id', async (request, response) => { //this needs more work
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      const payload = request.body; // This payload should be an object containing update profile data
+      const id = request.query.id; // And pull the ID from the request params
+      // if there is no issue obtaining a connection, execute query and release connection
+      var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6, WHERE id=?  '
+      //none of this is reffered to as the payload now, update it
+      connection.query(query,[payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, req.query.id], function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error editing profile: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error editing profile"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
+    }
+    });
 });
 
-app.put('/editprofile', (req, res) => { // I'm finding this online so I hope it works
-  const {id} = req.params;
-  const changes = req.body;
-  try {
-    const count = req.models.profiles.editProfile({id},changes);
-    if (count) {
-      res.status(200).json({updated: count})
-    } else {
-      res.status(404).json({message: "Record not found"})
-    }
-  } catch (err) {
-    res.status(500).json({message: "Error updating profile", error: err})
-  }
 
+
+app.delete('/profile/:id', async (req, res) => {
+pool.getConnection(function (err, connection){
+if(err){
+  // if there is an issue obtaining a connection, release the connection instance and log the error
+  logger.error('Problem obtaining MySQL connection',err)
+  res.status(400).send('Problem obtaining MySQL connection'); 
+} else {
+  // if there is no issue obtaining a connection, execute query and release connection
+  connection.query('DELETE FROM profiles WHERE id = ?', [id], function (err, rows, fields) {
+    connection.release();
+    if (err) {
+      logger.error("Error while deleting profile: \n", err);
+      res.status(400).json({
+        "data": [],
+        "error": "Error deleting profile"
+      })
+    } else {
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+}
+});
+})
+
+app.get('/profile/:id', async (request, response) => {
+  // try { // this is what i was trying but failing to get working
+  //     console.log('Initiating GET /profiles/:id request');
+  //     console.log('Request params is an object containing:', request.query);
+  //     // Extract the id from the request parameters
+  //     const id = request.query.id;
+    
+  //     const { DBQuery, disconnect } = await connectToDatabase();
+  //     // Add a WHERE clause to fetch that particular student
+  //     const results = await DBQuery('SELECT * FROM profiles WHERE id = ?', [id]);
+  //     disconnect();
+  //     response.status(200).json(results);
+  // } catch (err) {
+  //     console.error('There was an error in GET /students/:id', err);
+  //     response.status(500).json({ message: err.message });
+  // }
+  pool.getConnection(function (err, connection){ 
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query('SELECT * FROM profiles WHERE id = ?', [id], function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error while fetching profile: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error obtaining profile"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
+    }
+  });
 });
 
-app.delete('/deleteprofile', (req, res) => {
-  const {id} = req.params;
-  try {
-    const count = req.models.profiles.deleteProfile({id});
-    if (count) {
-      res.status(200).json({updated: count})
-    } else {
-      res.status(404).json({message: "Record not found"})
-    }
-  } catch (err) {
-    res.status(500).json({message: "Error deleting profile", error: err})
-  }
-})
 
-app.get('/getprofile', (req, res) => {
-  const {id} = req.params;
-  try {
-    const count = req.models.profiles.getProfile({id});
-    if (count) {
-      res.status(200).json({updated: count})
-    } else {
-      res.status(404).json({message: "Record not found"})
-    }
-  } catch (err) {
-    res.status(500).json({message: "Error retrieving profile", error: err})
-  }
-})
 
-app.get('/getallprofiles', (req, res) => {
-  try {
-    const count = req.models.profiles.fetchAllProfiles();
-    if (count) {
-      res.status(200).json({updated: count})
+app.get('/getallprofiles', async (req, res) => {
+  pool.getConnection(function (err, connection){ // I'm throwing the towel. Nothing from class works. Will do the template given
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
     } else {
-      res.status(404).json({message: "Record not found"})
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query('SELECT * FROM profiles', function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error while fetching profiles: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error obtaining profiles"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
     }
-  } catch (err) {
-    res.status(500).json({message: "Error retrieving all profiles", error: err})
-  }
+  });
 })
 
 
   // POST /reset
-  app.post('/reset', (req, res) => {
+app.post('/reset', (req, res) => {
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if (err){
@@ -129,8 +220,11 @@ app.get('/getallprofiles', (req, res) => {
     });
   });
 
-  // POST /multplynumber
-  app.post('/multplynumber', (req, res) => {
+
+  // When a user signs up for the first time this is called, then after calls createprofile
+  // insert a newly created user into the database 
+   // POST /createuser
+   app.post('/createuser', (req, res) => {
     console.log(req.body.product);
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
@@ -139,13 +233,14 @@ app.get('/getallprofiles', (req, res) => {
         logger.error('Problem obtaining MySQL connection',err)
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
-        // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('INSERT INTO `db`.`test_table` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+        // how do I use the insert into the password with a hash?
+        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
+          // ^ and how does this work anyways
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
-            logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            logger.error("Problem inserting into profiles table: \n", err);
+            res.status(400).send('Problem inserting into profiles stable'); 
           } else {
             res.status(200).send(`added ${req.body.product} to the table!`);
           }
@@ -284,7 +379,8 @@ app.get('/getallprofiles', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('SELECT * FROM Users', function (err, rows, fields) {
+        const query = req.query.username ? `SELECT * FROM Users WHERE username = '${req.query.username}'` : 'SELECT * FROM Users';
+        connection.query(query, function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching users: \n", err);
@@ -337,41 +433,4 @@ app.get('/getallprofiles', (req, res) => {
       });
     }
   });
-
-  // GET Users by username
-  app.get('/users/username/:username/', (req, res) => {
-    // obtain a connection from our pool of connections
-    if (!("username" in req.params)){
-      res.status(400).send({
-        success: false,
-        response: "Missing required field: `username`",
-      });
-    } 
-    else{
-      pool.getConnection(function (err, connection){
-        if(err){
-          // if there is an issue obtaining a connection, release the connection instance and log the error
-          logger.error('Problem obtaining MySQL connection',err)
-          res.status(400).send('Problem obtaining MySQL connection'); 
-        } else {
-          // if there is no issue obtaining a connection, execute query and release connection
-          connection.query('SELECT * FROM Users WHERE username = ?', req.params.username, function (err, rows, fields) {
-            connection.release();
-            if (err) {
-              logger.error("Error while fetching users: \n", err);
-              res.status(400).json({
-                "data": [],
-                "error": "Error obtaining users"
-              })
-            } else {
-              res.status(200).json({
-                "data": rows
-              });
-            }
-          });
-        }
-      });
-    }
-  });
 }
-
