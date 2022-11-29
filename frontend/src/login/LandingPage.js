@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, getUser } from "../api/userApi";
-import { Navigate } from "react-router-dom";
+import { createUser, getUserByUsername } from "../api/userApi";
+import { Navigate, useNavigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,6 +24,7 @@ const formValues = { // add user attributes here
 
 const LandingPage = ({ setCurrentUser }) => {
     const currentUser = useContext(UserContext);
+    const navigate    = useNavigate();
     const [ values, setValues ] = useState(formValues); 
     const [ active, setActive ] = useState('login');
 
@@ -46,7 +47,7 @@ const LandingPage = ({ setCurrentUser }) => {
 
     const registerUser = () => {
       // check if username already exists
-      if (!(values.username && values.password && values.passwordConfirmation && values.userType)) {
+      if (!checkFields()) {
         alert("Please enter a value for each field!");
       }
       try {
@@ -60,10 +61,13 @@ const LandingPage = ({ setCurrentUser }) => {
         alert("Password must contain a letter, a number, and be between 8 and 30 characters");
       }
 
-      createUser({username: values.username, password: values.password, account_type: values.userType});
-      // .then() // getUserByUsername.id
-      // .catch((error) => alert(error));
-      <Navigate to='profiles/:id' />
+      createUser({username: values.username, password: values.password, account_type: values.userType})
+      .catch((error) => alert(error));
+
+      let newUser = undefined;
+      getUserByUsername(values.username).then(x => console.log(x));
+
+      if (newUser) navigate('/profiles/new');
     }
 
     return (
