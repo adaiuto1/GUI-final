@@ -22,7 +22,7 @@ module.exports = function routes(app, logger) {
 
 // insert a newly created user into the database 
    // POST /createprofile
-   app.post('/profile/:id', async (req, res) => {
+   app.post('/profile', async (req, res) => {
    pool.getConnection(function (err, connection){
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -32,9 +32,9 @@ module.exports = function routes(app, logger) {
       const id = req.params.id; // And pull the ID from the req params
       const payload = req.body; // This payload should be an object containing update profile data
       // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'INSERT INTO profiles(firstname, lastname, user_id, bio, smoker, petFriendly, tag1, tag2, tag3, tag4, tag5, tag6 )'
+      var query = 'INSERT INTO profiles(firstname, lastname, user_id, bio, smoker, petFriendly, tag1, tag2, tag3, tag4, tag5, tag6)'
       //none of this is reffered to as the payload now, update it
-      connection.query(query,[payload.firstName, payload.lastName, id, payload.bio, payload.smoker, payload.petFriendly,
+      connection.query(query,[payload.firstName, payload.lastName, payload.user_id, payload.bio, payload.smoker, payload.petFriendly,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6], function (err, rows, fields) {
         connection.release();
         if (err) {
