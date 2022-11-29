@@ -22,7 +22,7 @@ module.exports = function routes(app, logger) {
 
 // insert a newly created user into the database 
    // POST /createprofile
-   app.post('/postprofile', async (req, res) => {
+   app.post('/profile', async (req, res) => {
    pool.getConnection(function (err, connection){
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -30,11 +30,10 @@ module.exports = function routes(app, logger) {
       res.status(400).send('Problem obtaining MySQL connection'); 
     } else {
       const payload = request.body; // This payload should be an object containing update profile data
-      const id = request.query.id; // And pull the ID from the request params
       // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'INSERT INTO profiles(user_id, firstname, lastname, smoker, petFriendly, bio, tag1, tag2, tag3, tag4, tag5, tag6 )'
+      var query = 'INSERT INTO profiles(firstname, lastname, user_id, bio, smoker, petFriendly, tag1, tag2, tag3, tag4, tag5, tag6 )'
       //none of this is reffered to as the payload now, update it
-      connection.query(query,[req.query.id, payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+      connection.query(query,[payload.firstName, payload.lastName, payload.accountId, payload.bio, payload.smoker, payload.petFriendly,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6], function (err, rows, fields) {
         connection.release();
         if (err) {
@@ -65,7 +64,7 @@ app.put('/profile/:id', async (request, response) => { //this needs more work
       // if there is no issue obtaining a connection, execute query and release connection
       var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6, WHERE id=?  '
       //none of this is reffered to as the payload now, update it
-      connection.query(query,[payload.firstname, payload.lastname, payload.accountId, payload.smoker, payload.petFriendly, payload.bio,
+      connection.query(query,[payload.firstName, payload.lastName, payload.bio, payload.smoker, payload.petFriendly,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, req.query.id], function (err, rows, fields) {
         connection.release();
         if (err) {
@@ -221,89 +220,6 @@ app.post('/reset', (req, res) => {
     });
   });
 
-
-  // When a user signs up for the first time this is called, then after calls createprofile
-  // insert a newly created user into the database 
-   // POST /createuser
-   app.post('/createuser', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how do I use the insert into the password with a hash?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
-
-  // When a user signs up for the first time this is called, then after calls createprofile
-  // insert a newly created user into the database 
-   // POST /createuser
-   app.post('/createuser', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how do I use the insert into the password with a hash?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
-
-   // insert a newly created user into the database 
-   // POST /createprofile
-   app.post('/createprofile', (req, res) => {
-    console.log(req.body.product);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // how is something like the profile going to be created? Will all the entries be at once or seperate?
-        connection.query('INSERT INTO `db`.`profiles` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
-          // ^ and how does this work anyways
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into profiles table: \n", err);
-            res.status(400).send('Problem inserting into profiles stable'); 
-          } else {
-            res.status(200).send(`added ${req.body.product} to the table!`);
-          }
-        });
-      }
-    });
-  });
 
   // GET /checkdb
   app.get('/values', (req, res) => {
@@ -526,7 +442,7 @@ app.post('/reset', (req, res) => {
     });
   });
 
-  app.post('/postproperty', async (req, res) => {
+  app.post('/property', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -556,7 +472,7 @@ app.post('/reset', (req, res) => {
      });
    });
 
-   app.put('/putproperty/:id', async (req, res) => {
+   app.put('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
