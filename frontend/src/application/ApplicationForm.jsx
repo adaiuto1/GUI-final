@@ -7,11 +7,11 @@ export default function ApplicationForm({ values, changeValue, onSubmit }) {
         <Box container>
             <Card sx={{ width: '50%', marginX: 'auto', marginY: '5em' }}>
                 <select
-                defaultValue={values.property}>
+                defaultValue={values.property}
+                onChange={(e)=>changeValue({property:e.target.value})}>
                     {displayProps.map(x => {
                         return <>
                             <option value={x.propertyId}
-                            onChange={(e)=>changeValue({property:e.target.value})}
                             >{x.address}</option>
                         </>
                     })}

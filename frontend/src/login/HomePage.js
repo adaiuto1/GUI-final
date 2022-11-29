@@ -72,6 +72,15 @@ function HomePage({ setCurrentUser }) {
                                 </CardContent>
                             </Card>
                         </NavLink>
+                        <br></br>
+                        <NavLink to="/newListing" style={{ textDecoration: 'none' }}>
+                            <Card elevation="10" sx={{ marginX: '1em' }}>
+                                <CardHeader
+                                    avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
+                                        width="25em" />}
+                                    title={<h3>Create New Listing</h3>} />
+                            </Card>
+                        </NavLink>
                     </>}
             </Grid>
             <Grid container>
