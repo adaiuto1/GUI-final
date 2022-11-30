@@ -471,33 +471,64 @@ app.post('/reset', (req, res) => {
      });
    });
 
+
    app.delete('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
-    if(err){
-      // if there is an issue obtaining a connection, release the connection instance and log the error
-      logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
-    } else {
-      // if there is no issue obtaining a connection, execute query and release connection
-      connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.propertyId], function (err, rows, fields) {
-        connection.release();
-        if (err) {
-          logger.error("Error while deleting property: \n", err);
-          res.status(400).json({
-            "data": [],
-            "error": "Error deleting property"
-          })
-        } else {
-          res.status(200).json({
-            "data": rows
-          });
-        }
-      });
-    }
-    });
-    })
+     if(err){
+       // if there is an issue obtaining a connection, release the connection instance and log the error
+       logger.error('Problem obtaining MySQL connection',err)
+       res.status(400).send('Problem obtaining MySQL connection'); 
+     } else {
+       const id = req.params.id // would this just be ID?
+       const payload = req.body; // This payload should be an object containing update profile data
+       // if there is no issue obtaining a connection, execute query and release connection
+       var query = 'DELETE FROM property_table where propertyId= ?'
+       //none of this is reffered to as the payload now, update it
+       connection.query(query,[id], function (err, rows, fields) {
+         connection.release();
+         if (err) {
+           logger.error("Error while deleting property: \n", err);
+           res.status(400).json({
+             "data": [],
+             "error": "Error deleting property"
+           })
+         } else {
+           res.status(200).json({
+             "data": rows
+           });
+         }
+       });
+     }
+     });
+   });
 
-    // POST /createprofile
+  //  app.delete('/property/:id', async (req, res) => {
+  //   pool.getConnection(function (err, connection){
+  //   if(err){
+  //     // if there is an issue obtaining a connection, release the connection instance and log the error
+  //     logger.error('Problem obtaining MySQL connection',err)
+  //     res.status(400).send('Problem obtaining MySQL connection'); 
+  //   } else {
+  //     // if there is no issue obtaining a connection, execute query and release connection
+  //     connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.id], function (err, rows, fields) {
+  //       connection.release();
+  //       if (err) {
+  //         logger.error("Error while deleting property: \n", err);
+  //         res.status(400).json({
+  //           "data": [],
+  //           "error": "Error deleting property"
+  //         })
+  //       } else {
+  //         res.status(200).json({
+  //           "data": rows
+  //         });
+  //       }
+  //     });
+  //   }
+  //   });
+  //   })
+
+    // POST create application
   app.post('/application', async (req, res) => {
     console.log('\n' + req.body.firstname);
     pool.getConnection(function (err, connection){
