@@ -5,14 +5,14 @@ import { UserContext } from '../App';
 import ApplicationForm from './ApplicationForm';
 import {PropertyList} from '../data/PropertyList'
 import { getPropertyById } from '../api/propertyApi';
-import {addApplication} from '../api/applicationApi'
+import {addApplication, getApplications} from '../api/applicationApi'
 //import createApplication
 let applicationValues = {
     tenant: '',
     landlord: '',
     property_id: '',
-    approved: '',
-    response: ''
+    approved: false,
+    response: 'empty'
 }
 function Application() {
     let id = useParams().id;
@@ -27,14 +27,23 @@ function Application() {
         setValues({ ...values, ...delta })
     }
     const onSubmit = () => {
+        
+        if(!values.landlord){
+            if(currentProperty.owner){
+                changeValue({landlord:currentProperty.owner})
+            }
+            else{
+                console.log('no property')
+            }
+        }
         console.log(values)
         addApplication(values);
     }
     useEffect(() => {
         getPropertyById(id).then(x=>{
-            setCurrentProperty(x.data[0])
+            setCurrentProperty(x.data[0]);
         })
-        changeValue({property_id:id, landlord:currentProperty.owner, tenant:currentUser.user_id})
+        changeValue({property_id:+id, landlord:currentProperty.owner, tenant:currentUser.user_id})
     }, [])
     return currentProperty!={} && <>
         <ApplicationForm

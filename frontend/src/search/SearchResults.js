@@ -53,32 +53,6 @@ function SearchResults(props) {
         })
     }, [])
 
-    // useEffect(() => {
-    //     if (filters.length > 0) {
-    //         console.log('Updating filters:')
-    //         console.log(filters)
-    //         console.log('Live look at properties:')
-    //         console.log(properties)
-    //         let filteredProperties = {'data': []}
-    //         properties.data.forEach(x => {
-    //             let fits = true;
-    //             filters.forEach(filter => {
-    //                 console.log('Checking for filter:')
-    //                 console.log(filter)    
-    //                 if (!x['tag' + filter]) {
-    //                     fits = false
-    //                 }
-    //             })
-    //             if (fits) {
-    //                 console.log('Filter fits')
-    //                 filteredProperties.data.push(x)
-    //             }
-    //         })
-    //         setProperties(filteredProperties)
-    //         console.log(filteredProperties)
-    //     }
-    // }, [ filters ])
-
 
     const [anchor, setAnchor] = useState(null);
     const openPopover = (event) => {
@@ -98,27 +72,20 @@ function SearchResults(props) {
         // getProperties().then(x => setProperties(x)); //reset properties
         
         if (filters.length > 0) {
-            console.log('Updating filters:')
-            console.log(filters)
-            console.log('Live look at properties:')
-            console.log(properties)
+            
             let filteredProperties = {'data': []}
             properties.data.forEach(x => {
                 let fits = true;
                 filters.forEach(filter => {
-                    console.log('Checking for filter:')
-                    console.log(filter)    
                     if (!x['tag' + filter]) {
                         fits = false
                     }
                 })
                 if (fits) {
-                    console.log('Filter fits')
                     filteredProperties.data.push(x)
                 }
             })
             setProperties(filteredProperties)
-            console.log(filteredProperties)
         }
         else{
             getProperties().then(x => setProperties(x));
@@ -131,9 +98,6 @@ function SearchResults(props) {
         return <>Loading...</>
     }
     
-    console.log('Filter has ' + filters.length + " active filters");
-    console.log('Fils has ' + fils.length + ' active filters');
-
     return (
         <>
             <Button
