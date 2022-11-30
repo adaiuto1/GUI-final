@@ -8,7 +8,7 @@ import ProfileView from './account/ProfileView';
 import CreateProfile from './login/CreateProfile';
 import LandingPage from './login/LandingPage';
 import HomePage from './login/HomePage';
-import EditFilters from './search/EditFilters';
+import { EditFilters } from './search/EditFilters';
 import SearchResults from './search/SearchResults';
 import Application from './application/Application';
 import AddProperty from './property/addProperty';
