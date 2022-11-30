@@ -2,7 +2,7 @@ import React from "react";
 import { UserContext } from "../App";
 import { useContext, useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Checkbox, FormControl, Button, FormControlLabel, FormLabel, Grid, Input, Menu, MenuItem, TextField } from "@mui/material";
+import { Checkbox, FormControl, Button, FormControlLabel, FormLabel, Grid, Input, Menu, MenuItem, TextField, Switch, Typography } from "@mui/material";
 
 function PropertyForm({ values, onChange, onSubmit }) {
     const tagOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
@@ -32,17 +32,30 @@ function PropertyForm({ values, onChange, onSubmit }) {
                 <TextField
                     label="Capacity"
                     required
-                    value={values.monthlyRent}
+                    value={values.capacity}
                     id="Capacity"
                     onChange={e => onChange({ capacity: e.target.value })}>
                 </TextField>
                 <TextField
                     label="Size (sqft)"
                     required
-                    value={values.monthlyRent}
+                    value={values.sqft}
                     id="Size"
                     onChange={e => onChange({ sqft: e.target.value })}>
                 </TextField>
+
+                <FormControl>
+                    <Typography>This Property Allows Smoking</Typography>
+                    <Switch
+                        value={values.smoking}
+                        onChange={e => onChange({ allowsSmoking: e.target.checked })}></Switch>
+                </FormControl>
+                <FormControl>
+                    <Typography>This Property Allows Pets</Typography>
+                    <Switch label="Pet Friendly"
+                        value={values.petFriendly}
+                        onChange={e => onChange({ allowsPets: e.target.checked })}></Switch>
+                </FormControl>
                 <Grid>
                     {
                         tagOptions.map(x => {
@@ -50,10 +63,10 @@ function PropertyForm({ values, onChange, onSubmit }) {
                                 <FormControlLabel value={x}
                                     label={x}
                                     control={<Checkbox
-                                            onChange={e=>{
-                                                let t = 'tag' + (+tagOptions.indexOf(x)+1);
-                                                onChange({[t]:e.target.checked})
-                                            }}></Checkbox>} />
+                                        onChange={e => {
+                                            let t = 'tag' + (+tagOptions.indexOf(x) + 1);
+                                            onChange({ [t]: e.target.checked })
+                                        }}></Checkbox>} />
                             </>
                         })
                     }
