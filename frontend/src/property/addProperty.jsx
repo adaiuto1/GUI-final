@@ -6,18 +6,18 @@ import PropertyForm from './PropertyForm'
 import { addProperty } from '../api/propertyApi'
 const propertyValues ={
     address: '',
-    // city:'Dallas',
-    // zipcode:'75219',
+    city:'Dallas',
+    zipcode:'75219',
 	// propertyId: undefined,
 	monthlyRent:0,
-	owner:undefined,
-	ratingSum:0,
+	owner:0, //FIXME fix this
+	ratingSum:0.0,
 	numRatings:0,
     capacity:0,
     sqft:0,
 	allowsPets:false,
 	allowsSmoking:false,
-	img:'',
+	img:"https://via.placeholder.com/140x100",
 	tag1:false,
 	tag2:false,
 	tag3:false,
