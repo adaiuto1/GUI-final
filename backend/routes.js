@@ -24,7 +24,7 @@ module.exports = function routes(app, logger) {
    // POST /createprofile
    app.post('/profiles', async (req, res) => {
     console.log('\n' + req.body.firstname);
-   pool.getConnection(function (err, connection){
+    pool.getConnection(function (err, connection){
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
@@ -479,8 +479,7 @@ app.post('/reset', (req, res) => {
       res.status(400).send('Problem obtaining MySQL connection'); 
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
-      const id = req.params.id;
-      connection.query('DELETE FROM property_table WHERE propertyId = ?', [id], function (err, rows, fields) {
+      connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.propertyId], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error while deleting property: \n", err);
@@ -510,9 +509,9 @@ app.post('/reset', (req, res) => {
         // const id = req.params.id; // And pull the ID from the req params
         const payload = req.body; // This payload should be an object containing update profile data
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'INSERT INTO applications (tenant, landlord, property_id, approved, response) VALUES (?,?,?,?,?)'
+        var query = 'INSERT INTO applications (tenant, landlord, property_id, response, application_id) VALUES (?,?,?,?,?)'
         //none of this is reffered to as the payload now, update it
-        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.approved, payload.response], function (err, rows, fields) {
+        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error while inserting new application: \n", err);
@@ -531,7 +530,7 @@ app.post('/reset', (req, res) => {
   });
 
   // edit application
-  app.put('/application', async (req, res) => {
+  app.put('/application/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -541,9 +540,9 @@ app.post('/reset', (req, res) => {
         const payload = req.body; // This payload should be an object containing update profile data
         const id = req.params.id; // And pull the ID from the req params
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, approved = ?, response = ?, WHERE id=? '
+        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ?, application_id = ?, WHERE id=? '
         //none of this is reffered to as the payload now, update it
-        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.approved, payload.response], function (err, rows, fields) {
+        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error editing application: \n", err);

@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../App";
 import { filterOptions } from "./SearchResults";
-
+import { deleteProperty } from "../api/propertyApi";
 function Contact() {
     let currentUser = useContext(UserContext)
     if (currentUser.account_type == 1) {
@@ -36,7 +36,13 @@ function Listing({ property }) {
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>
                 </NavLink>
             }
-                title={<h2>{property.address}</h2>}>
+                title={<>
+                <h2>{property.address}</h2>
+                &&
+                {currentUser.account_type==2 && <Button onClick={deleteProperty(property.propertyId)}>Delete</Button>
+                }
+                </>}
+                >
             </CardHeader>
             <img src={property.img} style={{ width: '100%', height: '150px', objectFit: 'cover' }}></img>
             <CardContent>
