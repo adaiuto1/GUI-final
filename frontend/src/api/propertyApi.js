@@ -12,9 +12,11 @@ export const getProperties = () => new Promise((resolve, reject) => {
 
 export const addProperty = (property) => new Promise ((resolve, reject) => { //FIXME not working
     console.log(property)
+
     axios.post(`${apiEndpoint}/property`, property)
     .then(x => resolve(x.data))
     .catch(x => {
+        console.log('Caught x');
         alert(x);
         reject(x);
     });

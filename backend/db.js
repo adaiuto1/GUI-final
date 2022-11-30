@@ -9,4 +9,4 @@ var pool = mysql.createPool({
   database: process.env.MYSQL_DB
 });
 
-module.exports = pool;
+module.exports = pool; // this connects to the database

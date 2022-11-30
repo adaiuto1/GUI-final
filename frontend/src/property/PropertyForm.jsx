@@ -30,6 +30,7 @@ function PropertyForm({ values, onChange, onSubmit }) {
                 </TextField>
                 <TextField
                     label="Monthly Rent"
+                    type="number"
                     required
                     value={values.monthlyRent}
                     id="MonthlyRent"
@@ -37,6 +38,7 @@ function PropertyForm({ values, onChange, onSubmit }) {
                 </TextField>
                 <TextField
                     label="Capacity"
+                    type="number"
                     required
                     value={values.capacity}
                     id="Capacity"
@@ -44,6 +46,7 @@ function PropertyForm({ values, onChange, onSubmit }) {
                 </TextField>
                 <TextField
                     label="Size (sqft)"
+                    type="number"
                     required
                     value={values.sqft}
                     id="Size"

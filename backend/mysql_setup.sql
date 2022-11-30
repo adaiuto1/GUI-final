@@ -69,7 +69,7 @@ create table property_table
     address       varchar(255)         not null,
     city          varchar(255)         null,
     zipcode       int                  null,
-    propertyId    int auto_increment
+    propertyId    int auto_increment   not null
         primary key,
     monthlyRent   int                  null,
     owner         int                  null,
