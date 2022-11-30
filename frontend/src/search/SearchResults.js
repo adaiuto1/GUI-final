@@ -71,36 +71,38 @@ function SearchResults(props) {
         removeFil(r);
     }
     const submitFilterChanges = (event) => {
-        // getProperties().then(x => setProperties(x)); //reset properties
-
-        if (filters.length > 0) {
-
-            let filteredProperties = { 'data': [] }
-            properties.data.forEach(x => {
-                let fits = true;
-                filters.forEach(filter => {
-                    if (!x['tag' + filter]) {
-                        fits = false
-                    }
-                })
-                if (fits) {
-                    filteredProperties.data.push(x)
+        let filteredProperties = { 'data': [] }
+        allProperties.data.forEach(x => {
+            let fits = true;
+            filters.forEach(filter => {
+                if (!x['tag' + filter]) {
+                    fits = false;
                 }
             })
-            setProperties(filteredProperties)
-        }
-        else {
-            getProperties().then(x => setProperties(x));
-        }
+            if (!x.address.includes(query)) {
+                fits = false;
+            }
+            if (fits) {
+                filteredProperties.data.push(x)
+            }
+        })
+        setProperties(filteredProperties)
         setAnchor(null);
-        // setFilters([])
     }
 
     const submitQuery = () => {
         let filteredProperties = {'data': []};
         allProperties.data.forEach(x => {
-            if (x.address.includes(query)) {
-                console.log('Query fits')
+            let fits = true;
+            filters.forEach(filter => {
+                if (!x['tag' + filter]) {
+                    fits = false;
+                }
+            })
+            if (!x.address.includes(query)) {
+                fits = false;
+            }
+            if (fits) {
                 filteredProperties.data.push(x)
             }
         })
