@@ -32,7 +32,7 @@ export const getPropertyById = (id) => new Promise ((resolve, reject) => {
 });
 
 export const deleteProperty = (id) => new Promise ((resolve, reject) => {
-    axios.delete(`${apiEndpoint}/property/${id}`)
+    axios.delete(`${apiEndpoint}/property/${id}`, id)
     .then(x => resolve(x.data))
     .catch(x => {
         alert(x);
