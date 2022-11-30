@@ -23,18 +23,18 @@ const formValues = { // add user attributes here
   userType: 1
 };
 const profileFormValues = {
-  firstName: '',
-  lastName: '',
-  id: '',
-  bio: '',
-  smoker: false,
-  petFriendly: false,
-  tag1: false,
-  tag2: false,
-  tag3: false,
-  tag4: false,
-  tag5: false,
-  tag6: false
+  user_id: null,
+  firstname:  '',
+  lastname:   '',
+  bio:    '',
+  smoker: '',
+  petFriendly: '',
+  tag1:   false,
+  tag2:   false,
+  tag3:   false,
+  tag4:   false,
+  tag5:   false,
+  tag6:   false
 }
 const LandingPage = ({ setCurrentUser }) => {
   const currentUser = useContext(UserContext);
@@ -77,34 +77,35 @@ const LandingPage = ({ setCurrentUser }) => {
     && values.password.length >= 8
     && values.password.length <= 30;
 
-    const registerUser = () => {
-      // check if username already exists
-      try { 
-        checkFields()
-      } catch (error) {
-        alert("Please enter a value for each field!");
-      }
-      try {
-        passwordsMatch();
-      } catch (error) {
-        alert("Passwords did not match");
-      }
-      try {
-        passwordRegex();
-      } catch (error) {
-        alert("Password must contain a letter, a number, and be between 8 and 30 characters");
-      }
-      createUser({ username: values.username, password: values.password, account_type: values.userType })
-          .then(x => {
-          
-          getUserByUsername(values.username)
-          .then(x => {
-            setUser(x.data.data[0]);
-            console.log(x.data.data[0])
-            setActive('createProfile');
-          })})
-          .catch(error => alert(error));
+  const registerUser = () => {
+    // check if username already exists
+    try { 
+      checkFields()
+    } catch (error) {
+      alert("Please enter a value for each field!");
     }
+    try {
+      passwordsMatch();
+    } catch (error) {
+      alert("Passwords did not match");
+    }
+    try {
+      passwordRegex();
+    } catch (error) {
+      alert("Password must contain a letter, a number, and be between 8 and 30 characters");
+    }
+
+    createUser({ username: values.username, password: values.password, account_type: values.userType })
+        .then(x => {
+        getUserByUsername(values.username)
+        .then(x => {
+          setUser(x.data.data[0]);
+          profileValues.user_id = user.user_id;
+          setActive('createProfile');
+        })})
+        .catch(error => alert(error));
+
+  }
   const registerProfile = () =>{
     console.log(profileValues)
     _setProfileValue({id:1})
