@@ -12,9 +12,9 @@ import { EditFilters } from './search/EditFilters';
 import SearchResults from './search/SearchResults';
 import Application from './application/Application';
 import AddProperty from './property/addProperty';
-import {PropertyView} from './property/PropertyView'
+import { PropertyView } from './property/PropertyView';
 export const UserContext = createContext();
-
+ 
 export const App = () => {
   const [ currentUser, setCurrentUser ] = useState(undefined);
 
@@ -46,7 +46,10 @@ export const App = () => {
           <Route path='/apply/:id' element={<Application/>}></Route>
           <Route path='/property/:id' element={<PropertyView/>}/>
           <Route path='/newListing' element={<AddProperty/>}/>
-          {/* <Route path='/property_view/:id' element={<PropertyView />}></Route> */}
+          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
+          <Route path='/properties' element={<SearchResults/>}></Route>
+          <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
+          /* <Route path='/property/:id' element={<PropertyView />}></Route> */
         </Routes> 
       </Router>
     </UserContext.Provider>

@@ -24,7 +24,7 @@ function Listing({ property }) {
     let currTags = [];
     for (let i = 1; i <= 7; i++) {
         if (property['tag' + i]) {
-            currTags.push(filterOptions[i - 1])
+            currTags.push(filterOptions[i - 1].name)
         }
     }
     return <>

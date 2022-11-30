@@ -18,7 +18,11 @@ function CreateProfile({changeView}) {
     
     return (
         <>
-       
+        <ProfileForm
+        values={values}
+        onChange={ _setValue }
+        // onSubmit={onSubmit}
+        />
         </>
     )
 }

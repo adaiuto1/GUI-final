@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
 // mysql connection
-var pool = mysql.createPool({ //what is this
+var pool = mysql.createPool({
   host: process.env.MYSQL_CLOUD_HOST,
   user: process.env.MYSQL_CLOUD_USER,
   password: process.env.MYSQL_CLOUD_PASS,
@@ -9,4 +9,4 @@ var pool = mysql.createPool({ //what is this
   database: process.env.MYSQL_DB
 });
 
-module.exports = pool; // this connects to the database
+module.exports = pool;

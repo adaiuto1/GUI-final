@@ -23,6 +23,7 @@ function HomePage({ setCurrentUser }) {
     return (
         <><Box container width={'max-content'} mx={'auto'} my={'5em'}>
             <Grid item container rows={3} columns={1}>
+            {/* <Grid container rows={3} columns={3}> */}
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -57,7 +58,7 @@ function HomePage({ setCurrentUser }) {
                     </Card>
                 </NavLink>
                 {currentUser.account_type == 1 ? <>
-
+                    
                 </> :
                     <>
                         <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
@@ -68,7 +69,7 @@ function HomePage({ setCurrentUser }) {
                                     title={<h3>Inbox</h3>} />
                                 <CardContent sx={{ backgroundColor: 'white' }}>
                                     <Typography variant="p">
-                                        See and repsond to applicants
+                                        See and respond to applicants
                                     </Typography>
                                 </CardContent>
                             </Card>

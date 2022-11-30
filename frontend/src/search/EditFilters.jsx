@@ -4,7 +4,7 @@ import {
     CardContent,
     CardActions,
     CardHeader, Avatar, Typography, Chip,
-    ToggleButton, ToggleButtonGroup
+    ToggleButton, ToggleButtonGroup, styled
 } from "@mui/material";
 import { filters } from "../api/getterApi";
 export const EditFilters = ({
@@ -14,16 +14,23 @@ export const EditFilters = ({
     removeFilter: removeFilter }) => {
 
     return <>
-
         <Grid m={3}>
             <Typography variant="h5">Filters</Typography>
-            <ToggleButtonGroup color="primary" value="filters">
+            <ToggleButtonGroup value="filters">
                 <Grid>
                     {
-                        filterOptions.map(tag => {
-                            return <ToggleButton aria-label={tag}
-                                value={tag}
-                                aria-key={tag}
+                        filterOptions.map((tag, index) => {
+                            return <ToggleButton aria-label={tag.name}
+                                value={tag.name}
+                                aria-key={tag.name}
+                                sx={{
+                                    backgroundColor: tag.active ? 'blue' : 'white',
+                                    "&:hover": tag.active ? {
+                                        backgroundColor: 'blue'
+                                    } : {
+                                        backgroundColor: 'white'
+                                    }
+                                }}
                                 onClick={() => {
                                     let cf = filterOptions.indexOf(tag) + 1;
                                     if (filters.includes(cf)) {
@@ -32,7 +39,10 @@ export const EditFilters = ({
                                     else {
                                         addFilter(cf)
                                     }
-                                }}>{tag}</ToggleButton>
+                                    console.log('Current filters:')
+                                    console.log(filters)
+                                    tag.active = !tag.active;
+                                }}>{tag.name}</ToggleButton>
                         })
                     }
                 </Grid>
