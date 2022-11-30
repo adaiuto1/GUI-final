@@ -31,12 +31,11 @@ export const getPropertyById = (id) => new Promise ((resolve, reject) => {
     });
 });
 
-export const getSomeProperties = (searchQuery) => new Promise((resolve, reject) => {
-    axios.get(`${apiEndpoint}/getallproperties`)
+export const deleteProperty = (id) => new Promise ((resolve, reject) => {
+    axios.delete(`${apiEndpoint}/property/${id}`)
     .then(x => resolve(x.data))
     .catch(x => {
         alert(x);
         reject(x);
     });
 });
-
