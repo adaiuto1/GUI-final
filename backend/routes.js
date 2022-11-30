@@ -20,22 +20,22 @@ module.exports = function routes(app, logger) {
   });
   
 
-// insert a newly created user into the database 
-   // POST /createprofile
-   app.post('/profiles', async (req, res) => {
+  // insert a newly created user into the database 
+  // POST /createprofile
+  app.post('/profiles', async (req, res) => {
     console.log('\n' + req.body.firstname);
-   pool.getConnection(function (err, connection){
-    if(err){
-      // if there is an issue obtaining a connection, release the connection instance and log the error
-      logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
-    } else {
-      // const id = req.params.id; // And pull the ID from the req params
-      const payload = req.body; // This payload should be an object containing update profile data
-      // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'INSERT INTO profiles (firstname, lastname, user_id, bio, smoker, petFriendly, tag1, tag2, tag3, tag4, tag5, tag6 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
-      //none of this is reffered to as the payload now, update it
-      connection.query(query,[payload.firstname, payload.lastname, payload.user_id, payload.bio, payload.smoker, payload.petFriendly,
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // const id = req.params.id; // And pull the ID from the req params
+        const payload = req.body; // This payload should be an object containing update profile data
+        // if there is no issue obtaining a connection, execute query and release connection
+        var query = 'INSERT INTO profiles (firstname, lastname, user_id, bio, smoker, petFriendly, tag1, tag2, tag3, tag4, tag5, tag6 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
+        //none of this is reffered to as the payload now, update it
+        connection.query(query,[payload.firstname, payload.lastname, payload.user_id, payload.bio, payload.smoker, payload.petFriendly,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6], function (err, rows, fields) {
         connection.release();
         if (err) {
@@ -138,7 +138,7 @@ app.get('/profiles/:id', async (req, res) => {
     } else {
       const id = req.params.id;
       // if there is no issue obtaining a connection, execute query and release connection
-      connection.query('SELECT * FROM profiles WHERE user_id = ?', [id], function (err, rows, fields) {
+      connection.query('SELECT * FROM profiles WHERE id = ?', [id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error while fetching profile: \n", err);
@@ -298,8 +298,7 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        const query = req.query.username ? `SELECT * FROM Users WHERE username = '${req.query.username}'` : 'SELECT * FROM Users';
-        connection.query(query, function (err, rows, fields) {
+        connection.query('SELECT * FROM Users', function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching users: \n", err);
@@ -496,5 +495,37 @@ app.post('/reset', (req, res) => {
     }
     });
     })
-
+  
+  // insert a newly created user into the database 
+  // POST /createprofile
+  app.post('/application', async (req, res) => {
+    console.log('\n' + req.body.firstname);
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // const id = req.params.id; // And pull the ID from the req params
+        const payload = req.body; // This payload should be an object containing update profile data
+        // if there is no issue obtaining a connection, execute query and release connection
+        var query = 'INSERT INTO applications (tenant, landlord, property_id, approved, response) VALUES (?,?,?,?,?)'
+        //none of this is reffered to as the payload now, update it
+        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.approved, payload.response], function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error while inserting new application: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error creating application"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
+    }
+    });
+  });
 }
