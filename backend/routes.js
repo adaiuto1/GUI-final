@@ -298,7 +298,8 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('SELECT * FROM Users', function (err, rows, fields) {
+        const query = req.query.username ? `SELECT * FROM Users WHERE username = '${req.query.username}'` : 'SELECT * FROM Users';
+        connection.query(query, function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching users: \n", err);

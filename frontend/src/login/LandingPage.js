@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, getUser, getUserByUsername } from "../api/userApi";
+import { createUser, createProfile, getUserByUsername } from "../api";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 
@@ -90,14 +90,15 @@ const LandingPage = ({ setCurrentUser }) => {
         getUserByUsername(values.username)
         .then(x => {
           setUser(x.data.data[0]);
-          profileValues.user_id = user.user_id;
+          _setProfileValue({ user_id: x.data.data[0].user_id });
           setActive('createProfile');
         })})
         .catch(error => alert(error));
 
   }
   const registerProfile = () =>{
-    console.log(profileValues)
+    debugger;
+    createProfile(profileValues);
     setCurrentUser(user);
     setActive('login')
   }

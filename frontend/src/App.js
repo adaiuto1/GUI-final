@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileView from './account/ProfileView';
 import LandingPage from './login/LandingPage';
 import HomePage from './login/HomePage';
-import EditFilters from './search/EditFilters';
+import { EditFilters } from './search/EditFilters';
 import SearchResults from './search/SearchResults';
 import { PropertyView } from './property/PropertyView';
 export const UserContext = createContext();
