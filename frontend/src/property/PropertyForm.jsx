@@ -3,14 +3,18 @@ import { UserContext } from "../App";
 import { useContext, useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Checkbox, FormControl, Button, FormControlLabel, FormLabel, Grid, Input, Menu, MenuItem, TextField, Switch, Typography } from "@mui/material";
-
+import {addProperty} from '../api/propertyApi'
 function PropertyForm({ values, onChange, onSubmit }) {
+    let [made, setMade] = useState(false)
     const tagOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
         'Public Transportation', 'Families', 'Low Crime'];
 
     let currentUser = useContext(UserContext);
+    const submitProperty = () =>{
+        addProperty(values).then(setMade(true))
+    }
     useEffect(() => {
-        onChange({ owner: currentUser.userId });
+        onChange({ owner: currentUser.user_id });
     }, [])
     return <>
         <Box container>
@@ -73,6 +77,9 @@ function PropertyForm({ values, onChange, onSubmit }) {
                 </Grid>
                 <Button onClick={onSubmit}>Submit</Button>
             </Grid>
+            {
+                made && <>Success!  </>
+            }
         </Box>
     </>
 }

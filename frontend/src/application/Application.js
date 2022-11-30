@@ -4,39 +4,46 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../App';
 import ApplicationForm from './ApplicationForm';
 import {PropertyList} from '../data/PropertyList'
+import { getPropertyById } from '../api/propertyApi';
+import {addApplication} from '../api/applicationApi'
 //import createApplication
 let applicationValues = {
-    applicant: '',
-    recipient: '',
-    property: '',
-    message: '',
-    approved: false
+    tenant: '',
+    landlord: '',
+    property_id: '',
+    approved: '',
+    response: ''
 }
 function Application() {
     let id = useParams().id;
+    let [currentProperty, setCurrentProperty] = useState({});
+    const [values, setValues] = useState(applicationValues);
+  
     let currProperty = PropertyList.find(x=>x.propertyId==id)
     let currentUser = useContext(UserContext)
     //const applicant = currentUser.userId;
-    const [values, setValues] = useState(applicationValues);
 
     const changeValue = (delta) => {
         setValues({ ...values, ...delta })
-        console.log(values)
     }
     const onSubmit = () => {
         console.log(values)
+        addApplication(values);
     }
     useEffect(() => {
-        changeValue({property:id, recipient:currProperty.owner, applicant:currentUser.user_id})
-        //getPropertyById(id).then(x =>changeValue(property:x.propertyId))
+        getPropertyById(id).then(x=>{
+            setCurrentProperty(x.data[0])
+        })
+        changeValue({property_id:id, landlord:currentProperty.owner, tenant:currentUser.user_id})
     }, [])
-    return values['property'] && <>
+    return currentProperty!={} && <>
         <ApplicationForm
             values={values}
             changeValue={changeValue}
             onSubmit={onSubmit}
         >
         </ApplicationForm>
+        <Typography>{currentProperty.address}</Typography>
     </>
 }
 export default Application;

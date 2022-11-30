@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, getUserByUsername } from "../api";
+import { createUser, createProfile, getUserByUsername } from "../api";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 
@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileForm from "./ProfileForm";
 import { LoginForm, RegisterForm } from './index';
-import { createProfile, getProfileById } from "../api/profileApi";
+import { getProfileById } from "../api/profileApi";
 
 const theme = createTheme();
 
@@ -48,24 +48,17 @@ const LandingPage = ({ setCurrentUser }) => {
   const _setActive = view => setActive(view);
 
   const validateUser = () => {
-    getUserByUsername(values.username).then(x => x.data.data.forEach(u => {
-      if (u.username == values.username) {
-        setCurrentUser(u);
-        console.log(currentUser)
-      }else{
-        console.log('No account matching credentials')
-      }
-    }))
     
-    // if (values.username && values.password) { // update logic to check password
-    //   getUserByUsername(values.username).then(x => {
-    //     if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
-    //       setCurrentUser(x.data.data[0]);
-    //     } else {
-    //       
-    //     }
-    //   })
-    // }
+
+    if (values.username && values.password) { // update logic to check password
+      getUserByUsername(values.username).then(x => {
+        if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
+          setCurrentUser(x.data.data[0]);
+        } else {
+          
+        }
+      })
+    }
     console.log(currentUser)
   }
 

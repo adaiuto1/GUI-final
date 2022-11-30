@@ -44,7 +44,9 @@ function SearchResults(props) {
     useEffect(() => {
         updateQuery(searchQuery);
 
-        getProperties().then(x => setProperties(x));
+        getProperties().then(x => {
+            setProperties(x);
+            console.log(x)});
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
