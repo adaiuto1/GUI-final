@@ -6,11 +6,11 @@ import PropertyForm from './PropertyForm'
 import { addProperty } from '../api/propertyApi'
 const propertyValues ={
     address: '',
-    // city:'Dallas',
-    // zipcode:'75219',
+    city:'Dallas',
+    zipcode:'75219',
 	// propertyId: undefined,
 	monthlyRent:0,
-	owner:undefined,
+	owner:0, //FIXME fix this
 	ratingSum:0,
 	numRatings:0,
     capacity:0,

@@ -12,7 +12,7 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    CardHeader, Box, Button, Popover
+    CardHeader, Box, Button, Popover, Typography, TextField
 } from "@mui/material";
 import Listing from "./Listing";
 // export const filterOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
@@ -37,15 +37,17 @@ function SearchResults(props) {
     // console.log(PropertyList)
     let navigate = useNavigate();
     let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
-    const [query, updateQuery] = useState('');
+    const [query, setQuery] = useState('');
     const [filters, setFilters] = useState(fils);
     const [properties, setProperties] = useState('');
+    const [allProperties, setAllProperties] = useState('');
     // getProperties().then(x => setProperties(x));
     useEffect(() => {
-        updateQuery(searchQuery);
+        // updateQuery(searchQuery);
 
         getProperties().then(x => {
             setProperties(x);
+            setAllProperties(x);
             console.log(x)});
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
@@ -127,12 +129,23 @@ function SearchResults(props) {
         // setFilters([])
     }
 
+    const submitQuery = () => {
+        let filteredProperties = {'data': []};
+        allProperties.data.forEach(x => {
+            if (x.address.includes(query)) {
+                console.log('Query fits')
+                filteredProperties.data.push(x)
+            }
+        })
+        setProperties(filteredProperties)
+    }
+
     if(!properties) {
         return <>Loading...</>
     }
     
-    console.log('Filter has ' + filters.length + " active filters");
-    console.log('Fils has ' + fils.length + ' active filters');
+    // console.log('Filter has ' + filters.length + " active filters");
+    // console.log('Fils has ' + fils.length + ' active filters');
 
     return (
         <>
@@ -159,11 +172,28 @@ function SearchResults(props) {
                     removeFilter={removeFilter} />
             </Popover>
 
+            <br />
+
             <header className="text-center">
-                <h1>{pageHeader}</h1>
+                <Typography align="center">
+                    <h1>{pageHeader}</h1>
+                </Typography>
+                <Typography align="center">
+                    <TextField onChange={ x => {
+                         setQuery(x.target.value);
+                    }} /> {/* The Search Bar */}
+                </Typography>
+                <Typography align="center">
+                    <Button variant="contained"
+                            onClick={() => submitQuery()}
+                    >
+                        Search</Button>
+                </Typography>
             </header>
-            {console.log('Properties right before display:')}
-            {console.log(properties)}
+            {console.log('The Current Query:')}
+            {console.log(query)}
+            {/* {console.log('Properties right before display:')}
+            {console.log(properties)} */}
             <Grid container align="center" width="80%" mx="auto">
                 {
                     properties.data.map(x => {
