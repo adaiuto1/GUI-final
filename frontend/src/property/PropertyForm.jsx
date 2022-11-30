@@ -3,7 +3,7 @@ import { UserContext } from "../App";
 import { useContext, useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Checkbox, FormControl, Button, FormControlLabel, FormLabel, Grid, Input, Menu, MenuItem, TextField, Switch, Typography } from "@mui/material";
-import {addProperty} from '../api/propertyApi'
+import { addProperty } from '../api/propertyApi'
 
 function PropertyForm({ values, onChange, onSubmit }) {
     let [made, setMade] = useState(false)
@@ -11,12 +11,9 @@ function PropertyForm({ values, onChange, onSubmit }) {
         'Public Transportation', 'Families', 'Low Crime'];
 
     let currentUser = useContext(UserContext);
-    
-    const submitProperty = () =>{
-        addProperty(values).then(setMade(true))
-    }
+
     useEffect(() => {
-        onChange({owner: currentUser.user_id, img: 'https://fecteauhomes.com/assets/image-cache/deercreek.0d4bd2b9.311b3eb9.jpg'})
+        onChange({ owner: currentUser.user_id, img: 'https://fecteauhomes.com/assets/image-cache/deercreek.0d4bd2b9.311b3eb9.jpg' })
     }, [])
     return <>
         <Box container>
@@ -80,7 +77,15 @@ function PropertyForm({ values, onChange, onSubmit }) {
                         })
                     }
                 </Grid>
-                <Button onClick={onSubmit}>Submit</Button>
+                {setMade ? <>
+                    <Button onClick={() => {
+                        onSubmit()
+                        setMade(true)
+                    }}>Submit</Button>
+                </>
+                    :
+                    <Typography variant="success">Success!</Typography>
+                }
             </Grid>
             {
                 made && <>Success!  </>
