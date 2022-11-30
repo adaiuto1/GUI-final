@@ -90,6 +90,7 @@ const LandingPage = ({ setCurrentUser }) => {
         getUserByUsername(values.username)
         .then(x => {
           setUser(x.data.data[0]);
+          profileValues.user_id = user.user_id;
           setActive('createProfile');
         })})
         .catch(error => alert(error));
