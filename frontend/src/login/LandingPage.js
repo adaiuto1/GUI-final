@@ -3,7 +3,6 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../App';
 import { createUser, createProfile, getUserByUsername } from "../api";
 import { Navigate } from "react-router-dom";
-// import { AccountList } from "./data/AccountList";
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
@@ -45,7 +44,10 @@ const LandingPage = ({ setCurrentUser }) => {
 
   const _setValue = delta => setValues({ ...values, ...delta });
   const _setProfileValue = delta => setProfileValues({ ...profileValues, ...delta })
-  const _setActive = view => setActive(view);
+  const _setActive = view => {
+    setValues(formValues);
+    setActive(view);
+  }
 
   const validateUser = () => {
     

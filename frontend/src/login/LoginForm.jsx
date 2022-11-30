@@ -58,6 +58,7 @@ export const LoginForm = ({ values, onChange, onSubmit, changeView }) => {
                 type="button"
                 fullWidth
                 variant="contained"
+                disabled={ !(!!values.username && !!values.password) }
                 sx={{ mt: 3, mb: 2 }}
                 onClick={ () => onSubmit() }>Sign In</Button>
             <Grid container>
@@ -70,40 +71,4 @@ export const LoginForm = ({ values, onChange, onSubmit, changeView }) => {
         </Box>
         </Box>
     )
-
-//    return <Box component='form'>
-//         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-//             <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
-//             <OutlinedInput
-//                 id="outlined-adornment-username"
-//                 type="text"
-//                 value={ values.username }
-//                 onChange={ e => onUsernameChanged({ username: e.target.value }) }
-//                 label="Username"
-//                 required />
-//         </FormControl>
-//         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-//             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-//             <OutlinedInput
-//                 id="outlined-adornment-password"
-//                 type='password'
-//                 value={ values.password }
-//                 onChange={ e => onPasswordChanged({ password: e.target.value }) }
-//                 endAdornment={
-//                 <InputAdornment position="end">
-//                     <IconButton
-//                     aria-label="toggle password visibility"
-//                     // onClick={handleClickShowPassword}
-//                     // onMouseDown={handleMouseDownPassword}
-//                     edge="end">
-//                     <Visibility />
-//                     </IconButton>
-//                 </InputAdornment>
-//                 }
-//                 label="Password"
-//                 required/>
-//         </FormControl>
-//         <Button onClick={ () => onSubmit() }>Submit</Button>
-//         <span>Don't have an account?  <Link onClick={ () => changeView('register') }>Create one!</Link></span>
-//     </Box>
 }
