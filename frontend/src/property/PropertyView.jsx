@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
 let ratingValues={
     numRatings: 0,
-    ratings: []
+    ratingSum: 0
 }
 export const PropertyView = () => {
     let id = useParams().id;
