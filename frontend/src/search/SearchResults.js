@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from 'react';
 import PropertyResult from "./PropertyResult";
 // import { PropertyList } from "../data/PropertyList";
@@ -15,16 +15,17 @@ import {
     CardHeader, Box, Button, Popover
 } from "@mui/material";
 import Listing from "./Listing";
+import { UserContext } from "../App";
 // export const filterOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
 //     'Public Transportation', 'Families', 'Low Crime'];
 export const filterOptions = [
-    {'name': 'College Town', 'active': false},
-    {'name': 'Quiet Neighbourhood', 'active': false}, 
-    {'name': 'Community', 'active': false}, 
-    {'name': 'Nearby Attractions', 'active': false},
-    {'name': 'Public Transportation', 'active': false}, 
-    {'name': 'Families', 'active': false}, 
-    {'name': 'Low Crime', 'active': false}
+    { 'name': 'College Town', 'active': false },
+    { 'name': 'Quiet Neighbourhood', 'active': false },
+    { 'name': 'Community', 'active': false },
+    { 'name': 'Nearby Attractions', 'active': false },
+    { 'name': 'Public Transportation', 'active': false },
+    { 'name': 'Families', 'active': false },
+    { 'name': 'Low Crime', 'active': false }
 ];
 
 function SearchResults(props) {
@@ -33,8 +34,7 @@ function SearchResults(props) {
     // let PropertyList = getProperties();
     // let PropertyList;
     // getProperties.then(x => PropertyList = x);
-    // console.log('PropertyList:')
-    // console.log(PropertyList)
+    let currentUser = useContext(UserContext)
     let navigate = useNavigate();
     let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
     const [query, updateQuery] = useState('');
@@ -46,7 +46,8 @@ function SearchResults(props) {
 
         getProperties().then(x => {
             setProperties(x);
-            console.log(x)});
+            console.log(x)
+        });
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
@@ -70,10 +71,10 @@ function SearchResults(props) {
     }
     const submitFilterChanges = (event) => {
         // getProperties().then(x => setProperties(x)); //reset properties
-        
+
         if (filters.length > 0) {
-            
-            let filteredProperties = {'data': []}
+
+            let filteredProperties = { 'data': [] }
             properties.data.forEach(x => {
                 let fits = true;
                 filters.forEach(filter => {
@@ -87,17 +88,17 @@ function SearchResults(props) {
             })
             setProperties(filteredProperties)
         }
-        else{
+        else {
             getProperties().then(x => setProperties(x));
         }
         setAnchor(null);
         // setFilters([])
     }
 
-    if(!properties) {
+    if (!properties) {
         return <>Loading...</>
     }
-    
+
     return (
         <>
             <Button
@@ -126,16 +127,23 @@ function SearchResults(props) {
             <header className="text-center">
                 <h1>{pageHeader}</h1>
             </header>
-            {console.log('Properties right before display:')}
-            {console.log(properties)}
+
             <Grid container align="center" width="80%" mx="auto">
                 {
                     properties.data.map(x => {
-                        return <>
-                            <Grid item key={x} m={2} xs={5} sx={{ height: '40%' }}>
-                                <Listing property={x}></Listing>
-                            </Grid>
-                        </>
+                        if (currentUser.account_type == 2) {
+                            return x.owner == currentUser.user_id && <>
+                                <Grid item key={x} m={2} xs={5} sx={{ height: '40%' }}>
+                                    <Listing property={x}></Listing>
+                                </Grid>
+                            </>
+                        }
+                        else {
+                            return <>
+                                <Grid item key={x} m={2} xs={5} sx={{ height: '40%' }}>
+                                    <Listing property={x}></Listing>
+                                </Grid></>
+                        }
                     })
                 }
             </Grid>

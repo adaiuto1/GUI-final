@@ -16,6 +16,7 @@ import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
 import { getPropertyById } from "../api/propertyApi";
+import { getProfileById } from "../api";
 let ratingValues={
     numRatings: 0,
     ratingSum: 0
@@ -28,14 +29,12 @@ export const PropertyView = () => {
     let [propertyOwner, setPropertyOwner] = useState({})
     let [rating, setRating] = useState(ratingValues)
     useEffect(() => {
-        console.log('Searching for id: ' + id);
         getPropertyById(id).then(x => {
             setCurrentProperty(x);
-            console.log('Property should now be: ');
-            console.log(x);
+            getProfileById(140).then(x=>{
+                setPropertyOwner(x.data[0])
+            })
         });
-        console.log('Got the property!');
-        console.log(currentProperty);
         // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
     // useEffect(() => {
@@ -59,8 +58,6 @@ export const PropertyView = () => {
         return <>Loading...</>
     }
     return currentProperty && <>
-        {console.log('Property')}
-        {console.log(currentProperty)}
         <Box width="75%" mx="auto" my={4}>
             <Card elevation="10">
                 <CardHeader title={<h3>{currentProperty.data[0].address}</h3>} />
@@ -74,8 +71,8 @@ export const PropertyView = () => {
                             <Card elevation="5" rounded={true}>
                                 <Box mx={2}>
                                     <h5 item>Owner: {" "}
-                                    <Link to={"/profile_view/" + propertyOwner.accountId}
-                                    >{propertyOwner.firstName + " " + propertyOwner.lastName}</Link></h5>
+                                    <Link to={"/profile_view/" + propertyOwner.user_id}
+                                    >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link></h5>
                                     <h5 item>Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</h5>
                                     <h5 item>Capacity: {currentProperty.data[0].capacity}</h5>
                                     <h5 item>Size: {" " + currentProperty.data[0].sqft + "sqft" }</h5>

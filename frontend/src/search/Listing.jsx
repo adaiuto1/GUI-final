@@ -3,7 +3,7 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    CardHeader, Avatar, Typography, Chip
+    CardHeader, Avatar, Typography, Chip, Button
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React from "react";
@@ -16,11 +16,13 @@ function Contact() {
     let currentUser = useContext(UserContext)
     if (currentUser.account_type == 1) {
         return <>
-            <button>Contact Owner</button>
+            <Button color="primary"
+                variant="contained">Contact Owner</Button>
         </>
     }
 }
 function Listing({ property }) {
+    let currentUser = useContext(UserContext)
     let currTags = [];
     for (let i = 1; i <= 7; i++) {
         if (property['tag' + i]) {
@@ -45,8 +47,11 @@ function Listing({ property }) {
                     </>)}
                 </Grid>
                 <Grid mt={3}>
-                    <NavLink to={'/property/' + property.propertyId}>
-                        <button>View Details</button>
+                    <NavLink
+                        sx={{ textDecoration: "none" }}
+                        to={'/property/' + property.propertyId}>
+                        <Button color="primary"
+                            variant="contained">View Details</Button>
                         <br></br>
                     </NavLink>
                     <NavLink to={'/apply/' + property.propertyId}>

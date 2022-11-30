@@ -7,7 +7,7 @@ import { blue } from '@mui/material/colors';
 import { NavLink } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 import { UserContext } from '../App';
-function ApplicationDisplay({ tenant_id, property_id, status, onApprove, onDecline }) {
+function ApplicationDisplay({ app_id, tenant_id, property_id, status, onApprove, onDecline }) {
     let currentUser = useContext(UserContext)
     let [tName, setTName] = useState('noName');
     let [pAdd, setPAdd] = useState('');
@@ -49,10 +49,12 @@ function ApplicationDisplay({ tenant_id, property_id, status, onApprove, onDecli
                         currentUser.account_type == 2 && <>
                             <Button color="success"
                                 variant="contained"
-                                label="Approve">Approve</Button>
+                                label="Approve"
+                                onClick={onApprove}>Approve</Button>
                             <Button color="error"
                                 variant="contained"
-                                label="Approve">Deny</Button>
+                                label="Approve"
+                                onClick={onDecline}>Deny</Button>
                         </>
                         ||
                         <>

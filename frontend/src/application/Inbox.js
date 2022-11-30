@@ -7,10 +7,10 @@ function Inbox() {
     let currentUser = useContext(UserContext)
     let [appList, setAppList] = useState([])
     let placeholder = [
-       { tenant:146,landlord:148,property_id: 1,approved:false,response:0},
-       { tenant:147,landlord:148,property_id: 1,approved:false,response:0},
-       { tenant:147,landlord:145,property_id: 1,approved:false,response:2},
-       { tenant:147,landlord:148,property_id: 1,approved:false,response:1},
+       { id: 0, tenant:146,landlord:148,property_id: 1,approved:false,response:0},
+       { id: 1, tenant:147,landlord:148,property_id: 1,approved:false,response:0},
+       { id: 2, tenant:147,landlord:145,property_id: 1,approved:false,response:2},
+       { id: 3, tenant:147,landlord:148,property_id: 1,approved:false,response:1},
     ]
     useEffect(() => {
         // getApplications().then(x => {
@@ -29,10 +29,10 @@ function Inbox() {
 
         }
     }, [])
-    const onApproval = () =>{
-
+    const onApproval = (id) =>{
+        console.log(id)
     }
-    const onDenial = () =>{
+    const onDenial = (id) =>{
         
     }
     return <>
@@ -41,9 +41,12 @@ function Inbox() {
             my="1em"
             mx="auto">
             <Card elevation="5">
-                <CardHeader title={<h5>Incoming Applications</h5>} />
+                <CardHeader title={<h5>{currentUser.account_type==1? "My Applications":
+                "Incoming Applications"} </h5>} />
                 <CardContent width="75%" mx="auto">
                     <ApplicationList
+                    onApprove={onApproval}
+                    onDecline={onDenial}
                     apps={appList}/>
                 </CardContent>
             </Card>

@@ -6,7 +6,6 @@ import { UserContext } from '../App';
 function ApplicationList({ apps, onApprove, onDecline }) {
     let currentUser = useContext(UserContext)
     return apps.length > 0 && <>
-
         {
             apps.map(x => {
 
@@ -16,7 +15,7 @@ function ApplicationList({ apps, onApprove, onDecline }) {
                             tenant_id={x.tenant}
                             property_id={x.property_id}
                             status={x.response}
-                            onApprove={onApprove}
+                            onApprove={()=>onApprove(x.id)}
                             onDecline={onDecline} />)
                 }
                 else if (currentUser.account_type == 1) {

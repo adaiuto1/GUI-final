@@ -34,7 +34,7 @@ export const AddProperty = () =>{
         console.log(values)
     }
     const onSubmit = ()=>{
-        addProperty(values).then(console.log('Property Successfully added!'));
+        addProperty(values).then();
     }
     return<>
         <PropertyForm values={values}

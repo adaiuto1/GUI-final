@@ -67,7 +67,7 @@ function HomePage({ setCurrentUser }) {
                             title={<h3>Inbox</h3>} />
                         <CardContent sx={{ backgroundColor: 'white' }}>
                             <Typography variant="p">{
-                                currentUser.user_id == 1 ?
+                                currentUser.account_type == 1 ?
                                 "View Your Application Status" : "See and respond to applicants"
                             }
                             </Typography>

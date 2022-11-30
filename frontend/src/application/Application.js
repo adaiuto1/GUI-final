@@ -18,8 +18,6 @@ function Application() {
     let id = useParams().id;
     let [currentProperty, setCurrentProperty] = useState({});
     const [values, setValues] = useState(applicationValues);
-  
-    let currProperty = PropertyList.find(x=>x.propertyId==id)
     let currentUser = useContext(UserContext)
     //const applicant = currentUser.userId;
 
