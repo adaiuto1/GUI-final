@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import { createUser, createProfile, getUserByUsername } from "../api";
+import { createUser, getUserByUsername } from "../api";
 import { Navigate } from "react-router-dom";
 // import { AccountList } from "./data/AccountList";
 

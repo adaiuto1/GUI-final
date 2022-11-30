@@ -11,7 +11,9 @@ export const getProperties = () => new Promise((resolve, reject) => {
 });
 
 export const addProperty = (property) => new Promise ((resolve, reject) => { //FIXME not working
-    axios.post(`${apiEndpoint}/postproperty`, property)
+    console.log('Adding:')
+    console.log(property)
+    axios.post(`${apiEndpoint}/property`, property)
     .then(x => resolve(x.data))
     .catch(x => {
         alert(x);
