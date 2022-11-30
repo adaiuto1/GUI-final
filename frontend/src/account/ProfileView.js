@@ -20,7 +20,7 @@ function ProfileView() {
     let id = useParams().id;
     //REPLACE WITH API CALL
     useEffect(()=>{
-        getProfileById(id).then(x=>setCurrProfile(x))
+        getProfileById(id).then(x=>console.log(x))
     }, [])
     let currTags = [];
     for (let i = 1; i < 6; i++) {

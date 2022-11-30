@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileForm from "./ProfileForm";
 import { LoginForm, RegisterForm } from './index';
-import { createProfile, getProfileById } from "../api/profileApi";
+import { getProfileById } from "../api/profileApi";
 
 const theme = createTheme();
 
