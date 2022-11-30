@@ -45,7 +45,7 @@ function HomePage({ setCurrentUser }) {
                     </Card>
                 </NavLink>
                 <NavLink to={"/profile/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
-                    <Card xs={3} elevation="10">
+                    <Card xs={3} elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
                             avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
                                 width="25em" />}
