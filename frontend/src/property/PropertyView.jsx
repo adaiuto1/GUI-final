@@ -30,8 +30,9 @@ export const PropertyView = () => {
     let [rating, setRating] = useState(ratingValues)
     useEffect(() => {
         getPropertyById(id).then(x => {
+            console.log(x.data[0].owner)
             setCurrentProperty(x);
-            getProfileById(140).then(x=>{
+            getProfileById(x.data[0].owner).then(x=>{
                 setPropertyOwner(x.data[0])
             })
         });
