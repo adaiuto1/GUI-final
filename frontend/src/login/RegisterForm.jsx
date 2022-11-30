@@ -7,16 +7,9 @@ import {
     TextField,
     FormControlLabel,
     Grid,
-    Select,
     FormControl,
     Button,
-    MenuItem,
-    OutlinedInput,
-    InputLabel,
-    InputAdornment,
-    IconButton,
     Link,
-    FormLabel,
     RadioGroup,
     Radio
 } from '@mui/material';
@@ -92,6 +85,7 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     type="button"
                     fullWidth
                     variant="contained"
+                    disabled={ !(!!values.username && !!values.password && !!values.passwordConfirmation) }
                     sx={{ mt: 3, mb: 2 }}
                     
                     onClick={() => onSubmit()}>Register</Button>
