@@ -35,27 +35,49 @@ function SearchResults(props) {
     // getProperties.then(x => PropertyList = x);
     // console.log('PropertyList:')
     // console.log(PropertyList)
-
-
     let navigate = useNavigate();
     let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
     const [query, updateQuery] = useState('');
     const [filters, setFilters] = useState(fils);
     const [properties, setProperties] = useState('');
-    console.log('WOOHOO');
     // getProperties().then(x => setProperties(x));
     useEffect(() => {
         updateQuery(searchQuery);
 
-        console.log('Here!!!')
         getProperties().then(x => setProperties(x));
-        console.log('Got Properties!')
-        console.log(properties)
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
         })
     }, [])
+
+    // useEffect(() => {
+    //     if (filters.length > 0) {
+    //         console.log('Updating filters:')
+    //         console.log(filters)
+    //         console.log('Live look at properties:')
+    //         console.log(properties)
+    //         let filteredProperties = {'data': []}
+    //         properties.data.forEach(x => {
+    //             let fits = true;
+    //             filters.forEach(filter => {
+    //                 console.log('Checking for filter:')
+    //                 console.log(filter)    
+    //                 if (!x['tag' + filter]) {
+    //                     fits = false
+    //                 }
+    //             })
+    //             if (fits) {
+    //                 console.log('Filter fits')
+    //                 filteredProperties.data.push(x)
+    //             }
+    //         })
+    //         setProperties(filteredProperties)
+    //         console.log(filteredProperties)
+    //     }
+    // }, [ filters ])
+
+
     const [anchor, setAnchor] = useState(null);
     const openPopover = (event) => {
         setAnchor(event.currentTarget);
@@ -66,22 +88,20 @@ function SearchResults(props) {
         addFil(newFilter);
     }
     const removeFilter = (r) => {
-        console.log('Before (filters): ')
-        console.log(filters);
         let rf = fils.filter(x => x != r);
         setFilters(rf);
-        console.log('After (rf): ')
-        console.log(rf);
         removeFil(r);
     }
     const submitFilterChanges = (event) => {
-        getProperties().then(x => setProperties(x)); //reset properties
+        // getProperties().then(x => setProperties(x)); //reset properties
         
         if (filters.length > 0) {
             console.log('Updating filters:')
             console.log(filters)
-            let filteredProperties = []
-            properties.forEach(x => {
+            console.log('Live look at properties:')
+            console.log(properties)
+            let filteredProperties = {'data': []}
+            properties.data.forEach(x => {
                 let fits = true;
                 filters.forEach(filter => {
                     console.log('Checking for filter:')
@@ -91,15 +111,16 @@ function SearchResults(props) {
                     }
                 })
                 if (fits) {
-                    filteredProperties.push(x)
+                    console.log('Filter fits')
+                    filteredProperties.data.push(x)
                 }
             })
-            setProperties([...filteredProperties])
+            setProperties(filteredProperties)
             console.log(filteredProperties)
         }
-        // else{
-        //     setProperties(PropertyList)
-        // }
+        else{
+            getProperties().then(x => setProperties(x));
+        }
         setAnchor(null);
         // setFilters([])
     }
@@ -107,6 +128,9 @@ function SearchResults(props) {
     if(!properties) {
         return <>Loading...</>
     }
+    
+    console.log('Filter has ' + filters.length + " active filters");
+    console.log('Fils has ' + fils.length + ' active filters');
 
     return (
         <>
@@ -136,7 +160,7 @@ function SearchResults(props) {
             <header className="text-center">
                 <h1>{pageHeader}</h1>
             </header>
-            {console.log('RIGHT BEFORE')}
+            {console.log('Properties right before display:')}
             {console.log(properties)}
             <Grid container align="center" width="80%" mx="auto">
                 {

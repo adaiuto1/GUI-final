@@ -15,6 +15,7 @@ import {
 import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
+import { getPropertyById } from "../api/propertyApi";
 let ratingValues={
     numRatings: 0,
     ratings: []
@@ -27,27 +28,42 @@ export const PropertyView = () => {
     let [propertyOwner, setPropertyOwner] = useState({})
     let [rating, setRating] = useState(ratingValues)
     useEffect(() => {
-        //getPropertyById(id).then(x=>setCurrentProperty(x))
-        setCurrentProperty(PropertyList.find(x => x.propertyId == id))
+        console.log('Searching for id: ' + id);
+        getPropertyById(id).then(x => {
+            setCurrentProperty(x);
+            console.log('Property should now be: ');
+            console.log(x);
+        });
+        console.log('Got the property!');
+        console.log(currentProperty);
+        // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
-    useEffect(() => {
-        let ct = [];
-        for (let i = 1; i <= 7; i++) {
-            if (currentProperty['tag' + i]) {
-                ct.push(filterOptions[i - 1])
-            }
-        }
-        setCurrTags(ct)
-        if (currentProperty.owner) {
-            setPropertyOwner(ProfileList.find(x => x.accountId == currentProperty.owner))
-        }
-        //CALCULATE RATINGS
-    }, [currentProperty])
+    // useEffect(() => {
+    //     console.log('Currently the property is:');
+    //     console.log(currentProperty);
+    //     let ct = [];
+    //     for (let i = 1; i <= 7; i++) {
+    //         if (currentProperty.data[0]['tag' + i]) {
+    //             ct.push(filterOptions[i - 1])
+    //         }
+    //     }
+    //     setCurrTags(ct)
+    //     if (currentProperty.data[0].owner) {
+    //         setPropertyOwner(ProfileList.find(x => x.accountId == currentProperty.owner))
+    //     }
+    //     //CALCULATE RATINGS
+    // }, [currentProperty])
 
+    if (!currentProperty) {
+        console.log('We are loading')
+        return <>Loading...</>
+    }
     return currentProperty && <>
+        {console.log('Property')}
+        {console.log(currentProperty)}
         <Box width="75%" mx="auto" my={4}>
             <Card elevation="10">
-                <CardHeader title={<h3>{currentProperty.address}</h3>} />
+                <CardHeader title={<h3>{currentProperty.data[0].address}</h3>} />
                 <CardContent>
 
                     <Grid container rowSpacing={1} mx={3}>
@@ -60,27 +76,30 @@ export const PropertyView = () => {
                                     <h5 item>Owner: {" "}
                                     <Link to={"/profile_view/" + propertyOwner.accountId}
                                     >{propertyOwner.firstName + " " + propertyOwner.lastName}</Link></h5>
-                                    <h5 item>Monthly Rent: {" $" + currentProperty.monthlyRent}</h5>
-                                    <h5 item>Capacity: {currentProperty.capacity}</h5>
-                                    <h5 item>Size: {" " + currentProperty.sqft + "sqft" }</h5>
+                                    <h5 item>Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</h5>
+                                    <h5 item>Capacity: {currentProperty.data[0].capacity}</h5>
+                                    <h5 item>Size: {" " + currentProperty.data[0].sqft + "sqft" }</h5>
                                 </Box>
                                 <Box mx={2}>
-                                    <Rating value={Math.floor(currentProperty.rating)}></Rating>
+                                    <Rating value={Math.floor(currentProperty.data[0].rating)}></Rating>
                                 </Box>
                             </Card>
                         </Grid>
                         <Grid item xs={5}>
                             <Grid container>
-                                {currTags.map(x => <>
-                                    <Chip key={x}
-                                        label={x}></Chip>
-                                </>)}
+                                {currentProperty.data[0].tag1 === 1 && <Chip label="College Town"></Chip>}
+                                {currentProperty.data[0].tag2 === 1 && <Chip label="Quiet Neighbourhood"></Chip>}
+                                {currentProperty.data[0].tag3 === 1 && <Chip label="Community"></Chip>}
+                                {currentProperty.data[0].tag4 === 1 && <Chip label="Nearby Attractions"></Chip>}
+                                {currentProperty.data[0].tag5 === 1 && <Chip label="Public Transportation"></Chip>}
+                                {currentProperty.data[0].tag6 === 1 && <Chip label="Families"></Chip>}
+                                {currentProperty.data[0].tag7 === 1 && <Chip label="Low Crime"></Chip>}
                             </Grid>
                         </Grid>
                         <Grid item xs={3.5} my={0}>
                             <Grid item xs={12}>
-                                <h5>Allows Smoking: {currentProperty.allowsSmoking ? "Yes" : "No"}</h5>
-                                <h5>Allows Pets: {currentProperty.allowsPets ? "Yes" : "No"}</h5>
+                                <h5>Allows Smoking: {currentProperty.data[0].allowsSmoking ? "Yes" : "No"}</h5>
+                                <h5>Allows Pets: {currentProperty.data[0].allowsPets ? "Yes" : "No"}</h5>
                             </Grid>
                         </Grid>
                     </Grid>

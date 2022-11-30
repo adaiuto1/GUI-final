@@ -3,6 +3,7 @@ import {Card, Box, Typography, Grid} from '@mui/material'
 import {useState, useEffect, useContext} from 'react'
 import { UserContext } from '../App'
 import PropertyForm from './PropertyForm'
+import { addProperty } from '../api/propertyApi'
 const propertyValues ={
     address: '',
 	propertyId: undefined,
@@ -28,7 +29,7 @@ export const AddProperty = () =>{
         console.log(values)
     }
     const onSubmit = ()=>{
-        //FIXME
+        addProperty(values).then(console.log('Property Successfully added!'));
     }
     return<>
         <PropertyForm values={values}

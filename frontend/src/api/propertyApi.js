@@ -19,6 +19,15 @@ export const addProperty = (property) => new Promise ((resolve, reject) => { //F
     });
 });
 
+export const getPropertyById = (id) => new Promise ((resolve, reject) => {
+    axios.get(`${apiEndpoint}/property/${id}`)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
+
 export const getSomeProperties = (searchQuery) => new Promise((resolve, reject) => {
     axios.get(`${apiEndpoint}/getallproperties`)
     .then(x => resolve(x.data))

@@ -14,15 +14,12 @@ export const EditFilters = ({
     removeFilter: removeFilter }) => {
 
     return <>
-        {/* {console.log("The tags")}
-        {console.log(filterOptions)} */}
         <Grid m={3}>
             <Typography variant="h5">Filters</Typography>
             <ToggleButtonGroup value="filters">
                 <Grid>
                     {
                         filterOptions.map((tag, index) => {
-                            // console.log(tag)
                             return <ToggleButton aria-label={tag.name}
                                 value={tag.name}
                                 aria-key={tag.name}
@@ -37,7 +34,6 @@ export const EditFilters = ({
                                 onClick={() => {
                                     let cf = filterOptions.indexOf(tag) + 1;
                                     if (filters.includes(cf)) {
-                                        console.log('BONJOUR')
                                         removeFilter(cf)
                                     }
                                     else {
