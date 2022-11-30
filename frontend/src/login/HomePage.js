@@ -23,7 +23,7 @@ function HomePage({ setCurrentUser }) {
     return (
         <><Box container width={'max-content'} mx={'auto'} my={'5em'}>
             <Grid item container rows={3} columns={1}>
-            {/* <Grid container rows={3} columns={3}> */}
+                {/* <Grid container rows={3} columns={3}> */}
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -57,24 +57,27 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
+
+
+                <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
+                    <Card elevation="10" sx={{ marginX: '1em' }}>
+                        <CardHeader
+                            avatar={<img src="https://icons.veryicon.com/png/o/internet--web/billion-square-cloud/mail-213.png"
+                                width="25em" />}
+                            title={<h3>Inbox</h3>} />
+                        <CardContent sx={{ backgroundColor: 'white' }}>
+                            <Typography variant="p">{
+                                currentUser.user_id == 1 ?
+                                "View Your Application Status" : "See and respond to applicants"
+                            }
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </NavLink>
                 {currentUser.account_type == 1 ? <>
-                    
+
                 </> :
                     <>
-                        <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
-                            <Card elevation="10" sx={{ marginX: '1em' }}>
-                                <CardHeader
-                                    avatar={<img src="https://icons.veryicon.com/png/o/internet--web/billion-square-cloud/mail-213.png"
-                                        width="25em" />}
-                                    title={<h3>Inbox</h3>} />
-                                <CardContent sx={{ backgroundColor: 'white' }}>
-                                    <Typography variant="p">
-                                        See and respond to applicants
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </NavLink>
-                        <br></br>
                         <NavLink to="/newListing" style={{ textDecoration: 'none' }}>
                             <Card elevation="10" sx={{ marginX: '1em' }}>
                                 <CardHeader

@@ -6,16 +6,26 @@ import { getPropertyById } from '../api/propertyApi';
 import { blue } from '@mui/material/colors';
 import { NavLink } from 'react-router-dom';
 import { red } from '@mui/material/colors';
-function ApplicationDisplay({ tenant_id, property_id, onApprove, onDecline }) {
-
+import { UserContext } from '../App';
+function ApplicationDisplay({ tenant_id, property_id, status, onApprove, onDecline }) {
+    let currentUser = useContext(UserContext)
     let [tName, setTName] = useState('noName');
     let [pAdd, setPAdd] = useState('');
+    let title = '';
+    if (status == 0) {
+        title = "Pending"
+    }
+    else if (status == 1) {
+        title = "Approved"
+    }
+    else if (status == 2) {
+        title = "Denied"
+    }
     useEffect(() => {
-        setTName("Tenant Seventy")
 
-        // getProfileById(tenant_id).then(x=>{
-        //     setTName(x.data[0].firstname + " " + x.data[0].lastname)
-        // });
+        getProfileById(tenant_id).then(x => {
+            setTName(x.data[0].firstname + " " + x.data[0].lastname)
+        });
         getPropertyById(property_id).then(x => {
             setPAdd(x.data[0].address)
         })
@@ -34,13 +44,22 @@ function ApplicationDisplay({ tenant_id, property_id, onApprove, onDecline }) {
                 <Box container
                     mt="0"
                     mb='1em'
-                    >
-                    <Button color="success"
-                        variant="contained"
-                        label="Approve">Approve</Button>
-                    <Button color="error"
-                        variant="contained"
-                        label="Approve">Deny</Button></Box>
+                >
+                    {
+                        currentUser.account_type == 2 && <>
+                            <Button color="success"
+                                variant="contained"
+                                label="Approve">Approve</Button>
+                            <Button color="error"
+                                variant="contained"
+                                label="Approve">Deny</Button>
+                        </>
+                        ||
+                        <>
+                        <Typography variant="h5">{title}</Typography>
+                        </>
+                    }
+                </Box>
             </CardContent>
 
         </Card>

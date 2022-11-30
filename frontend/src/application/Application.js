@@ -43,7 +43,7 @@ function Application() {
         getPropertyById(id).then(x=>{
             setCurrentProperty(x.data[0]);
         })
-        changeValue({property_id:+id, landlord:currentProperty.owner, tenant:currentUser.user_id})
+        changeValue({property_id:+id, landlord:+currentProperty.owner, tenant:+currentUser.user_id})
     }, [])
     return currentProperty!={} && <>
         <ApplicationForm
