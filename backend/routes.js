@@ -480,7 +480,7 @@ app.post('/reset', (req, res) => {
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
       const id = req.params.id;
-      connection.query('DELETE FROM property_table WHERE propertyId = ?', [id], function (err, rows, fields) {
+      connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error while deleting property: \n", err);
