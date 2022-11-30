@@ -138,7 +138,7 @@ app.get('/profiles/:id', async (req, res) => {
     } else {
       const id = req.params.id;
       // if there is no issue obtaining a connection, execute query and release connection
-      connection.query('SELECT * FROM profiles WHERE id = ?', [id], function (err, rows, fields) {
+      connection.query('SELECT * FROM profiles WHERE user_id = ?', [id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error while fetching profile: \n", err);

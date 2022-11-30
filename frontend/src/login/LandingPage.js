@@ -107,7 +107,6 @@ const LandingPage = ({ setCurrentUser }) => {
 
   }
   const registerProfile = () =>{
-    
     createProfile(profileValues);
     setCurrentUser(user);
     setActive('login')
