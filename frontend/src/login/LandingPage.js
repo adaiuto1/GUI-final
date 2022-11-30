@@ -97,7 +97,6 @@ const LandingPage = ({ setCurrentUser }) => {
 
   }
   const registerProfile = () =>{
-    debugger;
     createProfile(profileValues);
     setCurrentUser(user);
     setActive('login')
