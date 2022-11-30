@@ -11,4 +11,9 @@ export const getApplications = () => new Promise((resolve, reject) => {
     });
 });
 
-export const addApplication = body => axios.post(`${apiEndpoint}/application`, body);
+export const addApplication = body => {
+    axios.post(`${apiEndpoint}/application`, body).then(x=>{
+        console.log(x);
+        console.log(body)
+    })
+};

@@ -10,14 +10,15 @@ import { NavLink } from "react-router-dom";
 import {
     Typography, Card, Grid, Box, CardHeader,
     CardContent,
-    Avatar, Chip
+    Avatar, Chip, Button
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
 import { getPropertyById } from "../api/propertyApi";
 import { getProfileById } from "../api";
-let ratingValues={
+import {deleteProperty} from '../api/propertyApi'
+let ratingValues = {
     numRatings: 0,
     ratingSum: 0
 }
@@ -32,7 +33,7 @@ export const PropertyView = () => {
         getPropertyById(id).then(x => {
             console.log(x.data[0].owner)
             setCurrentProperty(x);
-            getProfileById(x.data[0].owner).then(x=>{
+            getProfileById(x.data[0].owner).then(x => {
                 setPropertyOwner(x.data[0])
             })
         });
@@ -61,9 +62,14 @@ export const PropertyView = () => {
     return currentProperty && <>
         <Box width="75%" mx="auto" my={4}>
             <Card elevation="10">
-                <CardHeader title={<h3>{currentProperty.data[0].address}</h3>} />
+                <CardHeader title={<><h3>{currentProperty.data[0].address}</h3>
+                    {currentUser.user_id == propertyOwner.user_id && <>
+                        <Button variant="contained" color="primary">Edit</Button>
+                        <>
+                        {currentUser.account_type == 2 && <Button onClick={deleteProperty(currentProperty.data[0].propertyId)}>Delete</Button>
+                        }</>
+                    </>}</>} />
                 <CardContent>
-
                     <Grid container rowSpacing={1} mx={3}>
                         <Grid item xs={7.5}>
                             <img src="https://fecteauhomes.com/assets/image-cache/deercreek.0d4bd2b9.311b3eb9.jpg" />
@@ -72,11 +78,12 @@ export const PropertyView = () => {
                             <Card elevation="5" rounded={true}>
                                 <Box mx={2}>
                                     <h5 item>Owner: {" "}
-                                    <Link to={"/profile_view/" + propertyOwner.user_id}
-                                    >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link></h5>
+                                        <Link to={"/profile_view/" + propertyOwner.user_id}
+                                        >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link></h5>
                                     <h5 item>Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</h5>
                                     <h5 item>Capacity: {currentProperty.data[0].capacity}</h5>
-                                    <h5 item>Size: {" " + currentProperty.data[0].sqft + "sqft" }</h5>
+                                    <h5 item>Size: {" " + currentProperty.data[0].sqft + "sqft"}</h5>
+
                                 </Box>
                                 <Box mx={2}>
                                     <Rating value={Math.floor(currentProperty.data[0].rating)}></Rating>
