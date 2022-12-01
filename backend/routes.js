@@ -629,7 +629,7 @@ app.post('/reset', (req, res) => {
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         const id = req.params.id;
-        connection.query('SELECT * FROM comments WHERE comment_id = ?', req.params.comment_id, function (err, rows, fields) {
+        connection.query('SELECT * FROM comments WHERE comment_id = ?', req.params.id, function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching comments: \n", err);
