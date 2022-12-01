@@ -46,7 +46,7 @@ function HomePage({ setCurrentUser }) {
                         </div>
                     </Card>
                 </NavLink>
-                <NavLink to={"/profile/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
+                <NavLink to={"/profiles/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
                     <Card xs={3} elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
                             avatar={<Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>}
