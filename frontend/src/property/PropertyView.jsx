@@ -55,6 +55,9 @@ export const PropertyView = () => {
         editProperty(currentProperty.data[0].propertyId, currentProperty.data[0]);
         setRatingSubmitted(true);
     }
+    const editProperty = () => {
+        navigate('/editListing/' + id);
+    }
     const _deleteComment = (id) => {
         deleteComment(id)
     }
@@ -82,7 +85,7 @@ export const PropertyView = () => {
                     sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
                     title={<><h3>{currentProperty.data[0].address}</h3>
                         {currentUser.user_id == propertyOwner.user_id && <>
-                            <Button variant="contained" color="primary">Edit</Button>
+                            <Button onClick={() => editProperty()} variant="contained" color="primary">Edit</Button>
                             <>
                                 {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp();}}>Delete</Button>
                                 }</>

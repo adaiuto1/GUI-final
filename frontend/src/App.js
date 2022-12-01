@@ -13,6 +13,7 @@ import Application from './application/Application';
 import AddProperty from './property/addProperty';
 import { PropertyView } from './property/PropertyView';
 import Inbox from './application/Inbox'
+import { EditProperty } from './property/editProperty';
 export const UserContext = createContext();
  
 export const App = () => {
@@ -51,6 +52,7 @@ export const App = () => {
           <Route path='/apply/:id' element={<Application/>}></Route>
           <Route path='/property/:id' element={<PropertyView/>}/>
           <Route path='/newListing' element={<AddProperty/>}/>
+          <Route path='/editListing/:id' element={<EditProperty/>}/>
           <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
           <Route path='/properties' element={<SearchResults/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
