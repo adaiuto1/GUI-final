@@ -58,7 +58,7 @@ export const PropertyView = () => {
     const _deleteComment = (id) => {
         deleteComment(id)
     }
-    const submitReview = (x) => {
+    const submitComment = (x) => {
         let newReview = {
             property_id: currentProperty.data[0].propertyId,
             user_id: currentUser.user_id,
@@ -189,9 +189,8 @@ export const PropertyView = () => {
                                         <Grid item>
 
                                             <Button variant="contained" color="primary"
-                                                onClick={() => submitReview()}>Comment</Button>
+                                                onClick={() => submitComment()}>Comment</Button>
                                         </Grid>
-
                                     </Grid>
                                 </> : <> </>
                             }
