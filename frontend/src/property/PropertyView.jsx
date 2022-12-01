@@ -10,7 +10,8 @@ import { NavLink } from "react-router-dom";
 import {
     Typography, Card, Grid, Box, CardHeader,
     CardContent,
-    Avatar, Chip, Button
+    Avatar, Chip, Button, FormControl,
+    InputLabel, Select, MenuItem
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
@@ -29,9 +30,10 @@ export const PropertyView = () => {
     let [currTags, setCurrTags] = useState([])
     let [propertyOwner, setPropertyOwner] = useState({})
     let [rating, setRating] = useState(ratingValues)
+    const [newRating, setNewRating] = useState(0);
+    const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
         getPropertyById(id).then(x => {
-            console.log(x.data[0].owner)
             setCurrentProperty(x);
             getProfileById(x.data[0].owner).then(x => {
                 setPropertyOwner(x.data[0])
@@ -44,8 +46,20 @@ export const PropertyView = () => {
         deleteProperty(currentProperty.data[0].propertyId)
     }
 
+    const submitRating = () => {
+        console.log('Before:')
+        console.log(currentProperty.data[0].ratingSum)
+        console.log(currentProperty.data[0].numRatings)
+        console.log(newRating)
+        currentProperty.data[0].ratingSum += newRating;
+        currentProperty.data[0].numRatings += 1;
+        console.log('Before:')
+        console.log(currentProperty.data[0].ratingSum)
+        console.log(currentProperty.data[0].numRatings)
+        setRatingSubmitted(true);
+    }
+
     if (!currentProperty) {
-        console.log('We are loading')
         return <>Loading...</>
     }
     return currentProperty && <>
@@ -96,11 +110,54 @@ export const PropertyView = () => {
                                 <h5>Allows Pets: {currentProperty.data[0].allowsPets ? "Yes" : "No"}</h5>
                             </Grid>
                         </Grid>
+                        <Grid width="100%">
+                            {/* This is for spacing */}
+                        </Grid>
+                        
+                        {currentUser.account_type === 1 ?
+                        <Typography align="center">
+                            {ratingSubmitted ? 
+                            <Grid item xs={10}>
+                                <Card elevation="5">
+                                    <h5>Rating Submitted</h5>
+                                </Card>
+                            </Grid>
+                            :
+                            <Grid item xs={10}>
+                                <Card elevation="5">
+                                    <h5>Leave a Rating</h5>
+                                    <FormControl variant="standard">
+                                        <InputLabel>Rating</InputLabel>
+                                        <Select 
+                                            value={newRating}
+                                            onChange={(event) => setNewRating(event.target.value)}
+                                        >
+                                            <MenuItem value={1}>1 star</MenuItem>
+                                            <MenuItem value={2}>2 stars</MenuItem>
+                                            <MenuItem value={3}>3 stars</MenuItem>
+                                            <MenuItem value={4}>4 stars</MenuItem>
+                                            <MenuItem value={5}>5 stars</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <Rating value={newRating}></Rating>
+                                    <Button
+                                        onClick={() => {
+                                            if (newRating > 0) {
+                                                submitRating();
+                                            }
+                                        }}
+                                    >
+                                        Submit</Button>
+                                </Card>
+                            </Grid>
+                            }
+                        </Typography>
+                        :
+                        <></>
+                        }
                     </Grid>
                 </CardContent>
-
             </Card>
-
         </Box>
     </>
         ||
