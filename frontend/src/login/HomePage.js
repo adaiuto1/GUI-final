@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { getNumberOfUsers, getUserById, getUsers } from '../api/userApi'
 import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box } from '@mui/material'
 import { getProfileById } from "../api/profileApi";
-import {Avatar} from "@mui/material";
+import { Avatar } from "@mui/material";
 import { blue } from "@mui/material/colors";
 function HomePage({ setCurrentUser }) {
 
@@ -23,9 +23,9 @@ function HomePage({ setCurrentUser }) {
         setCurrentUser(undefined)
     }
     return (
-        <><Box container width={'max-content'} mx={'auto'} my={'5em'}>
-            <Grid item container rows={3} columns={1}>
-                {/* <Grid container rows={3} columns={3}> */}
+        <><Grid container spacing={2}>
+            {/* <Grid container rows={3} columns={3}> */}
+            <Grid item xs={12} sm={6} md={3}>
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -46,6 +46,8 @@ function HomePage({ setCurrentUser }) {
                         </div>
                     </Card>
                 </NavLink>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
                 <NavLink to={"/profiles/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
                     <Card xs={3} elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -58,8 +60,8 @@ function HomePage({ setCurrentUser }) {
                         </CardContent>
                     </Card>
                 </NavLink>
-
-
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
                 <NavLink to="/inbox" style={{ textDecoration: 'none' }}>
                     <Card elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
@@ -67,14 +69,18 @@ function HomePage({ setCurrentUser }) {
                                 width="25em" />}
                             title={<h3>Inbox</h3>} />
                         <CardContent sx={{ backgroundColor: 'white' }}>
+
                             <Typography variant="p">{
                                 currentUser.account_type == 1 ?
-                                "View Your Application Status" : "See and respond to applicants"
+                                    "View Your Application Status" : "See and respond to applicants"
                             }
                             </Typography>
                         </CardContent>
                     </Card>
                 </NavLink>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
                 {currentUser.account_type == 1 ? <>
 
                 </> :
@@ -89,6 +95,7 @@ function HomePage({ setCurrentUser }) {
                         </NavLink>
                     </>}
             </Grid>
+        </Grid>
             <Grid container>
                 <Button sx={{ width: '40%', marginX: 'auto', marginY: "2%" }}
                     variant="outlined"
@@ -96,7 +103,6 @@ function HomePage({ setCurrentUser }) {
                     onClick={logout}
                 >Logout</Button>
             </Grid>
-        </Box>
         </>
     )
 }

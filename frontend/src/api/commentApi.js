@@ -1,9 +1,14 @@
 import { alignProperty } from '@mui/material/styles/cssUtils';
 import axios from 'axios';
-const apiEndpoint = '//localhost:8000';
-export const getCommentsByProperty = (id) =>{
-    return axios.get(`${apiEndpoint}/comment/${id}`)
-}
+const apiEndpoint = 'http://ec2-54-172-10-241.compute-1.amazonaws.com:8000';
+export const getCommentsByProperty = (id) => new Promise((resolve, reject) => {
+    axios.get(`${apiEndpoint}/comment/${id}`)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
 export const createComment = (comment) =>{
     console.log(comment)
     axios.post(`${apiEndpoint}/comment`, comment);
