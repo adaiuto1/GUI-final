@@ -28,10 +28,11 @@ export const PropertyView = () => {
     let [currTags, setCurrTags] = useState([])
     let [propertyOwner, setPropertyOwner] = useState({})
     let [comment, setComment] = useState()
+    let [comments, setComments] = useState([])
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
-        
+
         getPropertyById(id).then(x => {
             console.log(x)
             setCurrentProperty(x);
@@ -39,7 +40,7 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
-            
+
         });
         // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
@@ -59,10 +60,10 @@ export const PropertyView = () => {
         console.log(currentProperty.data[0].numRatings)
         setRatingSubmitted(true);
     }
-    const _deleteComment = (id)=>{
+    const _deleteComment = (id) => {
         deleteComment(id)
     }
-    const submitReview = (x)=>{
+    const submitReview = (x) => {
         let newReview = {
             property_id: currentProperty.data[0].propertyId,
             user_id: currentUser.user_id,
@@ -71,29 +72,36 @@ export const PropertyView = () => {
         }
         console.log(newReview)
         createComment(newReview)
-        createComment({...newReview, comment: "comment2"})
+        createComment({ ...newReview, comment: "comment2" })
     }
     if (!currentProperty) {
         return <>Loading...</>
     }
     return currentProperty && <>
-        <Box width="75%" mx="auto" my={4}>
-            <Card elevation="10">
-                <CardHeader title={<><h3>{currentProperty.data[0].address}</h3>
-                    {currentUser.user_id == propertyOwner.user_id && <>
-                        <Button variant="contained" color="primary">Edit</Button>
-                        <>
-                            {currentUser.account_type == 2 && <Button onClick={() => deleteProp()}>Delete</Button>
-                            }</>
-                    </>}</>} />
+        <Box width="80%" mx="auto" my={4}>
+            <Card elevation="10"
+            >
+                <CardHeader
+                    sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
+                    title={<><h3>{currentProperty.data[0].address}</h3>
+                        {currentUser.user_id == propertyOwner.user_id && <>
+                            <Button variant="contained" color="primary">Edit</Button>
+                            <>
+                                {currentUser.account_type == 2 && <Button onClick={() => deleteProp()}>Delete</Button>
+                                }</>
+                        </>}</>} />
                 <CardContent>
-                    <Grid container rowSpacing={1} mx={3}>
-                        <Grid item xs={7.5}>
-                            <img src="https://fecteauhomes.com/assets/image-cache/deercreek.0d4bd2b9.311b3eb9.jpg" />
+                    <Grid container Spacing={2} mx={3}>
+                        <Grid item xs={7}>
+
+                            <Box item component="img"
+                                src="https://fecteauhomes.com/assets/image-cache/deercreek.0d4bd2b9.311b3eb9.jpg" />
+
                         </Grid>
-                        <Grid item xs={3.5}>
+                        <Grid item xs={11} md={3}>
                             <Card elevation="5" rounded={true}>
-                                <Box mx={2}>
+                                <Box mx={2}
+                                >
                                     <h5 item>Owner: {" "}
                                         <Link to={"/profile_view/" + propertyOwner.user_id}
                                         >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link></h5>
@@ -107,7 +115,7 @@ export const PropertyView = () => {
                                 </Box>
                             </Card>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5} md={3}lg={3} xl={3} mt={2}>
                             <Grid container>
                                 {currentProperty.data[0].tag1 === 1 && <Chip label="College Town"></Chip>}
                                 {currentProperty.data[0].tag2 === 1 && <Chip label="Quiet Neighbourhood"></Chip>}
@@ -118,69 +126,76 @@ export const PropertyView = () => {
                                 {currentProperty.data[0].tag7 === 1 && <Chip label="Low Crime"></Chip>}
                             </Grid>
                         </Grid>
-                        <Grid item xs={3.5} my={0}>
-                            <Grid item xs={12}>
-                                <h5>Allows Smoking: {currentProperty.data[0].allowsSmoking ? "Yes" : "No"}</h5>
-                                <h5>Allows Pets: {currentProperty.data[0].allowsPets ? "Yes" : "No"}</h5>
-                            </Grid>
+                        <Grid item xs={5} my={0}>
+                            <h5>Allows Smoking: {currentProperty.data[0].allowsSmoking ? "Yes" : "No"}</h5>
+                            <h5>Allows Pets: {currentProperty.data[0].allowsPets ? "Yes" : "No"}</h5>
+
                         </Grid>
                         <Grid width="100%">
                             {/* This is for spacing */}
                         </Grid>
-                        
                         {currentUser.account_type === 1 ?
-                        <Typography align="center">
-                            {ratingSubmitted ? 
-                            <Grid item xs={10}>
-                                <Card elevation="5">
-                                    <h5>Rating Submitted</h5>
-                                </Card>
-                            </Grid>
-                            :
-                            <Grid item xs={10}>
-                                <Card elevation="5">
-                                    <h5>Leave a Rating</h5>
-                                    <FormControl variant="standard">
-                                        <InputLabel>Rating</InputLabel>
-                                        <Select 
-                                            value={newRating}
-                                            onChange={(event) => setNewRating(event.target.value)}
+                            <>
+                                {ratingSubmitted ?
+                                    <Grid item xs={10} sm={5} md={4} lg={3} xl={2}>
+                                        <Typography variant="h6">
+                                            Rating Submitted!
+                                        </Typography>
+                                    </Grid>
+                                    :
+                                    <Grid item xs={11} sm={5} md={4} lg={3} xl={2}
+                                    align="center"
+                                    justifyContent="center">
+
+                                        <Typography variant="h6" mb={2}>Leave a Rating</Typography>
+                                        <FormControl variant="standard">
+                                            <InputLabel>Rating</InputLabel>
+                                            <Select
+                                                sx={{marginX:'1em'}}
+                                                value={newRating}
+                                                onChange={(event) => setNewRating(event.target.value)}
+                                            >
+                                                <MenuItem value={1}>1 star</MenuItem>
+                                                <MenuItem value={2}>2 stars</MenuItem>
+                                                <MenuItem value={3}>3 stars</MenuItem>
+                                                <MenuItem value={4}>4 stars</MenuItem>
+                                                <MenuItem value={5}>5 stars</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <Rating value={newRating}></Rating>
+                                        <br></br>
+                                        <Button
+                                            onClick={() => {
+                                                if (newRating > 0) {
+                                                    submitRating();
+                                                }
+                                            }}
                                         >
-                                            <MenuItem value={1}>1 star</MenuItem>
-                                            <MenuItem value={2}>2 stars</MenuItem>
-                                            <MenuItem value={3}>3 stars</MenuItem>
-                                            <MenuItem value={4}>4 stars</MenuItem>
-                                            <MenuItem value={5}>5 stars</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <Rating value={newRating}></Rating>
-                                    <Button
-                                        onClick={() => {
-                                            if (newRating > 0) {
-                                                submitRating();
-                                            }
-                                        }}
-                                    >
-                                        Submit</Button>
-                                </Card>
-                            </Grid>
-                            }
-                        </Typography>
-                        :
-                        <></>
+                                            Submit</Button>
+                                    </Grid>
+                                }</>
+                            :
+                            <></>
                         }
                         <>
                             {
                                 currentUser.account_type == 1 ? <>
-                                    <TextField
-                                        label={"Leave a comment!"}
-                                        onChange={e=>setComment(e.target.value)}></TextField>
-                                        <Button variant="contained" color="primary"
-                                        onClick={()=>submitReview()}>Comment</Button>
-                                        <Button variant="contained" color="primary"
-                                        onClick={()=>_deleteComment(9)}>delete comment</Button>
+                                    <Grid item container xs={11} sm={6} md={7} lg={8} xl={9} spacing={2}>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                label={"Leave a comment"}
+                                                onChange={e => setComment(e.target.value)}></TextField>
+                                        </Grid>
+                                        <Grid item>
+
+                                            <Button variant="contained" color="primary"
+                                                onClick={() => submitReview()}>Comment</Button>
+                                        </Grid>
+
+                                    </Grid>
                                 </> : <> </>
-                        }
+                            }
                         </>
                     </Grid>
                 </CardContent>
