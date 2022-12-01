@@ -38,9 +38,8 @@ function Listing({ property }) {
             }
                 title={<>
                 <h2>{property.address}</h2>
-                &&
-                {currentUser.account_type==2 && <Button onClick={deleteProperty(property.propertyId)}>Delete</Button>
-                }
+                
+                
                 </>}
                 >
             </CardHeader>

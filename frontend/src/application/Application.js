@@ -8,10 +8,10 @@ import { getPropertyById } from '../api/propertyApi';
 import {addApplication, getApplications} from '../api/applicationApi'
 //import createApplication
 let applicationValues = {
+    id:null,
     tenant: '',
     landlord: '',
     property_id: '',
-    approved: false,
     response: 'empty'
 }
 function Application() {

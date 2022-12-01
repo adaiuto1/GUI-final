@@ -4,6 +4,7 @@ import {useState, useEffect, useContext} from 'react'
 import { UserContext } from '../App'
 import PropertyForm from './PropertyForm'
 import { addProperty } from '../api/propertyApi'
+import { useNavigate } from 'react-router-dom'
 const propertyValues ={
     address: '',
     city:'Dallas',
@@ -28,13 +29,15 @@ const propertyValues ={
 }
 export const AddProperty = () =>{
     let currentUser = useContext(UserContext);
+    const navigate = useNavigate();
+
     let [values, setValues] = useState(propertyValues);
     const changeValue = (delta)=>{
         setValues({...values, ...delta})
         console.log(values)
     }
     const onSubmit = ()=>{
-        addProperty(values).then();
+        addProperty(values).then(navigate('/properties'));
     }
     return<>
         <PropertyForm values={values}
