@@ -54,6 +54,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
+//edit profiles
 app.put('/profiles/:id', async (req, res) => { //this needs more work
   pool.getConnection(function (err, connection){
     if(err){
@@ -86,7 +87,7 @@ app.put('/profiles/:id', async (req, res) => { //this needs more work
 });
 
 
-
+// delete profiles
 app.delete('/profiles/:id', async (req, res) => {
 pool.getConnection(function (err, connection){
 if(err){
@@ -114,6 +115,7 @@ if(err){
 });
 })
 
+//get profiles by id
 app.get('/profiles/:id', async (req, res) => {
   // try { // this is what i was trying but failing to get working
   //     console.log('Initiating GET /profiles/:id req');
@@ -157,7 +159,7 @@ app.get('/profiles/:id', async (req, res) => {
 });
 
 
-
+//get profiles
 app.get('/profiles', async (req, res) => {
   pool.getConnection(function (err, connection){ // I'm throwing the towel. Nothing from class works. Will do the template given
     if(err){
@@ -353,6 +355,7 @@ app.post('/reset', (req, res) => {
     }
   });
 
+  // delete user
   app.delete('/users/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
     if(err){
@@ -469,7 +472,7 @@ app.post('/reset', (req, res) => {
    });
 
 
-   //update property
+   //edit property
    app.put('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
@@ -480,9 +483,9 @@ app.post('/reset', (req, res) => {
        const id = req.params.id // would this just be ID?
        const payload = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-       var query = 'UPDATE property_table SET address = ?, monthlyRent = ?, owner = ?, ratingSum = ?, numRatings = ?, capacity = ?, sqft = ?, allowsPets = ?, allowsSmoking = ?, img = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, tag7 = ?, WHERE propertyId=? )'
+       var query = 'UPDATE property_table SET address = ?, monthlyRent = ?, owner = ?, city = ?, zipcode = ?, ratingSum = ?, numRatings = ?, capacity = ?, sqft = ?, allowsPets = ?, allowsSmoking = ?, img = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, tag7 = ?, WHERE propertyId=? )'
        //none of this is reffered to as the payload now, update it
-       connection.query(query,[payload.address, payload.monthlyRent, payload.owner, payload.ratingSum, payload.numRatings, payload.capacity, payload.sqft, payload.allowsPets,
+       connection.query(query,[payload.address, payload.monthlyRent, payload.owner, payload.city, payload.zipcode, payload.ratingSum, payload.numRatings, payload.capacity, payload.sqft, payload.allowsPets,
        payload.allowsSmoking, payload.img, payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, payload.tag7, id], function (err, rows, fields) {
          connection.release();
          if (err) {
