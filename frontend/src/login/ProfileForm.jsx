@@ -74,9 +74,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                     <Grid>
                         <ToggleButton value="Student"
                             sx={{
-                                backgroundColor: change1 ? 'blue' : 'white',
+                                backgroundColor: change1 ? '#2d78d4' : 'white',
                                 "&:hover": change1 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }
@@ -85,9 +85,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                         >Student</ToggleButton>
                         <ToggleButton value="Married"
                             sx={{
-                                backgroundColor: change2 ? 'blue' : 'white',
+                                backgroundColor: change2 ? '#2d78d4' : 'white',
                                 "&:hover": change2 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }
@@ -96,9 +96,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                         >Married</ToggleButton>
                         <ToggleButton value="Night Owl"
                             sx={{
-                                backgroundColor: change3 ? 'blue' : 'white',
+                                backgroundColor: change3 ? '#2d78d4' : 'white',
                                 "&:hover": change3 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }
@@ -107,9 +107,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                         >Night Owl</ToggleButton>
                         <ToggleButton value="Commuter"
                             sx={{
-                                backgroundColor: change4 ? 'blue' : 'white',
+                                backgroundColor: change4 ? '#2d78d4' : 'white',
                                 "&:hover": change4 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }
@@ -118,9 +118,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                         >Commuter</ToggleButton>
                         <ToggleButton value="Introvert"
                             sx={{
-                                backgroundColor: change5 ? 'blue' : 'white',
+                                backgroundColor: change5 ? '#2d78d4' : 'white',
                                 "&:hover": change5 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }
@@ -129,9 +129,9 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
                         >Introvert</ToggleButton>
                         <ToggleButton value="Extrovert"
                             sx={{
-                                backgroundColor: change6 ? 'blue' : 'white',
+                                backgroundColor: change6 ? '#2d78d4' : 'white',
                                 "&:hover": change6 ? {
-                                    backgroundColor: 'blue'
+                                    backgroundColor: '#2d78d4'
                                 } : {
                                     backgroundColor: 'white'
                                 }

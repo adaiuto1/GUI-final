@@ -47,7 +47,7 @@ export const PropertyView = () => {
         });
     }, [])
     const deleteProp = () => {
-        deleteProperty(currentProperty.data[0].propertyId)
+        deleteProperty(currentProperty.data[0].propertyId).then(navigate('/'));
     }
     const submitRating = () => {
         currentProperty.data[0].ratingSum += newRating;
@@ -84,7 +84,7 @@ export const PropertyView = () => {
                         {currentUser.user_id == propertyOwner.user_id && <>
                             <Button variant="contained" color="primary">Edit</Button>
                             <>
-                                {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp(); navigate('/properties')}}>Delete</Button>
+                                {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp();}}>Delete</Button>
                                 }</>
                         </>}</>} />
                 <CardContent>

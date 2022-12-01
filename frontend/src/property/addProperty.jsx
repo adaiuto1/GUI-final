@@ -37,7 +37,7 @@ export const AddProperty = () =>{
         console.log(values)
     }
     const onSubmit = ()=>{
-        addProperty(values).then(navigate('/properties'));
+        addProperty(values).then(navigate('/'));
     }
     return<>
         <PropertyForm values={values}

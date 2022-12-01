@@ -24,9 +24,9 @@ export const EditFilters = ({
                                 value={tag.name}
                                 aria-key={tag.name}
                                 sx={{
-                                    backgroundColor: tag.active ? 'blue' : 'white',
+                                    backgroundColor: tag.active ? '#2d78d4' : 'white',
                                     "&:hover": tag.active ? {
-                                        backgroundColor: 'blue'
+                                        backgroundColor: '#2d78d4'
                                     } : {
                                         backgroundColor: 'white'
                                     }
