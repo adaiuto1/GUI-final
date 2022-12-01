@@ -55,7 +55,7 @@ export const PropertyView = () => {
         editProperty(currentProperty.data[0].propertyId, currentProperty.data[0]);
         setRatingSubmitted(true);
     }
-    const editProperty = () => {
+    const editProp = () => {
         navigate('/editListing/' + id);
     }
     const _deleteComment = (id) => {
@@ -79,17 +79,18 @@ export const PropertyView = () => {
     }
     return currentProperty && <>
         <Box width="80%" mx="auto" my={4}>
-            <Card elevation="10"
-            >
-                <CardHeader
-                    sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
-                    title={<><h3>{currentProperty.data[0].address}</h3>
-                        {currentUser.user_id == propertyOwner.user_id && <>
-                            <Button onClick={() => editProperty()} variant="contained" color="primary">Edit</Button>
-                            <>
-                                {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp();}}>Delete</Button>
-                                }</>
-                        </>}</>} />
+            <Card elevation="10">
+                <Typography align="center">
+                    <CardHeader
+                        sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
+                        title={<><h3>{currentProperty.data[0].address}</h3>
+                            {currentUser.user_id == propertyOwner.user_id && <>
+                                <Button sx={{ marginX: '1em'}} onClick={() => editProp()} variant="contained" color="primary">Edit</Button>
+                                <>
+                                    {currentUser.account_type == 2 && <Button sx={{ marginX: '1em' }} onClick={() =>{ deleteProp();}} variant="contained" color="primary">Delete</Button>
+                                    }</>
+                            </>}</>} />
+                </Typography>
                 <CardContent>
                     <Grid container Spacing={2} mx={3}>
                         <Grid item xs={7}>
@@ -169,6 +170,7 @@ export const PropertyView = () => {
                                         <Button
                                             onClick={() => {
                                                 if (newRating > 0) {
+                                                    console.log('Here!!');
                                                     submitRating();
                                                 }
                                             }}
