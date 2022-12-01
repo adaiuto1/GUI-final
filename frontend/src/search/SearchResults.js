@@ -33,7 +33,7 @@ function SearchResults(props) {
 
     let currentUser = useContext(UserContext)
     let navigate = useNavigate();
-    let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
+    let pageHeader = (currentUser.account_type === 2) ? "My Properties" : "Search"
     const [query, setQuery] = useState('');
     const [filters, setFilters] = useState(fils);
     const [properties, setProperties] = useState('');
