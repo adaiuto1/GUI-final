@@ -496,7 +496,7 @@ app.post('/reset', (req, res) => {
            logger.error("Error while updating property: \n", err);
            res.status(400).json({
              "data": [],
-             "error": "Error updating property"
+             "error": "Error updating the property"
            })
          } else {
            res.status(200).json({
