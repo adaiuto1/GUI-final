@@ -1,4 +1,5 @@
 const pool = require('./db')
+const bcrypt = require('bcrypt');
 
 // Do I need to export the functions from the profile model?
 
@@ -272,7 +273,12 @@ app.post('/reset', (req, res) => {
             res.status(400).send('Username already exists, please enter a new username'); 
           } else {
             // if there is no error with the query, execute the next query and do not release the connection yet
-            connection.query('INSERT INTO Users(username, password, account_type) VALUES(?,?,?)', [req.body.username, req.body.password, req.body.account_type], function (err, rows, fields) {
+            console.log('Raw password:', req.body.password);
+            const salt = await bcrypt.genSalt(10);
+            console.log('Password salt', salt);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
+            console.log('Hashed password', hashedPassword);
+            connection.query('INSERT INTO Users(username, password, account_type) VALUES(?,?,?)', [req.body.username, hashedPassword, req.body.account_type], function (err, rows, fields) {
               if (err) { 
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
