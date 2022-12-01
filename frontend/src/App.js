@@ -1,5 +1,5 @@
 import './App.css';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import CreateAccount from './login/CreateAccount';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
@@ -16,21 +16,26 @@ import Inbox from './application/Inbox'
 export const UserContext = createContext();
  
 export const App = () => {
+  // current user logic
   const [ currentUser, setCurrentUser ] = useState(undefined);
-
   const _setCurrentUser = user => setCurrentUser(user);
+  useEffect(() => {
+    const temp = window.localStorage.getItem('CURRENT_USER');
+    if (temp !== 'undefined') setCurrentUser(JSON.parse(temp));
+  }, [])
+  useEffect(() => {
+    window.localStorage.setItem('CURRENT_USER', JSON.stringify(currentUser));
+  }, [currentUser])
 
   if (!currentUser) {
     return (
       <Router>
         <Routes>
           <Route path='/' element={ <LandingPage setCurrentUser={ _setCurrentUser }/> }></Route>
-          
         </Routes>
       </Router>
   )}
 
-    console.log(currentUser);
   return (
     <UserContext.Provider value={ currentUser }>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
