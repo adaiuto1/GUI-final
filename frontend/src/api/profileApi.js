@@ -8,6 +8,9 @@ export const getProfileById = (id) =>{
    return axios.get(`${apiEndpoint}/profiles/${id}`).then(x=>x.data)
 }
 export const editProfile = (id, newProf) =>{
+    console.log('Editing profile')
+    console.log(id)
+    console.log(newProf)
     return axios.put(`${apiEndpoint}/profiles/${id}`, newProf)
  }
 export const deleteProfile = (id) =>{
