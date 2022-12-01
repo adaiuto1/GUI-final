@@ -10,7 +10,7 @@ import { UserContext } from '../App';
 import { deleteProperty, getProperties } from '../api/propertyApi';
 import { deleteUser } from '../api';
 import {FormControl, Switch, FormControlLabel, Checkbox} from '@mui/material';
-function ProfileView() {
+function ProfileView({ setCurrentUser }) {
     const navigate = useNavigate();
     let currentUser = useContext(UserContext)
     let tags = ['Student', 'Married', 'Night Owl', 'Commuter', 'Introvert', 'Extrovert'];
