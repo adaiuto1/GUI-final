@@ -12,12 +12,12 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    CardHeader, Box, Button, Popover, Typography, TextField
+    CardHeader, Box, Button, Popover, Typography, TextField, FormControl, MenuItem,
+    InputLabel, Select, 
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Listing from "./Listing";
 import { UserContext } from "../App";
-// export const filterOptions = ['College Town', 'Quiet Neighbourhood', 'Community', 'Nearby Attractions',
-//     'Public Transportation', 'Families', 'Low Crime'];
 export const filterOptions = [
     { 'name': 'College Town', 'active': false },
     { 'name': 'Quiet Neighbourhood', 'active': false },
@@ -31,24 +31,20 @@ export const filterOptions = [
 function SearchResults(props) {
     //TODO: filter by owner if using "my properties" route
 
-    // let PropertyList = getProperties();
-    // let PropertyList;
-    // getProperties.then(x => PropertyList = x);
     let currentUser = useContext(UserContext)
     let navigate = useNavigate();
-    let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
+    let pageHeader = (currentUser.account_type === 2) ? "My Properties" : "Search"
     const [query, setQuery] = useState('');
     const [filters, setFilters] = useState(fils);
     const [properties, setProperties] = useState('');
     const [allProperties, setAllProperties] = useState('');
-    // getProperties().then(x => setProperties(x));
+    const [sort, setSort] = useState('Alphabetical');
     useEffect(() => {
-        // updateQuery(searchQuery);
-
         getProperties().then(x => {
+            x.data.sort((a, b) => a.address.localeCompare(b.address));
             setProperties(x);
             setAllProperties(x);
-            console.log(x)});
+        });
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
@@ -109,12 +105,50 @@ function SearchResults(props) {
         setProperties(filteredProperties)
     }
 
+    const applySort = (event) => {
+        console.log('We are applying sort!');
+        console.log(event)
+        setSort(event.target.value)
+        if (event.target.value === "Alphabetical") {
+            properties.data.sort((a, b) => a.address.localeCompare(b.address))
+        } else if (event.target.value === "Low Rating") {
+            properties.data.sort(function(a, b) {
+                console.log('A:')
+                console.log(a)
+                console.log('B:')
+                console.log(b)
+                if(a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
+                    return -1;
+                if(a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
+                    return 1;
+                return 0;
+            });
+        } else if (event.target.value === "High Rating") {
+            properties.data.sort(function(a, b) {
+                console.log('A:')
+                console.log(a)
+                console.log('B:')
+                console.log(b)
+                if(a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
+                    return -1;
+                if(a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
+                    return 1;
+                return 0;
+            });
+        }
+    }
+
     if(!properties) {
         return <>Loading...</>
     }
 
     return (
         <>
+            <Button
+                variant='contained'
+                color='primary'
+                onClick={() => navigate('/')}>Home</Button>
+
             <Button
                 variant='contained'
                 color='primary'
@@ -156,6 +190,20 @@ function SearchResults(props) {
                         Search</Button>
                 </Typography>
             </header>
+
+            <Typography align="center">
+                <FormControl variant="standard">
+                        <InputLabel>Sorted By</InputLabel>
+                        <Select 
+                            value={sort}
+                            onChange={event => applySort(event)}
+                        >
+                            <MenuItem value="Alphabetical">Alphabetical</MenuItem>
+                            <MenuItem value="Low Rating">Low Rating</MenuItem>
+                            <MenuItem value="High Rating">High Rating</MenuItem>
+                        </Select>
+                </FormControl>
+            </Typography>
 
             <Grid container align="center" width="80%" mx="auto">
                 {

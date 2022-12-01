@@ -10,7 +10,9 @@ export const getUsers = () => {
 export const getUserById = id => {
     return axios.get(`${apiEndpoint}/users/${id}`).then(x => x.data);
 }
-
+export const deleteUser = (id) =>{
+    return axios.delete(`${apiEndpoint}/users/${id}`)
+}
 export const getUserByUsername = username => axios.get(`${apiEndpoint}/users?username=${username}`);
 
 export const createUser = body => axios.post(`${apiEndpoint}/users`, body);

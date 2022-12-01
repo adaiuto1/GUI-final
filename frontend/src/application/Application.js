@@ -3,54 +3,56 @@ import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../App';
 import ApplicationForm from './ApplicationForm';
-import {PropertyList} from '../data/PropertyList'
+import { PropertyList } from '../data/PropertyList'
 import { getPropertyById } from '../api/propertyApi';
-import {addApplication, getApplications} from '../api/applicationApi'
+import { addApplication, getApplications } from '../api/applicationApi'
 //import createApplication
 let applicationValues = {
     tenant: '',
     landlord: '',
     property_id: '',
-    approved: false,
-    response: 'empty'
+    response: 0,
+    application_id: ''
 }
 function Application() {
     let id = useParams().id;
     let [currentProperty, setCurrentProperty] = useState({});
     const [values, setValues] = useState(applicationValues);
     let currentUser = useContext(UserContext)
-    //const applicant = currentUser.userId;
+    let [currLord, setCurrLord] = useState({});
 
     const changeValue = (delta) => {
         setValues({ ...values, ...delta })
     }
     const onSubmit = () => {
-        
-        if(!values.landlord){
-            if(currentProperty.owner){
-                changeValue({landlord:currentProperty.owner})
+        if (!values.landlord) {
+            if (currentProperty.owner) {
+                changeValue({ landlord: currLord })
             }
-            else{
+            else {
                 console.log('no property')
             }
         }
         console.log(values)
         addApplication(values);
+        
     }
     useEffect(() => {
-        getPropertyById(id).then(x=>{
+        getPropertyById(id).then(x => {
             setCurrentProperty(x.data[0]);
+            setCurrLord(x.data[0].owner);
+            console.log(x.data[0].owner)
+            changeValue({ property_id: +id, landlord: x.data[0].owner, tenant: +currentUser.user_id })
         })
-        changeValue({property_id:+id, landlord:+currentProperty.owner, tenant:+currentUser.user_id})
     }, [])
-    return currentProperty!={} && <>
+    return currentProperty != {} && <>
         <ApplicationForm
             values={values}
             changeValue={changeValue}
             onSubmit={onSubmit}
-        >
+            currentProperty={currentProperty}
+            currLord={currLord}>   
         </ApplicationForm>
-        <Typography>{currentProperty.address}</Typography>
     </>
 }
 export default Application;

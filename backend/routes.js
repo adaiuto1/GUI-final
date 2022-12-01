@@ -54,6 +54,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
+//edit profiles
 app.put('/profiles/:id', async (req, res) => { //this needs more work
   pool.getConnection(function (err, connection){
     if(err){
@@ -64,10 +65,10 @@ app.put('/profiles/:id', async (req, res) => { //this needs more work
       const payload = req.body; // This payload should be an object containing update profile data
       const id = req.params.id; // And pull the ID from the req params
       // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6, WHERE id=?  '
+      var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, WHERE user_id=?  '
       //none of this is reffered to as the payload now, update it
       connection.query(query,[payload.firstName, payload.lastName, payload.bio, payload.smoker, payload.petFriendly,
-        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, req.query.id], function (err, rows, fields) {
+        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error editing profile: \n", err);
@@ -86,7 +87,7 @@ app.put('/profiles/:id', async (req, res) => { //this needs more work
 });
 
 
-
+// delete profiles
 app.delete('/profiles/:id', async (req, res) => {
 pool.getConnection(function (err, connection){
 if(err){
@@ -96,7 +97,7 @@ if(err){
 } else {
   // if there is no issue obtaining a connection, execute query and release connection
   const id = req.params.id;
-  connection.query('DELETE FROM profiles WHERE id = ?', [id], function (err, rows, fields) {
+  connection.query('DELETE FROM profiles WHERE user_id = ?', [id], function (err, rows, fields) {
     connection.release();
     if (err) {
       logger.error("Error while deleting profile: \n", err);
@@ -114,6 +115,7 @@ if(err){
 });
 })
 
+//get profiles by id
 app.get('/profiles/:id', async (req, res) => {
   // try { // this is what i was trying but failing to get working
   //     console.log('Initiating GET /profiles/:id req');
@@ -157,7 +159,7 @@ app.get('/profiles/:id', async (req, res) => {
 });
 
 
-
+//get profiles
 app.get('/profiles', async (req, res) => {
   pool.getConnection(function (err, connection){ // I'm throwing the towel. Nothing from class works. Will do the template given
     if(err){
@@ -353,6 +355,33 @@ app.post('/reset', (req, res) => {
     }
   });
 
+  // delete user
+  app.delete('/users/:id', async (req, res) => {
+    pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query('DELETE FROM Users WHERE user_id = ?', [req.params.id], function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          logger.error("Error while deleting user: \n", err);
+          res.status(400).json({
+            "data": [],
+            "error": "Error deleting user"
+          })
+        } else {
+          res.status(200).json({
+            "data": rows
+          });
+        }
+      });
+    }
+    });
+    })
+
 
   // Property Functions
 
@@ -382,6 +411,7 @@ app.post('/reset', (req, res) => {
     });
   })
 
+  // get property by id
   app.get('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){ 
       if(err){
@@ -409,6 +439,7 @@ app.post('/reset', (req, res) => {
     });
   });
 
+  // create property
   app.post('/property', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
@@ -440,6 +471,8 @@ app.post('/reset', (req, res) => {
      });
    });
 
+
+   //edit property
    app.put('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
@@ -447,13 +480,11 @@ app.post('/reset', (req, res) => {
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection'); 
      } else {
-       const id = req.params.id // would this just be ID?
        const payload = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-       var query = 'UPDATE property_table SET address = ?, monthlyRent = ?, owner = ?, ratingSum = ?, numRatings = ?, capacity = ?, sqft = ?, allowsPets = ?, allowsSmoking = ?, img = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, tag7 = ?, WHERE propertyId=? )'
+       var query = 'UPDATE property_table SET address = ?, monthlyRent = ?, owner = ?, city = ?, zipcode = ?, ratingSum = ?, numRatings = ?, capacity = ?, sqft = ?, allowsPets = ?, allowsSmoking = ?, img = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, tag7 = ? WHERE propertyId = ? '
        //none of this is reffered to as the payload now, update it
-       connection.query(query,[payload.address, payload.monthlyRent, payload.owner, payload.ratingSum, payload.numRatings, payload.capacity, payload.sqft, payload.allowsPets,
-       payload.allowsSmoking, payload.img, payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, payload.tag7, id], function (err, rows, fields) {
+       connection.query(query,[payload.address, payload.monthlyRent, payload.owner, payload.city, payload.zipcode, payload.ratingSum, payload.numRatings, payload.capacity, payload.sqft, payload.allowsPets, payload.allowsSmoking, payload.img, payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, payload.tag7, payload.propertyId], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while updating property: \n", err);
@@ -471,61 +502,91 @@ app.post('/reset', (req, res) => {
      });
    });
 
-   app.delete('/property/:id', async (req, res) => {
-    pool.getConnection(function (err, connection){
-    if(err){
-      // if there is an issue obtaining a connection, release the connection instance and log the error
-      logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
-    } else {
-      // if there is no issue obtaining a connection, execute query and release connection
-      connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.propertyId], function (err, rows, fields) {
-        connection.release();
-        if (err) {
-          logger.error("Error while deleting property: \n", err);
-          res.status(400).json({
-            "data": [],
-            "error": "Error deleting property"
-          })
+
+   app.delete('/property/:id', (req, res) => {
+    if (!("id" in req.params)){
+      res.status(400).send({
+        success: false,
+        response: "Missing required field: `id`",
+      });
+    }
+    else{
+      pool.getConnection(function (err, connection){
+        if(err){
+          logger.error('Problem obtaining MySQL connection',err)
+          res.status(400).send('Problem obtaining MySQL connection');
         } else {
-          res.status(200).json({
-            "data": rows
+          connection.query('DELETE FROM property_table WHERE propertyId = ?', [req.params.id], function (err, rows, fields) {
+            connection.release();
+            if (err) {
+              logger.error("Error while deleting property: \n", err);
+              res.status(400).json({
+                "data": [],
+                "error": "Error deleting property"
+              })
+            } else {
+              res.status(200).json({
+                "data": rows
+              });
+            }
           });
         }
       });
     }
-    });
-    })
+  });
 
-    // POST /createprofile
-  app.post('/application', async (req, res) => {
-    console.log('\n' + req.body.firstname);
+  // POST user
+  app.post('/application', (req, res) => {
+    console.log(req.body);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if (err){
+        console.log(connection);
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection', err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no error with the query, execute the next query and do not release the connection yet
+        connection.query('INSERT INTO applications(tenant, landlord, property_id, response, application_id) VALUES(?,?,?,?,?)', [req.body.tenant, req.body.landlord, req.body.property_id, req.body.response, req.body.application_id], function (err, rows, fields) {
+          if (err) { 
+            // if there is an error with the query, release the connection instance and log the error
+            connection.release()
+            logger.error("Problem creating application: \n", err);
+            res.status(400).send('Problem creating application'); 
+          } else { 
+            // if there is no error with the query, release the connection instance
+            connection.release()
+            res.status(200).send('created new application'); 
+          }
+        });
+      }
+    });
+  });
+
+  app.get('/application', (req, res) => {
+    // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection');
+        res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
-        // const id = req.params.id; // And pull the ID from the req params
-        const payload = req.body; // This payload should be an object containing update profile data
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'INSERT INTO applications (tenant, landlord, property_id, response, application_id) VALUES (?,?,?,?,?)'
-        //none of this is reffered to as the payload now, update it
-        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
-        connection.release();
-        if (err) {
-          logger.error("Error while inserting new application: \n", err);
-          res.status(400).json({
-            "data": [],
-            "error": "Error creating application"
-          })
-        } else {
-          res.status(200).json({
-            "data": rows
-          });
-        }
-      });
-    }
+        connection.query('SELECT * FROM applications', function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            logger.error("Error while fetching applications: \n", err);
+            res.status(400).json({
+              "data": [],
+              "error": "Error obtaining applications"
+            })
+          } else {
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
     });
   });
 
@@ -538,9 +599,8 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection');
       } else {
         const payload = req.body; // This payload should be an object containing update profile data
-        const id = req.params.id; // And pull the ID from the req params
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ?, application_id = ?, WHERE id=? '
+        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ? WHERE application_id = ? '
         //none of this is reffered to as the payload now, update it
         connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
           connection.release();
@@ -568,11 +628,8 @@ app.post('/reset', (req, res) => {
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection');
      } else {
-       const body = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-       var query = 'INSERT INTO comments(property_id, user_id, comment)'
-       //none of this is reffered to as the payload now, update it
-       connection.query(query,[body.property_id, body.user_id, body.comment], function (err, rows, fields) {
+       connection.query('INSERT INTO comments(property_id, user_id, comment, comment_id) VALUES(?,?,?,?)', [req.body.property_id, req.body.user_id, req.body.comment, req.body.comment_id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while posting the comment: \n", err);
@@ -599,7 +656,7 @@ app.post('/reset', (req, res) => {
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         const id = req.params.id;
-        connection.query('SELECT * FROM comments WHERE property_id = ?', [id], function (err, rows, fields) {
+        connection.query('SELECT * FROM comments WHERE comment_id = ?', req.params.id, function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error while fetching comments: \n", err);
@@ -617,18 +674,16 @@ app.post('/reset', (req, res) => {
     });
   });
 
-   app.delete('/comment/:id/:prop_id', async (req, res) => {
+   app.delete('/comment/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection');
      } else {
-       const body = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-
        //none of this is reffered to as the payload now, update it
-       connection.query('DELETE FROM comments WHERE property_id = ? AND user_id = ?', [body.property_id, body.user_id], function (err, rows, fields) {
+       connection.query('DELETE FROM comments WHERE comment_id = ?', [req.params.id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while deleting the comment: \n", err);

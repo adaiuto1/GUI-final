@@ -8,6 +8,8 @@ import { NavLink } from "react-router-dom";
 import { getNumberOfUsers, getUserById, getUsers } from '../api/userApi'
 import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box } from '@mui/material'
 import { getProfileById } from "../api/profileApi";
+import {Avatar} from "@mui/material";
+import { blue } from "@mui/material/colors";
 function HomePage({ setCurrentUser }) {
 
     const currentUser = useContext(UserContext);
@@ -45,10 +47,9 @@ function HomePage({ setCurrentUser }) {
                     </Card>
                 </NavLink>
                 <NavLink to={"/profile/" + currentUser.user_id} style={{ textDecoration: 'none' }}>
-                    <Card xs={3} elevation="10">
+                    <Card xs={3} elevation="10" sx={{ marginX: '1em' }}>
                         <CardHeader
-                            avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
-                                width="25em" />}
+                            avatar={<Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>}
                             title={<h3>Profile</h3>} />
                         <CardContent sx={{ backgroundColor: 'white' }}>
                             <Typography variant="p">

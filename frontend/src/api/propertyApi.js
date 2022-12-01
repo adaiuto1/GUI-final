@@ -9,7 +9,14 @@ export const getProperties = () => new Promise((resolve, reject) => {
         reject(x);
     });
 });
-
+export const editProperty = (id, newProp) => new Promise((resolve, reject) => {
+    axios.put(`${apiEndpoint}/property/${id}`, newProp)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
 export const addProperty = (property) => new Promise ((resolve, reject) => { //FIXME not working
     console.log(property)
 
@@ -32,6 +39,7 @@ export const getPropertyById = (id) => new Promise ((resolve, reject) => {
 });
 
 export const deleteProperty = (id) => new Promise ((resolve, reject) => {
+    console.log(id)
     axios.delete(`${apiEndpoint}/property/${id}`, id)
     .then(x => resolve(x.data))
     .catch(x => {

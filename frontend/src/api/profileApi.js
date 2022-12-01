@@ -7,3 +7,9 @@ export const createProfile = (profile) =>{
 export const getProfileById = (id) =>{
    return axios.get(`${apiEndpoint}/profiles/${id}`).then(x=>x.data)
 }
+export const editProfile = (id, newProf) =>{
+    return axios.put(`${apiEndpoint}/profiles/${id}`, newProf)
+ }
+export const deleteProfile = (id) =>{
+    return axios.delete(`${apiEndpoint}/profiles/${id}`)
+}
