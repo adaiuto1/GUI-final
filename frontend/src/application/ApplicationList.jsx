@@ -15,8 +15,8 @@ function ApplicationList({ apps, onApprove, onDecline }) {
                             tenant_id={x.tenant}
                             property_id={x.property_id}
                             status={x.response}
-                            onApprove={()=>onApprove(x.id)}
-                            onDecline={onDecline} />)
+                            onApprove={()=>onApprove(x)}
+                            onDecline={()=>onDecline(x)} />)
                 }
                 else if (currentUser.account_type == 1) {
                     return (
@@ -24,8 +24,8 @@ function ApplicationList({ apps, onApprove, onDecline }) {
                             tenant_id={x.tenant}
                             property_id={x.property_id}
                             status={+x.response}
-                            onApprove={onApprove}
-                            onDecline={onDecline} />)
+                            onApprove={()=>onApprove(x)}
+                            onDecline={()=>onDecline(x)} />)
                 }
             })
         }

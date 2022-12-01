@@ -3,7 +3,7 @@ import axios from 'axios';
 const apiEndpoint = '//localhost:8000';
 
 export const getApplications = () => new Promise((resolve, reject) => {
-    return axios.get(`${apiEndpoint}/applications`)
+    return axios.get(`${apiEndpoint}/application`)
     .then(x => resolve(x.data))
     .catch(x => {
         alert(x);
@@ -17,3 +17,6 @@ export const addApplication = body => {
         
     })
 };
+export const putApplication = (id, editedApp) => new Promise((resolve, reject)=>{
+    axios.put(`${apiEndpoint}/application/${id}`, editedApp)
+})

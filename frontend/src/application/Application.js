@@ -12,7 +12,7 @@ let applicationValues = {
     landlord: '',
     property_id: '',
     response: 0,
-    application_id: null
+    application_id: ''
 }
 function Application() {
     let id = useParams().id;
@@ -35,6 +35,7 @@ function Application() {
         }
         console.log(values)
         addApplication(values);
+        
     }
     useEffect(() => {
         getPropertyById(id).then(x => {

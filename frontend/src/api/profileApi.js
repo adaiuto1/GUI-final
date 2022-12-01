@@ -11,3 +11,6 @@ export const getProfileById = (id) =>{
 export const editProfile = (id, newProf) =>{
     return axios.put(`${apiEndpoint}/profiles/${id}`, newProf)
  }
+export const deleteProfile = (id) =>{
+    return axios.delete(`${apiEndpoint}/profiles/${id}`)
+}

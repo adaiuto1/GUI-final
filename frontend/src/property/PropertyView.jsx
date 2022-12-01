@@ -11,25 +11,23 @@ import {
     Typography, Card, Grid, Box, CardHeader,
     CardContent,
     Avatar, Chip, Button, FormControl,
-    InputLabel, Select, MenuItem
+    InputLabel, Select, MenuItem, TextField
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
 import { editProperty, getPropertyById } from "../api/propertyApi";
 import { getProfileById } from "../api";
-import {deleteProperty} from '../api/propertyApi'
-let ratingValues = {
-    numRatings: 0,
-    ratingSum: 0
-}
+import { deleteProperty } from '../api/propertyApi'
+import { createComment, deleteComment, getCommentsByProperty } from "../api/commentApi";
+
 export const PropertyView = () => {
     let id = useParams().id;
     let currentUser = useContext(UserContext);
     let [currentProperty, setCurrentProperty] = useState('')
     let [currTags, setCurrTags] = useState([])
     let [propertyOwner, setPropertyOwner] = useState({})
-    let [rating, setRating] = useState(ratingValues)
+    let [comment, setComment] = useState()
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
@@ -45,10 +43,10 @@ export const PropertyView = () => {
         });
         // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
-    const deleteProp = ()=>{
+
+    const deleteProp = () => {
         deleteProperty(currentProperty.data[0].propertyId)
     }
-
     const submitRating = () => {
         console.log('Before:')
         console.log(currentProperty.data[0].ratingSum)
@@ -61,7 +59,20 @@ export const PropertyView = () => {
         console.log(currentProperty.data[0].numRatings)
         setRatingSubmitted(true);
     }
-
+    const _deleteComment = (id)=>{
+        deleteComment(id)
+    }
+    const submitReview = (x)=>{
+        let newReview = {
+            property_id: currentProperty.data[0].propertyId,
+            user_id: currentUser.user_id,
+            comment: comment,
+            comment_id: ''
+        }
+        console.log(newReview)
+        createComment(newReview)
+        createComment({...newReview, comment: "comment2"})
+    }
     if (!currentProperty) {
         return <>Loading...</>
     }
@@ -72,8 +83,8 @@ export const PropertyView = () => {
                     {currentUser.user_id == propertyOwner.user_id && <>
                         <Button variant="contained" color="primary">Edit</Button>
                         <>
-                        {currentUser.account_type == 2 && <Button onClick={()=>deleteProp()}>Delete</Button>
-                        }</>
+                            {currentUser.account_type == 2 && <Button onClick={() => deleteProp()}>Delete</Button>
+                            }</>
                     </>}</>} />
                 <CardContent>
                     <Grid container rowSpacing={1} mx={3}>
@@ -158,6 +169,19 @@ export const PropertyView = () => {
                         :
                         <></>
                         }
+                        <>
+                            {
+                                currentUser.account_type == 1 ? <>
+                                    <TextField
+                                        label={"Leave a comment!"}
+                                        onChange={e=>setComment(e.target.value)}></TextField>
+                                        <Button variant="contained" color="primary"
+                                        onClick={()=>submitReview()}>Comment</Button>
+                                        <Button variant="contained" color="primary"
+                                        onClick={()=>_deleteComment(9)}>delete comment</Button>
+                                </> : <> </>
+                        }
+                        </>
                     </Grid>
                 </CardContent>
             </Card>

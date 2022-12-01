@@ -5,8 +5,10 @@ import { ProfileList } from '../data/ProfileList';
 import TrueFalseLabel from '../common/TrueFalseLabel';
 import { Paper, Typography, Box, Button, Card, Avatar, CardHeader, CardContent, Grid, Chip } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { editProfile, getProfileById } from '../api/profileApi';
+import { deleteProfile, editProfile, getProfileById } from '../api/profileApi';
 import { UserContext } from '../App';
+import { getProperties } from '../api/propertyApi';
+import { deleteUser } from '../api';
 function ProfileView() {
     let currentUser = useContext(UserContext)
     let tags = ['Student', 'Married', 'Early Bird', 'Night Owl', 'Introvert', 'Extrovert'];
@@ -34,6 +36,10 @@ function ProfileView() {
             editProfile(id, np)
         })
     }, [])
+    const deleteAccount = () =>{
+        deleteProfile(currentUser.user_id);
+        deleteUser(currentUser.user_id)
+    }
     return (
         currTags &&
         <>
@@ -69,10 +75,11 @@ function ProfileView() {
                                     <Button>Edit Profile</Button>
                                     </>
                                 }
+                                <Button onClick={()=>deleteAccount()}>Delete Profile</Button>
                             </Grid>
                         </Grid>
                     </CardContent>
-
+                            
                 </Card>
             </Box>
         </>
