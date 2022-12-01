@@ -266,7 +266,7 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query
-        connection.query('SELECT * FROM Users WHERE username = ?', req.body.username, function (err, rows, fields) {
+        connection.query('SELECT * FROM Users WHERE username = ?', req.body.username, async function (err, rows, fields) {
           if (err) { 
             // if there is an error with the query, release the connection instance and log the error
             connection.release()
