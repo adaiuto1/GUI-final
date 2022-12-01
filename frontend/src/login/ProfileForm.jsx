@@ -6,28 +6,26 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import {
     Box,
-    Avatar,
     Typography,
     TextField,
-    FormControlLabel,
     Grid,
     FormControl,
     Button,
-    OutlinedInput,
-    InputLabel,
-    InputAdornment,
-    IconButton,
-    Link,
     ToggleButtonGroup,
     ToggleButton,
     Radio,
     RadioGroup,
     Switch
 } from '@mui/material';
-import { currentUser } from "../api/getterApi";
 function ProfileForm({ values, onChange, onSubmit, changeView }) {
     
-    return <>
+    return <Box sx={{
+                    my: 8,
+                    mx: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    }}>
         <Typography component="h1" variant="h5">
             Create Profile
         </Typography>
@@ -54,28 +52,30 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
             value={values.lastname}
             onChange={e => onChange({ lastname: e.target.value })} />
         <ToggleButtonGroup sx={{ mx: 3 }} color="primary">
-            <ToggleButton value="Student"
-                onClick={e => onChange({ tag1: !values.tag1 })}
-            >Student</ToggleButton>
-            <ToggleButton value="Married"
-                onClick={e => onChange({ tag2: !values.tag2 })}
-            >Married</ToggleButton>
-            <ToggleButton value="Night Owl"
-                onClick={e => onChange({ tag3: !values.tag3 })}
-            >Night Owl</ToggleButton>
-            <ToggleButton value="Commuter"
-                onClick={e => onChange({ tag4: !values.tag4 })}
-            >Commuter</ToggleButton>
-            <ToggleButton value="Introvert"
-                onClick={e => onChange({ tag5: !values.tag5 })}
-            >Introvert</ToggleButton>
-            <ToggleButton value="Extrovert"
-                onClick={e => onChange({ tag6: !values.tag6 })}
-            >Extrovert</ToggleButton>
+            <Grid container>
+                <Grid item><ToggleButton value="Student"
+                    onClick={e => onChange({ tag1: !values.tag1 })}
+                >Student</ToggleButton></Grid>
+                <Grid item><ToggleButton value="Married"
+                    onClick={e => onChange({ tag2: !values.tag2 })}
+                >Married</ToggleButton></Grid>
+                <Grid item><ToggleButton value="Night Owl"
+                    onClick={e => onChange({ tag3: !values.tag3 })}
+                >Night Owl</ToggleButton></Grid>
+                <Grid item><ToggleButton value="Commuter"
+                    onClick={e => onChange({ tag4: !values.tag4 })}
+                >Commuter</ToggleButton></Grid>
+                <Grid item><ToggleButton value="Introvert"
+                    onClick={e => onChange({ tag5: !values.tag5 })}
+                >Introvert</ToggleButton></Grid>
+                <Grid item><ToggleButton value="Extrovert"
+                    onClick={e => onChange({ tag6: !values.tag6 })}
+                >Extrovert</ToggleButton></Grid>
+            </Grid>
         </ToggleButtonGroup>
         <Grid container m={3}>
-            <Typography>Create a bio</Typography>
-            <TextField onChange={e=>onChange({bio: e.target.value})}/>
+            
+            <TextField label="Bio" onChange={e=>onChange({bio: e.target.value})}/>
             <FormControl>
                 <Typography>Do you smoke?</Typography>
                 <Switch
@@ -91,6 +91,6 @@ function ProfileForm({ values, onChange, onSubmit, changeView }) {
             variant="contained"
             sx={{ mt: 3, mb: 2, mx: 5 }}
             onClick={() => onSubmit()}>Complete Profile</Button>
-    </>
+    </Box>
 }
 export default ProfileForm;
