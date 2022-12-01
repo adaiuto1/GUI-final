@@ -516,7 +516,7 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no error with the query, execute the next query and do not release the connection yet
-        connection.query('INSERT INTO aplications(tenant, landlord, property_id, response, application_id) VALUES(?,?,?,?,?)', [req.body.tenant, req.body.landlord, req.body.property_id, req.body.response, req.body.application_id], function (err, rows, fields) {
+        connection.query('INSERT INTO applications(tenant, landlord, property_id, response, application_id) VALUES(?,?,?,?,?)', [req.body.tenant, req.body.landlord, req.body.property_id, req.body.response, req.body.application_id], function (err, rows, fields) {
           if (err) { 
             // if there is an error with the query, release the connection instance and log the error
             connection.release()
