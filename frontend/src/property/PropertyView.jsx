@@ -40,6 +40,7 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
+            console.log('Getting comments:')
             getCommentsByProperty(id).then(x=>{
                 console.log(x)
             })
