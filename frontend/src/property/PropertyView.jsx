@@ -39,21 +39,10 @@ export const PropertyView = () => {
         });
         // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
-    // useEffect(() => {
-    //     console.log('Currently the property is:');
-    //     console.log(currentProperty);
-    //     let ct = [];
-    //     for (let i = 1; i <= 7; i++) {
-    //         if (currentProperty.data[0]['tag' + i]) {
-    //             ct.push(filterOptions[i - 1])
-    //         }
-    //     }
-    //     setCurrTags(ct)
-    //     if (currentProperty.data[0].owner) {
-    //         setPropertyOwner(ProfileList.find(x => x.accountId == currentProperty.owner))
-    //     }
-    //     //CALCULATE RATINGS
-    // }, [currentProperty])
+
+    const deleteProp = ()=>{
+        deleteProperty(currentProperty.data[0].propertyId)
+    }
 
     if (!currentProperty) {
         console.log('We are loading')
@@ -66,7 +55,7 @@ export const PropertyView = () => {
                     {currentUser.user_id == propertyOwner.user_id && <>
                         <Button variant="contained" color="primary">Edit</Button>
                         <>
-                        {currentUser.account_type == 2 && <Button onClick={deleteProperty(currentProperty.data[0].propertyId)}>Delete</Button>
+                        {currentUser.account_type == 2 && <Button onClick={()=>deleteProp()}>Delete</Button>
                         }</>
                     </>}</>} />
                 <CardContent>

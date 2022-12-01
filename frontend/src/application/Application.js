@@ -3,34 +3,34 @@ import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../App';
 import ApplicationForm from './ApplicationForm';
-import {PropertyList} from '../data/PropertyList'
+import { PropertyList } from '../data/PropertyList'
 import { getPropertyById } from '../api/propertyApi';
-import {addApplication, getApplications} from '../api/applicationApi'
+import { addApplication, getApplications } from '../api/applicationApi'
 //import createApplication
 let applicationValues = {
-    id:null,
     tenant: '',
     landlord: '',
     property_id: '',
-    response: 'empty'
+    response: 0,
+    application_id: null
 }
 function Application() {
     let id = useParams().id;
     let [currentProperty, setCurrentProperty] = useState({});
     const [values, setValues] = useState(applicationValues);
     let currentUser = useContext(UserContext)
-    //const applicant = currentUser.userId;
+    let [currLord, setCurrLord] = useState(undefined);
 
     const changeValue = (delta) => {
         setValues({ ...values, ...delta })
     }
     const onSubmit = () => {
-        
-        if(!values.landlord){
-            if(currentProperty.owner){
-                changeValue({landlord:currentProperty.owner})
+
+        if (!values.landlord) {
+            if (currentProperty.owner) {
+                changeValue({ landlord: currLord })
             }
-            else{
+            else {
                 console.log('no property')
             }
         }
@@ -38,12 +38,14 @@ function Application() {
         addApplication(values);
     }
     useEffect(() => {
-        getPropertyById(id).then(x=>{
+        getPropertyById(id).then(x => {
             setCurrentProperty(x.data[0]);
+            setCurrLord(x.data[0].owner);
+            changeValue({ property_id: +id, landlord: x.data[0].owner, tenant: +currentUser.user_id })
+
         })
-        changeValue({property_id:+id, landlord:+currentProperty.owner, tenant:+currentUser.user_id})
     }, [])
-    return currentProperty!={} && <>
+    return currentProperty != {} && <>
         <ApplicationForm
             values={values}
             changeValue={changeValue}
