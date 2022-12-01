@@ -505,7 +505,6 @@ app.post('/reset', (req, res) => {
   });
 
   app.post('/application', async (req, res) => {
-    console.log('\n' + req.body.firstname);
     pool.getConnection(function (err, connection){
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -544,7 +543,6 @@ app.post('/reset', (req, res) => {
         res.status(400).send('Problem obtaining MySQL connection');
       } else {
         const payload = req.body; // This payload should be an object containing update profile data
-        const id = req.params.id; // And pull the ID from the req params
         // if there is no issue obtaining a connection, execute query and release connection
         var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ?, application_id = ?, WHERE id=? '
         //none of this is reffered to as the payload now, update it
