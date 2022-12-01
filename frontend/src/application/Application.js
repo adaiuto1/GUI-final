@@ -19,13 +19,12 @@ function Application() {
     let [currentProperty, setCurrentProperty] = useState({});
     const [values, setValues] = useState(applicationValues);
     let currentUser = useContext(UserContext)
-    let [currLord, setCurrLord] = useState(undefined);
+    let [currLord, setCurrLord] = useState({});
 
     const changeValue = (delta) => {
         setValues({ ...values, ...delta })
     }
     const onSubmit = () => {
-
         if (!values.landlord) {
             if (currentProperty.owner) {
                 changeValue({ landlord: currLord })
@@ -41,8 +40,8 @@ function Application() {
         getPropertyById(id).then(x => {
             setCurrentProperty(x.data[0]);
             setCurrLord(x.data[0].owner);
+            console.log(x.data[0].owner)
             changeValue({ property_id: +id, landlord: x.data[0].owner, tenant: +currentUser.user_id })
-
         })
     }, [])
     return currentProperty != {} && <>
@@ -50,9 +49,9 @@ function Application() {
             values={values}
             changeValue={changeValue}
             onSubmit={onSubmit}
-        >
+            currentProperty={currentProperty}
+            currLord={currLord}>   
         </ApplicationForm>
-        <Typography>{currentProperty.address}</Typography>
     </>
 }
 export default Application;

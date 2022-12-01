@@ -16,7 +16,7 @@ import {
 import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { filterOptions } from "../api/getterApi";
-import { getPropertyById } from "../api/propertyApi";
+import { editProperty, getPropertyById } from "../api/propertyApi";
 import { getProfileById } from "../api";
 import {deleteProperty} from '../api/propertyApi'
 let ratingValues = {
@@ -33,15 +33,18 @@ export const PropertyView = () => {
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
+        
         getPropertyById(id).then(x => {
+            console.log(x)
             setCurrentProperty(x);
             getProfileById(x.data[0].owner).then(x => {
                 setPropertyOwner(x.data[0])
             })
+            console.log(x.data[0].propertyId)
+            
         });
         // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
-
     const deleteProp = ()=>{
         deleteProperty(currentProperty.data[0].propertyId)
     }

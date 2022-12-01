@@ -5,7 +5,7 @@ import { ProfileList } from '../data/ProfileList';
 import TrueFalseLabel from '../common/TrueFalseLabel';
 import { Paper, Typography, Box, Button, Card, Avatar, CardHeader, CardContent, Grid, Chip } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { getProfileById } from '../api/profileApi';
+import { editProfile, getProfileById } from '../api/profileApi';
 import { UserContext } from '../App';
 function ProfileView() {
     let currentUser = useContext(UserContext)
@@ -27,7 +27,11 @@ function ProfileView() {
     }, [currProfile])
     useEffect(() => {
         getProfileById(id).then(x => {
+            console.log(x)
             setCurrProfile(x.data[0]);
+            let np = {...x.data[0], firstname: "CHANGEF"}
+            console.log(np)
+            editProfile(id, np)
         })
     }, [])
     return (
