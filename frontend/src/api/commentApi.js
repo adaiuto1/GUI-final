@@ -5,6 +5,7 @@ export const getCommentsByProperty = (id) =>{
     return axios.get(`${apiEndpoint}/comment/${id}`)
 }
 export const createComment = (comment) =>{
+    console.log(comment)
     axios.post(`${apiEndpoint}/comment`, comment);
 }
 export const deleteComment = (id)=>{
