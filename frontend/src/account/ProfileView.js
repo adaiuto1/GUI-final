@@ -19,11 +19,11 @@ function ProfileView() {
         setCurrTags([...currTags, tag])
     }
     let id = useParams().id;
-    useEffect(()=>{
+    useEffect(() => {
         setCurrTags([])
         for (let i = 1; i < 6; i++) {
             if (currProfile['tag' + i]) {
-                setCurrTags(current=>[...current, tags[i-1]])
+                setCurrTags(current => [...current, tags[i - 1]])
             }
         }
     }, [currProfile])
@@ -31,12 +31,9 @@ function ProfileView() {
         getProfileById(id).then(x => {
             console.log(x)
             setCurrProfile(x.data[0]);
-            let np = {...x.data[0], firstname: "CHANGEF"}
-            console.log(np)
-            editProfile(id, np)
         })
     }, [])
-    const deleteAccount = () =>{
+    const deleteAccount = () => {
         deleteProfile(currentUser.user_id);
         deleteUser(currentUser.user_id)
     }
@@ -71,15 +68,17 @@ function ProfileView() {
                             </Grid>
                             <Grid item xs={6}>
                                 {
-                                    currProfile.user_id == currentUser.user_id &&<>
-                                    <Button>Edit Profile</Button>
+                                    currProfile.user_id == currentUser.user_id && <>
+
+                                        <Button>Edit Profile</Button>
+                                        <Button onClick={() => deleteAccount()}>Delete Account</Button>
+
                                     </>
                                 }
-                                <Button onClick={()=>deleteAccount()}>Delete Profile</Button>
                             </Grid>
                         </Grid>
                     </CardContent>
-                            
+
                 </Card>
             </Box>
         </>
