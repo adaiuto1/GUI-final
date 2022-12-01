@@ -68,7 +68,7 @@ app.put('/profiles/:id', async (req, res) => { //this needs more work
       var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ? bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6, WHERE user_id=?  '
       //none of this is reffered to as the payload now, update it
       connection.query(query,[payload.firstName, payload.lastName, payload.bio, payload.smoker, payload.petFriendly,
-        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, req.query.id], function (err, rows, fields) {
+        payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, id], function (err, rows, fields) {
         connection.release();
         if (err) {
           logger.error("Error editing profile: \n", err);
