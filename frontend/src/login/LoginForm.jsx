@@ -61,13 +61,11 @@ export const LoginForm = ({ values, onChange, onSubmit, changeView }) => {
                 disabled={ !(!!values.username && !!values.password) }
                 sx={{ mt: 3, mb: 2 }}
                 onClick={ () => onSubmit() }>Sign In</Button>
-            <Grid container>
-            <Grid item>
+            <Typography align='center'>
                 <Link onClick={ () => changeView('register') } variant="body2">
                 {"Don't have an account? Sign Up"}
                 </Link>
-            </Grid>
-            </Grid>
+            </Typography>
         </Box>
         </Box>
     )

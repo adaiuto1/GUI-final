@@ -89,14 +89,12 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     sx={{ mt: 3, mb: 2 }}
                     
                     onClick={() => onSubmit()}>Register</Button>
-
-                <Grid container>
-                    <Grid item>
-                        <Link onClick={() => changeView('login')} variant="body2">
-                            {"Already have an account? Login"}
-                        </Link>
-                    </Grid>
-                </Grid>
+                
+                <Typography align='center'>
+                    <Link onClick={() => changeView('login')} variant="body2">
+                        {"Already have an account? Login"}
+                    </Link>
+                </Typography>
             </Box>
         </Box>
     )
