@@ -47,13 +47,13 @@ export const App = () => {
           {/* <Route path='/' element={<HomePage/>}></Route> */}
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
           <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
-          <Route path='/profiles/:id' element={<ProfileView/>}></Route>
+          <Route path='/profiles/:id' element={<ProfileView setCurrentUser={ _setCurrentUser }/>}></Route>
           <Route path='/properties' element={<SearchResults/>}></Route>
           <Route path='/apply/:id' element={<Application/>}></Route>
           <Route path='/property/:id' element={<PropertyView/>}/>
           <Route path='/newListing' element={<AddProperty/>}/>
           <Route path='/editListing/:id' element={<EditProperty/>}/>
-          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
+          <Route path='/profile_view/:id' element={<ProfileView />}></Route>
           <Route path='/properties' element={<SearchResults/>}></Route>
           <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
           <Route path='/inbox' element={<Inbox/>}/>

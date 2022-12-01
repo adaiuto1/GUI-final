@@ -50,14 +50,12 @@ const LandingPage = ({ setCurrentUser }) => {
   }
 
   const validateUser = () => {
-    
-
     if (values.username && values.password) { // update logic to check password
       getUserByUsername(values.username).then(x => {
         if (x.data.data.length > 0 && values.password === x.data.data[0].password) {
           setCurrentUser(x.data.data[0]);
         } else {
-          
+          alert('No user with matching credentials found');
         }
       })
     }

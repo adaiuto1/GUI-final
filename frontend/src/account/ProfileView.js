@@ -10,7 +10,7 @@ import { UserContext } from '../App';
 import { getProperties } from '../api/propertyApi';
 import { deleteUser } from '../api';
 import {FormControl, Switch, FormControlLabel, Checkbox} from '@mui/material';
-function ProfileView() {
+function ProfileView({ setCurrentUser }) {
     const navigate = useNavigate();
     let currentUser = useContext(UserContext)
     let tags = ['Student', 'Married', 'Night Owl', 'Commuter', 'Introvert', 'Extrovert'];
@@ -45,6 +45,8 @@ function ProfileView() {
     const deleteAccount = () => {
         deleteProfile(currentUser.user_id);
         deleteUser(currentUser.user_id);
+        setCurrentUser(undefined);
+        navigate('/');
     }
     const saveChanges = () => {
         editProfile(currentUser.user_id, currProfile);
