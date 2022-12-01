@@ -92,6 +92,11 @@ function HomePage({ setCurrentUser }) {
                                 avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
                                     width="25em" />}
                                 title={<h3>Create New Listing</h3>} />
+                            <CardContent>
+                                <Typography variant="p">
+                                    Create and add properties
+                                </Typography>
+                            </CardContent>
                         </Card>
                     </NavLink>
                 </Grid>
