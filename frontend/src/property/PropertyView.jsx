@@ -74,6 +74,7 @@ export const PropertyView = () => {
         setCommentsChanged(commentsChanged+1)
     }
     const submitComment = (x) => {
+        setCommentsChanged(commentsChanged+1)
         let newComment = {
             property_id: currentProperty.data[0].propertyId,
             user_id: currentUser.user_id,

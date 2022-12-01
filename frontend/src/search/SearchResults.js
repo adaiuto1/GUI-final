@@ -13,7 +13,7 @@ import {
     CardContent,
     CardActions,
     CardHeader, Box, Button, Popover, Typography, TextField, FormControl, MenuItem,
-    InputLabel, Select, 
+    InputLabel, Select,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Listing from "./Listing";
@@ -87,7 +87,7 @@ function SearchResults(props) {
     }
 
     const submitQuery = () => {
-        let filteredProperties = {'data': []};
+        let filteredProperties = { 'data': [] };
         allProperties.data.forEach(x => {
             let fits = true;
             filters.forEach(filter => {
@@ -106,124 +106,125 @@ function SearchResults(props) {
     }
 
     const applySort = (event) => {
-        console.log('We are applying sort!');
-        console.log(event)
         setSort(event.target.value)
         if (event.target.value === "Alphabetical") {
             properties.data.sort((a, b) => a.address.localeCompare(b.address))
         } else if (event.target.value === "Low Rating") {
-            properties.data.sort(function(a, b) {
-                console.log('A:')
-                console.log(a)
-                console.log('B:')
-                console.log(b)
-                if(a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
+            properties.data.sort(function (a, b) {
+                if (a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
                     return -1;
-                if(a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
+                if (a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
                     return 1;
                 return 0;
             });
         } else if (event.target.value === "High Rating") {
-            properties.data.sort(function(a, b) {
-                console.log('A:')
-                console.log(a)
-                console.log('B:')
-                console.log(b)
-                if(a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
+            properties.data.sort(function (a, b) {
+                if (a.ratingSum / a.numRatings > b.ratingSum / b.numRatings)
                     return -1;
-                if(a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
+                if (a.ratingSum / a.numRatings < b.ratingSum / b.numRatings)
                     return 1;
                 return 0;
             });
         }
     }
 
-    if(!properties) {
+    if (!properties) {
         return <>Loading...</>
     }
 
     return (
         <>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={() => navigate('/')}>Home</Button>
+            <Grid container mx={3} align="center" justifyContent="center">
+                <Grid container mt={4}>
+                    <Grid item xs={4} sm={3} lg={1}>
+                        <Button
+                            fullWidth
+                            variant='contained'
+                            color='primary'
+                            onClick={() => navigate('/')}>Home</Button>
+                    </Grid>
 
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={openPopover}
-                sx={{ float: 'right' }}>Edit Filters</Button>
-            <Popover
-                open={anchor}
-                anchorEl={anchor}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'left'
-                }}
-                transformOrigin={{
-                    vertical: 'center',
-                    horizontal: 'center'
-                }}
-                onClose={submitFilterChanges}
-            >
-                <EditFilters filterOptions={filterOptions}
-                    addFilter={addFilter}
-                    removeFilter={removeFilter} />
-            </Popover>
-
-            <br />
-
-            <header className="text-center">
-                <Typography align="center">
-                    <h1>{pageHeader}</h1>
-                </Typography>
-                <Typography align="center">
-                    <TextField onChange={ x => {
-                         setQuery(x.target.value);
-                    }} /> {/* The Search Bar */}
-                </Typography>
-                <Typography align="center">
-                    <Button variant="contained"
-                            onClick={() => submitQuery()}
+                    <Popover
+                        open={anchor}
+                        anchorEl={anchor}
+                        anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'left'
+                        }}
+                        transformOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center'
+                        }}
+                        onClose={submitFilterChanges}
                     >
-                        Search</Button>
-                </Typography>
-            </header>
+                        <EditFilters filterOptions={filterOptions}
+                            addFilter={addFilter}
+                            removeFilter={removeFilter} />
+                    </Popover>
+                </Grid>
 
-            <Typography align="center">
-                <FormControl variant="standard">
-                        <InputLabel>Sorted By</InputLabel>
-                        <Select 
-                            value={sort}
-                            onChange={event => applySort(event)}
-                        >
-                            <MenuItem value="Alphabetical">Alphabetical</MenuItem>
-                            <MenuItem value="Low Rating">Low Rating</MenuItem>
-                            <MenuItem value="High Rating">High Rating</MenuItem>
-                        </Select>
-                </FormControl>
-            </Typography>
-
-            <Grid container align="center" width="80%" mx="auto">
-                {
-                    properties.data.map(x => {
-                        if (currentUser.account_type == 2) {
-                            return x.owner == currentUser.user_id && <>
-                                <Grid item key={x} m={2} xs={5} sx={{ height: '40%' }}>
-                                    <Listing property={x}></Listing>
-                                </Grid>
-                            </>
-                        }
-                        else {
-                            return <>
-                                <Grid item key={x} m={2} xs={5} sx={{ height: '40%' }}>
-                                    <Listing property={x}></Listing>
-                                </Grid></>
-                        }
-                    })
-                }
+                <Grid container m={3} spacing={2}>
+                    <Grid item xs={2} align="right">
+                        <Typography variant="h6" >
+                            {pageHeader}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={11} md={7}>
+                        <TextField
+                            fullWidth onChange={x => {
+                                setQuery(x.target.value);
+                            }} />
+                    </Grid>
+                    <Grid item>
+                            <Button variant="contained"
+                                onClick={() => submitQuery()}>
+                                Search</Button>
+                    </Grid>
+                </Grid>
+                <Grid container justifyContent={"center"}>
+                    <Typography align="center">
+                        <FormControl variant="standard">
+                            <InputLabel>Sorted By</InputLabel>
+                            <Select
+                                value={sort}
+                                onChange={event => applySort(event)}
+                            >
+                                <MenuItem value="Alphabetical">Alphabetical</MenuItem>
+                                <MenuItem value="Low Rating">Low Rating</MenuItem>
+                                <MenuItem value="High Rating">High Rating</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Typography>
+                    <Grid item xs={4} sm={3} lg={1}>
+                        <Button
+                            fullWidth
+                            variant='contained'
+                            color='primary'
+                            onClick={openPopover}
+                            sx={{ float: 'right' }}>Edit Filters</Button>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} justifyContent={"center"} >
+                    {
+                        properties.data.map(x => {
+                            if (currentUser.account_type == 2) {
+                                return x.owner == currentUser.user_id && <>
+                                    <Grid item key={x} xs={11} md={5}>
+                                        <Listing property={x}></Listing>
+                                    </Grid>
+                                </>
+                            }
+                            else {
+                                return <>
+                                    <Grid item key={x} xs={11} md={5}>
+                                        <Listing property={x}></Listing>
+                                    </Grid></>
+                            }
+                        })
+                    }
+                </Grid>
             </Grid>
+
         </>
     )
 }
