@@ -41,7 +41,7 @@ export const App = () => {
           {/* <Route path='/' element={<HomePage/>}></Route> */}
           <Route path='/create_account/:id' element={<CreateAccount/>}></Route>
           <Route path='/create_profile/:id' element={<CreateProfile/>}></Route>
-          <Route path='/profile/:id' element={<ProfileView/>}></Route>
+          <Route path='/profiles/:id' element={<ProfileView/>}></Route>
           <Route path='/properties' element={<SearchResults/>}></Route>
           <Route path='/apply/:id' element={<Application/>}></Route>
           <Route path='/property/:id' element={<PropertyView/>}/>
