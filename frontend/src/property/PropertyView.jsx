@@ -1,7 +1,7 @@
 import { PropertyList } from "../data/PropertyList";
 import { ProfileList } from "../data/ProfileList"
 import { AccountList } from "../data/AccountList";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import TrueFalseLabel from '../common/TrueFalseLabel';
 import { Rating } from '../common/rating';
 import { UserContext } from "../App";
@@ -23,6 +23,7 @@ import { createComment, deleteComment, getCommentsByProperty } from "../api/comm
 
 export const PropertyView = () => {
     let id = useParams().id;
+    let navigate = useNavigate();
     let currentUser = useContext(UserContext);
     let [currentProperty, setCurrentProperty] = useState('')
     let [currTags, setCurrTags] = useState([])
@@ -49,18 +50,9 @@ export const PropertyView = () => {
         deleteProperty(currentProperty.data[0].propertyId)
     }
     const submitRating = () => {
-        console.log('Before:')
-        console.log(currentProperty.data[0].ratingSum)
-        console.log(currentProperty.data[0].numRatings)
-        console.log(newRating)
         currentProperty.data[0].ratingSum += newRating;
         currentProperty.data[0].numRatings += 1;
-        console.log(currentProperty);
-        console.log(currentProperty.data[0]);
         editProperty(currentProperty.data[0].propertyId, currentProperty.data[0]);
-        console.log('After:')
-        console.log(currentProperty.data[0].ratingSum)
-        console.log(currentProperty.data[0].numRatings)
         setRatingSubmitted(true);
     }
     const _deleteComment = (id) => {
@@ -90,7 +82,7 @@ export const PropertyView = () => {
                         {currentUser.user_id == propertyOwner.user_id && <>
                             <Button variant="contained" color="primary">Edit</Button>
                             <>
-                                {currentUser.account_type == 2 && <Button onClick={() => deleteProp()}>Delete</Button>
+                                {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp(); navigate('/properties')}}>Delete</Button>
                                 }</>
                         </>}</>} />
                 <CardContent>
