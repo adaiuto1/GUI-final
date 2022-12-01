@@ -75,7 +75,7 @@ export const PropertyView = () => {
 
                                 </Box>
                                 <Box mx={2}>
-                                    <Rating value={Math.floor(currentProperty.data[0].rating)}></Rating>
+                                    <Rating value={Math.floor(currentProperty.data[0].ratingSum / currentProperty.data[0].numRatings)}></Rating>
                                 </Box>
                             </Card>
                         </Grid>
