@@ -673,18 +673,16 @@ app.post('/reset', (req, res) => {
     });
   });
 
-   app.delete('/comment/:id/:prop_id', async (req, res) => {
+   app.delete('/comment/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
        // if there is an issue obtaining a connection, release the connection instance and log the error
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection');
      } else {
-       const body = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-
        //none of this is reffered to as the payload now, update it
-       connection.query('DELETE FROM comments WHERE property_id = ? AND user_id = ?', [body.property_id, body.user_id], function (err, rows, fields) {
+       connection.query('DELETE FROM comments WHERE comment_id = ?', [req.params.id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while deleting the comment: \n", err);
