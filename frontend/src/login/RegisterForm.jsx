@@ -13,13 +13,18 @@ import {
     RadioGroup,
     Radio
 } from '@mui/material';
+import { useState } from 'react';
 import { Navigate, NavLink } from 'react-router-dom';
 const userTypes = {
     'tenant': 1,
     'landlord': 2
 }
 
-export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
+export const RegisterForm = ({ values, onChange, onSubmit, view, changeView }) => {
+    const [usernameError, setUsernameError] = useState('');
+    const [password1Error, setPassword1Error] = useState('');
+    const [password2Error, setPassword2Error] = useState('');
+
     return (
         <Box
             sx={{
@@ -47,7 +52,19 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     autoComplete="username"
                     autoFocus
                     value={values.username}
-                    onChange={e => onChange({ username: e.target.value })} />
+                    helperText={usernameError}
+                    error={!!usernameError}
+                    onChange={ e => {
+                        const newVal = e.target.value;
+                        if (newVal.match(/[%<>\\$'"  !#]/)) {
+                            setUsernameError("Forbidden character");
+                        } else if (newVal.length < 8) {
+                            setUsernameError("Username must be at least 8 characters");
+                        } else {
+                            setUsernameError("");
+                        }
+                        onChange({ username: newVal })
+                }}/>
                 <TextField
                     margin="normal"
                     required
@@ -58,7 +75,19 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     id="password"
                     autoComplete="current-password"
                     value={values.password}
-                    onChange={e => onChange({ password: e.target.value })} />
+                    helperText={password1Error}
+                    error={!!password1Error}
+                    onChange={ e => {
+                        const newVal = e.target.value;
+                        onChange({ password: newVal })
+                        if (newVal.match(/ /)) {
+                            setPassword1Error("Password cannot contain spaces");
+                        } else if (newVal.length < 8) {
+                            setPassword1Error("Password must be at least 8 characters long");
+                        } else {
+                            setPassword1Error('');
+                        }
+                    }}/>
                 <TextField
                     margin="normal"
                     required
@@ -69,7 +98,17 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                     id="password-confirmation"
                     autoComplete="current-password"
                     value={values.passwordConfirmation}
-                    onChange={e => onChange({ passwordConfirmation: e.target.value })} />
+                    helperText={password2Error}
+                    error={!!password2Error}
+                    onChange={ e => {
+                        const newVal = e.target.value;
+                        onChange({ passwordConfirmation: newVal })
+                        if (newVal !== values.password) {
+                            setPassword2Error('Passwords do not match')
+                        } else {
+                            setPassword2Error('');
+                        }
+                    }}/>
                 <FormControl>
                     {/* <FormLabel id="demo-radio-buttons-group-label"></FormLabel> */}
                     <RadioGroup
@@ -81,20 +120,22 @@ export const RegisterForm = ({ values, onChange, onSubmit, changeView }) => {
                         <FormControlLabel value="landlord" control={<Radio />} label="Landlord" />
                     </RadioGroup>
                 </FormControl>
-                <Button
+                { view === 'register' && <><Button
                     type="button"
                     fullWidth
                     variant="contained"
-                    disabled={ !(!!values.username && !!values.password && !!values.passwordConfirmation) }
+                    disabled={ !(!!values.username && !!values.password && !!values.passwordConfirmation && !usernameError && !password1Error && !password2Error) }
                     sx={{ mt: 3, mb: 2 }}
                     
                     onClick={() => onSubmit()}>Register</Button>
-                
-                <Typography align='center'>
-                    <Link onClick={() => changeView('login')} variant="body2">
-                        {"Already have an account? Login"}
-                    </Link>
-                </Typography>
+
+                <Grid container>
+                    <Grid item>
+                        <Link onClick={() => changeView('login')} variant="body2">
+                            {"Already have an account? Login"}
+                        </Link>
+                    </Grid>
+                </Grid></> }     
             </Box>
         </Box>
     )

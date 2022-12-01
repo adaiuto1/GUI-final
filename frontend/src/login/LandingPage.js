@@ -132,6 +132,7 @@ const LandingPage = ({ setCurrentUser }) => {
             <RegisterForm values={values}
               onChange={_setValue}
               onSubmit={registerUser}
+              view={active}
               changeView={_setActive} />}
           {active === 'createProfile' ?
             <ProfileForm changeView={_setActive}

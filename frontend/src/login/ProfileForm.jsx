@@ -7,25 +7,17 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import {
     Box,
-    Avatar,
     Typography,
     TextField,
-    FormControlLabel,
     Grid,
     FormControl,
     Button,
-    OutlinedInput,
-    InputLabel,
-    InputAdornment,
-    IconButton,
-    Link,
     ToggleButtonGroup,
     ToggleButton,
     Radio,
     RadioGroup,
     Switch
 } from '@mui/material';
-import { currentUser } from "../api/getterApi";
 function ProfileForm({ values, onChange, onSubmit, changeView }) {
     const [change1, setChange1] = useState(false);
     const [change2, setChange2] = useState(false);
