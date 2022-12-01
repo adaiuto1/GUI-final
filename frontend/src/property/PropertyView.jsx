@@ -30,9 +30,12 @@ export const PropertyView = () => {
     let [propertyOwner, setPropertyOwner] = useState({})
     let [comment, setComment] = useState()
     let [comments, setComments] = useState([])
+    let [commentsChanged, setCommentsChanged] = useState(0)
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
+        setComments(comments.filter(x=>x.comment_id<0))
+
         getPropertyById(id).then(x => {
             console.log(x)
             setCurrentProperty(x);
@@ -40,24 +43,22 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
+            setCommentsChanged(commentsChanged+1)
         });
     }, [])
     useEffect(() => {
-        setComments([]);
+        setComments(comments.filter(x=>x.comment_id<0))
         getAllComments().then(x => {
             x.data.forEach(c => {
                 if (c.property_id == id) {
-                    addComment(c)
+                    setComments(current=>[...current,c])
+                    console.log(comments)
                 }
             })
-            console.log(comments)
         })
-    }, [propertyOwner])
+    }, [commentsChanged])
     const deleteProp = () => {
         deleteProperty(currentProperty.data[0].propertyId).then(navigate('/'));
-    }
-    const addComment = (nc) => {
-        setComments(current => [...current, nc])
     }
     const submitRating = () => {
         currentProperty.data[0].ratingSum += newRating;
@@ -70,7 +71,7 @@ export const PropertyView = () => {
     }
     const _deleteComment = (id) => {
         deleteComment(id)
-        setComments(comments.filter(x=>x.comment_id != id))
+        setCommentsChanged(commentsChanged+1)
     }
     const submitComment = (x) => {
         let newComment = {
@@ -80,6 +81,7 @@ export const PropertyView = () => {
             comment_id: ''
         }
         createComment(newComment)
+        setCommentsChanged(commentsChanged+1)
     }
     if (!currentProperty) {
         return <>Loading...</>
@@ -122,7 +124,7 @@ export const PropertyView = () => {
                                 </Box>
                                 <Box mx={2}>
                                     <Rating value={Math.floor(currentProperty.data[0].ratingSum / currentProperty.data[0].numRatings)}></Rating>
-                                    <Typography>{'(' + currentProperty.numRatings + ')'}</Typography>
+                                    <Typography>{'(' + currentProperty.data[0].numRatings + ')'}</Typography>
                                 </Box>
                             </Card>
                         </Grid>
