@@ -54,7 +54,10 @@ export const PropertyView = () => {
         console.log(newRating)
         currentProperty.data[0].ratingSum += newRating;
         currentProperty.data[0].numRatings += 1;
-        console.log('Before:')
+        console.log(currentProperty);
+        console.log(currentProperty.data[0]);
+        editProperty(currentProperty.data[0].propertyId, currentProperty.data[0]);
+        console.log('After:')
         console.log(currentProperty.data[0].ratingSum)
         console.log(currentProperty.data[0].numRatings)
         setRatingSubmitted(true);
