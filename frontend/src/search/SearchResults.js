@@ -33,7 +33,7 @@ function SearchResults(props) {
 
     let currentUser = useContext(UserContext)
     let navigate = useNavigate();
-    let pageHeader = (props.onlyMine == true) ? "My Properties" : "Search"
+    let pageHeader = (currentUser.account_type === 2) ? "My Properties" : "Search"
     const [query, setQuery] = useState('');
     const [filters, setFilters] = useState(fils);
     const [properties, setProperties] = useState('');
@@ -41,17 +41,10 @@ function SearchResults(props) {
     const [sort, setSort] = useState('Alphabetical');
     useEffect(() => {
         getProperties().then(x => {
-            // console.log('X before:');
-            // console.log(x);
             x.data.sort((a, b) => a.address.localeCompare(b.address));
-            // console.log('X after:');
-            // console.log(x);
             setProperties(x);
             setAllProperties(x);
         });
-
-        // let e = {target: {value: "Alphabetical"}}
-        // applySort(e);    
 
         filterOptions.forEach(x => { //resets all tags when page is reloaded
             x.active = false;
@@ -151,6 +144,11 @@ function SearchResults(props) {
 
     return (
         <>
+            <Button
+                variant='contained'
+                color='primary'
+                onClick={() => navigate('/')}>Home</Button>
+
             <Button
                 variant='contained'
                 color='primary'

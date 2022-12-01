@@ -1,5 +1,5 @@
 import axios from 'axios';
-const apiEndpoint = '//localhost:8000';
+const apiEndpoint = 'http://ec2-54-172-10-241.compute-1.amazonaws.com:8000';
 
 export const getProperties = () => new Promise((resolve, reject) => {
     axios.get(`${apiEndpoint}/getallproperties`)
