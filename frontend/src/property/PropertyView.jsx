@@ -19,8 +19,8 @@ import { filterOptions } from "../api/getterApi";
 import { editProperty, getPropertyById } from "../api/propertyApi";
 import { getProfileById } from "../api";
 import { deleteProperty } from '../api/propertyApi'
-import { createComment, deleteComment, getCommentsByProperty } from "../api/commentApi";
-
+import { createComment, deleteComment, getAllComments, getCommentsByProperty } from "../api/commentApi";
+import { Comment } from "./Comment";
 export const PropertyView = () => {
     let id = useParams().id;
     let navigate = useNavigate();
@@ -30,9 +30,12 @@ export const PropertyView = () => {
     let [propertyOwner, setPropertyOwner] = useState({})
     let [comment, setComment] = useState()
     let [comments, setComments] = useState([])
+    let [commentsChanged, setCommentsChanged] = useState(0)
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
+        setComments(comments.filter(x=>x.comment_id<0))
+
         getPropertyById(id).then(x => {
             console.log(x)
             setCurrentProperty(x);
@@ -40,12 +43,20 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
-            console.log('Getting comments:')
-            getCommentsByProperty(id).then(x=>{
-                console.log(x)
-            })
+            setCommentsChanged(commentsChanged+1)
         });
     }, [])
+    useEffect(() => {
+        setComments(comments.filter(x=>x.comment_id<0))
+        getAllComments().then(x => {
+            x.data.forEach(c => {
+                if (c.property_id == id) {
+                    setComments(current=>[...current,c])
+                    console.log(comments)
+                }
+            })
+        })
+    }, [commentsChanged])
     const deleteProp = () => {
         deleteProperty(currentProperty.data[0].propertyId).then(navigate('/'));
     }
@@ -55,40 +66,44 @@ export const PropertyView = () => {
         editProperty(currentProperty.data[0].propertyId, currentProperty.data[0]);
         setRatingSubmitted(true);
     }
+    const editProp = () => {
+        navigate('/editListing/' + id);
+    }
     const _deleteComment = (id) => {
         deleteComment(id)
+        setCommentsChanged(commentsChanged+1)
     }
     const submitComment = (x) => {
-        let newReview = {
+        setCommentsChanged(commentsChanged+1)
+        let newComment = {
             property_id: currentProperty.data[0].propertyId,
             user_id: currentUser.user_id,
             comment: comment,
             comment_id: ''
         }
-        console.log(newReview)
-        createComment(newReview)
-        getCommentsByProperty(59).then(x=>{
-            console.log(x.data)
-        })
+        createComment(newComment)
+        setCommentsChanged(commentsChanged+1)
     }
     if (!currentProperty) {
         return <>Loading...</>
     }
     return currentProperty && <>
         <Box width="80%" mx="auto" my={4}>
-            <Card elevation="10"
-            >
-                <CardHeader
-                    sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
-                    title={<><h3>{currentProperty.data[0].address}</h3>
-                        {currentUser.user_id == propertyOwner.user_id && <>
-                            <Button variant="contained" color="primary">Edit</Button>
-                            <>
-                                {currentUser.account_type == 2 && <Button onClick={() =>{ deleteProp();}}>Delete</Button>
-                                }</>
-                        </>}</>} />
+            <Card elevation="10">
+                <Typography align="center">
+                    <CardHeader
+                        sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
+                        title={<><h3>{currentProperty.data[0].address}</h3>
+                            {currentUser.user_id == propertyOwner.user_id && <>
+                                <Button sx={{ marginX: '1em' }} onClick={() => editProp()} variant="contained" color="primary">Edit</Button>
+                                <>
+                                    {currentUser.account_type == 2 && <Button sx={{ marginX: '1em' }} onClick={() => { deleteProp(); }} variant="contained" color="primary">Delete</Button>
+                                    }</>
+                            </>}</>} />
+                </Typography>
                 <CardContent>
-                    <Grid container Spacing={2} mx={3}>
+
+                    <Grid container spacing={2} mx={3}>
                         <Grid item xs={7}>
 
                             <Box item component="img"
@@ -107,10 +122,10 @@ export const PropertyView = () => {
                                     <Typography variant="h6">Capacity: {currentProperty.data[0].capacity}</Typography>
                                     <Typography variant="h6">Size: {" " + currentProperty.data[0].sqft + "sqft"}</Typography>
 
-
                                 </Box>
                                 <Box mx={2}>
                                     <Rating value={Math.floor(currentProperty.data[0].ratingSum / currentProperty.data[0].numRatings)}></Rating>
+                                    <Typography>{'(' + currentProperty.data[0].numRatings + ')'}</Typography>
                                 </Box>
                             </Card>
                         </Grid>
@@ -166,6 +181,7 @@ export const PropertyView = () => {
                                         <Button
                                             onClick={() => {
                                                 if (newRating > 0) {
+                                                    console.log('Here!!');
                                                     submitRating();
                                                 }
                                             }}
@@ -195,6 +211,15 @@ export const PropertyView = () => {
                                 </> : <> </>
                             }
                         </>
+
+                    </Grid>
+                    <Grid container>
+                        {comments.map(x => {
+                            return <>
+                                <Comment comment={x}
+                                    deleteComment={_deleteComment}></Comment>
+                            </>
+                        })}
                     </Grid>
                 </CardContent>
             </Card>

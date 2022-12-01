@@ -9,6 +9,11 @@ export const getCommentsByProperty = (id) => new Promise((resolve, reject) => {
         reject(x);
     });
 });
+
+export const getAllComments = () => new Promise ((resolve, reject)=>{
+    axios.get(`${apiEndpoint}/comment`)
+    .then(x=>resolve(x.data))
+})
 export const createComment = (comment) =>{
     console.log(comment)
     axios.post(`${apiEndpoint}/comment`, comment);
