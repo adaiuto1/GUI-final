@@ -7,7 +7,7 @@ import { Paper, Typography, Box, Button, Card, Avatar, CardHeader, CardContent, 
 import { blue } from '@mui/material/colors';
 import { deleteProfile, editProfile, getProfileById } from '../api/profileApi';
 import { UserContext } from '../App';
-import { getProperties } from '../api/propertyApi';
+import { deleteProperty, getProperties } from '../api/propertyApi';
 import { deleteUser } from '../api';
 import {FormControl, Switch, FormControlLabel, Checkbox} from '@mui/material';
 function ProfileView({ setCurrentUser }) {
@@ -43,10 +43,17 @@ function ProfileView({ setCurrentUser }) {
     }, [])
 
     const deleteAccount = () => {
+        getProperties().then(x=>{
+            x.data.forEach(p=>{
+             if(p.owner == currentUser.user_id){
+                deleteProperty(p.propertyId)
+             }
+            })
+         })
         deleteProfile(currentUser.user_id);
         deleteUser(currentUser.user_id);
-        setCurrentUser(undefined);
-        navigate('/');
+        
+        navigate('/')
     }
     const saveChanges = () => {
         editProfile(currentUser.user_id, currProfile);

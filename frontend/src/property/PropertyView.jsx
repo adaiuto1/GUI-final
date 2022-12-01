@@ -115,7 +115,7 @@ export const PropertyView = () => {
                                 <Box mx={2}>
                                     <Typography variant="h6">
                                         Owner: {" "}
-                                        <Link to={"/profile_view/" + propertyOwner.user_id}
+                                        <Link to={"/profiles/" + propertyOwner.user_id}
                                         >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link>
                                     </Typography>
                                     <Typography variant="h6">Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</Typography>

@@ -39,7 +39,6 @@ function Listing({ property }) {
                 title={<>
                 <h2>{property.address}</h2>
                 
-                
                 </>}
                 >
             </CardHeader>
