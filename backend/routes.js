@@ -601,11 +601,8 @@ app.post('/reset', (req, res) => {
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection');
      } else {
-       const body = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-       var query = 'INSERT INTO comments(property_id, user_id, comment, comment_id)'
-       //none of this is reffered to as the payload now, update it
-       connection.query(query,[body.property_id, body.user_id, body.comment, body.comment_id], function (err, rows, fields) {
+       connection.query('INSERT INTO comments(property_id, user_id, comment, comment_id) VALUES(?,?,?,?)', [req.body.property_id, req.body.user_id, req.body.comment, req.body.comment_id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while posting the comment: \n", err);
