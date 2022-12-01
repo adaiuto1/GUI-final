@@ -569,9 +569,9 @@ app.post('/reset', (req, res) => {
       } else {
         const payload = req.body; // This payload should be an object containing update profile data
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ?, application_id = ?, WHERE id=? '
+        var query = 'UPDATE applications SET response = ? WHERE application_id = ? '
         //none of this is reffered to as the payload now, update it
-        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
+        connection.query(query,[payload.response], function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error editing application: \n", err);
