@@ -33,7 +33,7 @@ function ApplicationDisplay({ app_id, tenant_id, property_id, status, onApprove,
     return pAdd && <>
         <Card elevation="10">
             <CardHeader
-                avatar={<NavLink to={"/profile/" + tenant_id}>
+                avatar={<NavLink to={"/profiles/" + tenant_id}>
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="tenant" />
                 </NavLink>}
                 title={<Typography variant="h6">
