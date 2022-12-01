@@ -382,6 +382,7 @@ app.post('/reset', (req, res) => {
     });
   })
 
+  // get property by id
   app.get('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){ 
       if(err){
@@ -409,6 +410,7 @@ app.post('/reset', (req, res) => {
     });
   });
 
+  // create property
   app.post('/property', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
@@ -440,6 +442,8 @@ app.post('/reset', (req, res) => {
      });
    });
 
+
+   //update property
    app.put('/property/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
      if(err){
@@ -504,33 +508,58 @@ app.post('/reset', (req, res) => {
     }
   });
 
-  app.post('/application', async (req, res) => {
+  // POST user
+  app.post('/application', (req, res) => {
+    console.log(req.body);
+    // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
-    if(err){
-      // if there is an issue obtaining a connection, release the connection instance and log the error
-      logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
-    } else {
-      // const id = req.params.id; // And pull the ID from the req params
-      const payload = req.body; // This payload should be an object containing update profile data
-      // if there is no issue obtaining a connection, execute query and release connection
-      var query = 'INSERT INTO applications (tenent, landlord, property_id, response, application_id) VALUES (?,?,?,?,?)'
-      //none of this is reffered to as the payload now, update it
-      connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
-        connection.release();
-        if (err) {
-          logger.error("Error while inserting new application: \n", err);
-          res.status(400).json({
-            "data": [],
-            "error": "Error creating application"
-          })
-        } else {
-          res.status(200).json({
-            "data": rows
-          });
-        }
-      });
-    }
+      if (err){
+        console.log(connection);
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection', err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no error with the query, execute the next query and do not release the connection yet
+        connection.query('INSERT INTO applications(tenant, landlord, property_id, response, application_id) VALUES(?,?,?,?,?)', [req.body.tenant, req.body.landlord, req.body.property_id, req.body.response, req.body.application_id], function (err, rows, fields) {
+          if (err) { 
+            // if there is an error with the query, release the connection instance and log the error
+            connection.release()
+            logger.error("Problem creating application: \n", err);
+            res.status(400).send('Problem creating application'); 
+          } else { 
+            // if there is no error with the query, release the connection instance
+            connection.release()
+            res.status(200).send('created new application'); 
+          }
+        });
+      }
+    });
+  });
+
+  app.get('/application', (req, res) => {
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('SELECT * FROM applications', function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            logger.error("Error while fetching applications: \n", err);
+            res.status(400).json({
+              "data": [],
+              "error": "Error obtaining applications"
+            })
+          } else {
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
     });
   });
 
@@ -544,7 +573,7 @@ app.post('/reset', (req, res) => {
       } else {
         const payload = req.body; // This payload should be an object containing update profile data
         // if there is no issue obtaining a connection, execute query and release connection
-        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ?, application_id = ?, WHERE id=? '
+        var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ? WHERE application_id = ? '
         //none of this is reffered to as the payload now, update it
         connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
           connection.release();
@@ -572,11 +601,8 @@ app.post('/reset', (req, res) => {
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection');
      } else {
-       const body = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
-       var query = 'INSERT INTO comments(property_id, user_id, comment)'
-       //none of this is reffered to as the payload now, update it
-       connection.query(query,[body.property_id, body.user_id, body.comment], function (err, rows, fields) {
+       connection.query('INSERT INTO comments(property_id, user_id, comment, comment_id) VALUES(?,?,?,?)', [req.body.property_id, req.body.user_id, req.body.comment, req.body.comment_id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while posting the comment: \n", err);
@@ -593,6 +619,34 @@ app.post('/reset', (req, res) => {
      }
      });
    });
+
+     // POST user
+  app.post('/application', (req, res) => {
+    console.log(req.body);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if (err){
+        console.log(connection);
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection', err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no error with the query, execute the next query and do not release the connection yet
+        connection.query('INSERT INTO applications(tenant, landlord, property_id, response, application_id) VALUES(?,?,?,?,?)', [req.body.tenant, req.body.landlord, req.body.property_id, req.body.response, req.body.application_id], function (err, rows, fields) {
+          if (err) { 
+            // if there is an error with the query, release the connection instance and log the error
+            connection.release()
+            logger.error("Problem creating application: \n", err);
+            res.status(400).send('Problem creating application'); 
+          } else { 
+            // if there is no error with the query, release the connection instance
+            connection.release()
+            res.status(200).send('created new application'); 
+          }
+        });
+      }
+    });
+  });
 
    app.get('/comment/:id', async (req, res) => {
     pool.getConnection(function (err, connection){
