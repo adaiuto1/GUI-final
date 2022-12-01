@@ -53,9 +53,6 @@ export const App = () => {
           <Route path='/property/:id' element={<PropertyView/>}/>
           <Route path='/newListing' element={<AddProperty/>}/>
           <Route path='/editListing/:id' element={<EditProperty/>}/>
-          <Route path='/profile_view/:id' element={<ProfileView/>}></Route>
-          <Route path='/properties' element={<SearchResults/>}></Route>
-          <Route path='/my_properties' element={<SearchResults onlyMine={true}/>}></Route>
           <Route path='/inbox' element={<Inbox/>}/>
         </Routes> 
       </Router>

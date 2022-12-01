@@ -32,13 +32,12 @@ function Listing({ property }) {
     return <>
         <Card>
             <CardHeader avatar={
-                <NavLink to={"/profile/" + property.owner}>
+                <NavLink to={"/profiles/" + property.owner}>
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="owner"></Avatar>
                 </NavLink>
             }
                 title={<>
                 <h2>{property.address}</h2>
-                
                 
                 </>}
                 >
