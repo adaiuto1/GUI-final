@@ -67,7 +67,7 @@ app.put('/profiles/:id', async (req, res) => { //this needs more work
       // if there is no issue obtaining a connection, execute query and release connection
       var query = 'UPDATE profiles SET firstname = ?, lastname = ?, smoker = ?, petFriendly = ?, bio = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ? WHERE user_id= ? '
       //none of this is reffered to as the payload now, update it
-      connection.query(query,[payload.firstName, payload.lastName, payload.bio, payload.smoker, payload.petFriendly,
+      connection.query(query,[payload.firstname, payload.lastname, payload.smoker, payload.petFriendly, payload.bio,
         payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, id], function (err, rows, fields) {
         connection.release();
         if (err) {

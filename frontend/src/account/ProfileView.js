@@ -88,6 +88,10 @@ function ProfileView() {
                                     }
                                     <Button variant="contained" onClick={()=>deleteAccount()}>Delete Profile</Button>
                                 </Grid>
+                                <Grid item xs={6}>
+                                    <h5>Smoker: {currProfile.smoker ? "Yes" : "No"}</h5>
+                                    <h5>Pet Friendly: {currProfile.petFriendly ? "Yes" : "No"}</h5>
+                                </Grid>
                             </Grid>
                         </CardContent>
                                 
@@ -122,6 +126,15 @@ function ProfileView() {
                                                 label={"Bio"} //optional
                                             /></Grid>
                             <Typography align="center">
+                                {currProfile.smoker ?
+                                <FormControl>
+                                    <Typography>Do you smoke?</Typography>
+                                    <Switch defaultChecked
+                                        value={currProfile.smoker}
+                                        onChange={e => setCurrProfile({ ...currProfile, smoker: e.target.checked })}>
+                                    </Switch>
+                                </FormControl>
+                                :
                                 <FormControl>
                                     <Typography>Do you smoke?</Typography>
                                     <Switch
@@ -129,6 +142,16 @@ function ProfileView() {
                                         onChange={e => setCurrProfile({ ...currProfile, smoker: e.target.checked })}>
                                     </Switch>
                                 </FormControl>
+                                }
+                                {currProfile.petFriendly ?
+                                <FormControl>
+                                    <Typography>Are you Pet-Friendly?</Typography>
+                                    <Switch label="Pet Friendly" defaultChecked
+                                        value={currProfile.petFriendly}
+                                        onChange={e => setCurrProfile({ ...currProfile, petFriendly: e.target.checked })}>
+                                    </Switch>
+                                </FormControl>
+                                :
                                 <FormControl>
                                     <Typography>Are you Pet-Friendly?</Typography>
                                     <Switch label="Pet Friendly"
@@ -136,45 +159,100 @@ function ProfileView() {
                                         onChange={e => setCurrProfile({ ...currProfile, petFriendly: e.target.checked })}>
                                     </Switch>
                                 </FormControl>
+                                }
                             </Typography>
                             <Typography align="center">
                                 <Grid>
+                                    {currProfile.tag1 ? 
+                                    <FormControlLabel value={currProfile.tag1}
+                                                    label={"Student"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag1: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag1}
                                                     label={"Student"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag1: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
+                                    {currProfile.tag2 ?
+                                    <FormControlLabel value={currProfile.tag2}
+                                                    label={"Married"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag2: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag2}
                                                     label={"Married"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag2: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
+                                    {currProfile.tag3 ?
+                                    <FormControlLabel value={currProfile.tag3}
+                                                    label={"Night Owl"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag3: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag3}
                                                     label={"Night Owl"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag3: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
+                                    {currProfile.tag4 ? 
+                                    <FormControlLabel value={currProfile.tag4}
+                                                    label={"Commuter"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag4: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag4}
                                                     label={"Commuter"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag4: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
+                                    {currProfile.tag5 ?
+                                    <FormControlLabel value={currProfile.tag5}
+                                                    label={"Introvert"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag5: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag5}
                                                     label={"Introvert"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag5: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
+                                    {currProfile.tag6 ?
+                                    <FormControlLabel value={currProfile.tag6}
+                                                    label={"Extrovert"}
+                                                    control={<Checkbox defaultChecked
+                                                    onChange={e => {
+                                                        setCurrProfile({ ...currProfile, tag6: e.target.checked });
+                                                    }}></Checkbox>} />
+                                    :
                                     <FormControlLabel value={currProfile.tag6}
                                                     label={"Extrovert"}
                                                     control={<Checkbox
                                                     onChange={e => {
                                                         setCurrProfile({ ...currProfile, tag6: e.target.checked });
                                                     }}></Checkbox>} />
+                                    }
                                 </Grid>
                             </Typography>
                             <Typography align="center">
