@@ -23,7 +23,8 @@ function HomePage({ setCurrentUser }) {
         setCurrentUser(undefined)
     }
     return (
-        <><Grid container spacing={2}>
+        <>
+        <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
             {/* <Grid container rows={3} columns={3}> */}
             <Grid item xs={12} sm={6} md={3}>
                 <NavLink to="/properties" style={{ textDecoration: 'none' }}>
@@ -80,21 +81,21 @@ function HomePage({ setCurrentUser }) {
                 </NavLink>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3}>
-                {currentUser.account_type == 1 ? <>
+            {currentUser.account_type == 1 ? <>
 
-                </> :
-                    <>
-                        <NavLink to="/newListing" style={{ textDecoration: 'none' }}>
-                            <Card elevation="10" sx={{ marginX: '1em' }}>
-                                <CardHeader
-                                    avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
-                                        width="25em" />}
-                                    title={<h3>Create New Listing</h3>} />
-                            </Card>
-                        </NavLink>
-                    </>}
-            </Grid>
+            </> :
+            <>
+                <Grid item xs={12} sm={6} md={3}>
+                    <NavLink to="/newListing" style={{ textDecoration: 'none' }}>
+                        <Card elevation="10" sx={{ marginX: '1em' }}>
+                            <CardHeader
+                                avatar={<img src="https://cdn0.iconfinder.com/data/icons/places-16/24/house-door-512.png"
+                                    width="25em" />}
+                                title={<h3>Create New Listing</h3>} />
+                        </Card>
+                    </NavLink>
+                </Grid>
+            </>}
         </Grid>
             <Grid container>
                 <Button sx={{ width: '40%', marginX: 'auto', marginY: "2%" }}
