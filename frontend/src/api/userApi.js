@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext } from 'react';
-const apiEndpoint = 'http://ec2-54-172-10-241.compute-1.amazonaws.com:8000';
+const apiEndpoint = 'https://fmflb-224718001.us-east-1.elb.amazonaws.com:444';
 
 
 export const getUsers = () => {
