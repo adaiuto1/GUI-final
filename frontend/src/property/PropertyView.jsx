@@ -33,7 +33,6 @@ export const PropertyView = () => {
     const [newRating, setNewRating] = useState(0);
     const [ratingSubmitted, setRatingSubmitted] = useState(false);
     useEffect(() => {
-
         getPropertyById(id).then(x => {
             console.log(x)
             setCurrentProperty(x);
@@ -41,11 +40,11 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
-
+            getCommentsByProperty(id).then(x=>{
+                console.log(x)
+            })
         });
-        // setCurrentProperty(PropertyList.find(x => x.propertyId == id))
     }, [])
-
     const deleteProp = () => {
         deleteProperty(currentProperty.data[0].propertyId)
     }
@@ -67,7 +66,9 @@ export const PropertyView = () => {
         }
         console.log(newReview)
         createComment(newReview)
-        createComment({ ...newReview, comment: "comment2" })
+        getCommentsByProperty(59).then(x=>{
+            console.log(x.data)
+        })
     }
     if (!currentProperty) {
         return <>Loading...</>
@@ -95,14 +96,16 @@ export const PropertyView = () => {
                         </Grid>
                         <Grid item xs={11} md={3}>
                             <Card elevation="5" rounded={true}>
-                                <Box mx={2}
-                                >
-                                    <h5 item>Owner: {" "}
+                                <Box mx={2}>
+                                    <Typography variant="h6">
+                                        Owner: {" "}
                                         <Link to={"/profile_view/" + propertyOwner.user_id}
-                                        >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link></h5>
-                                    <h5 item>Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</h5>
-                                    <h5 item>Capacity: {currentProperty.data[0].capacity}</h5>
-                                    <h5 item>Size: {" " + currentProperty.data[0].sqft + "sqft"}</h5>
+                                        >{propertyOwner.firstname + " " + propertyOwner.lastname}</Link>
+                                    </Typography>
+                                    <Typography variant="h6">Monthly Rent: {" $" + currentProperty.data[0].monthlyRent}</Typography>
+                                    <Typography variant="h6">Capacity: {currentProperty.data[0].capacity}</Typography>
+                                    <Typography variant="h6">Size: {" " + currentProperty.data[0].sqft + "sqft"}</Typography>
+
 
                                 </Box>
                                 <Box mx={2}>
@@ -110,7 +113,7 @@ export const PropertyView = () => {
                                 </Box>
                             </Card>
                         </Grid>
-                        <Grid item xs={5} md={3}lg={3} xl={3} mt={2}>
+                        <Grid item xs={5} md={3} lg={3} xl={3} mt={2}>
                             <Grid container>
                                 {currentProperty.data[0].tag1 === 1 && <Chip label="College Town"></Chip>}
                                 {currentProperty.data[0].tag2 === 1 && <Chip label="Quiet Neighbourhood"></Chip>}
@@ -139,14 +142,14 @@ export const PropertyView = () => {
                                     </Grid>
                                     :
                                     <Grid item xs={11} sm={5} md={4} lg={3} xl={2}
-                                    align="center"
-                                    justifyContent="center">
+                                        align="center"
+                                        justifyContent="center">
 
                                         <Typography variant="h6" mb={2}>Leave a Rating</Typography>
                                         <FormControl variant="standard">
                                             <InputLabel>Rating</InputLabel>
                                             <Select
-                                                sx={{marginX:'1em'}}
+                                                sx={{ marginX: '1em' }}
                                                 value={newRating}
                                                 onChange={(event) => setNewRating(event.target.value)}
                                             >
