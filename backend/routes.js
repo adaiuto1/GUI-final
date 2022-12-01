@@ -278,7 +278,7 @@ app.post('/reset', (req, res) => {
             // console.log('Password salt', salt);
             // const hashedPassword = await bcrypt.hash(req.body.password, salt);
             // console.log('Hashed password', hashedPassword);
-            connection.query('INSERT INTO Users(username, password, account_type) VALUES(?,?,?)', [req.body.username, hashedPassword, req.body.account_type], function (err, rows, fields) {
+            connection.query('INSERT INTO Users(username, password, account_type) VALUES(?,?,?)', [req.body.username, req.body.password, req.body.account_type], function (err, rows, fields) {
               if (err) { 
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
