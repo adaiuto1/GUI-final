@@ -19,8 +19,8 @@ import { filterOptions } from "../api/getterApi";
 import { editProperty, getPropertyById } from "../api/propertyApi";
 import { getProfileById } from "../api";
 import { deleteProperty } from '../api/propertyApi'
-import { createComment, deleteComment, getCommentsByProperty } from "../api/commentApi";
-
+import { createComment, deleteComment, getAllComments, getCommentsByProperty } from "../api/commentApi";
+import { Comment } from "./Comment";
 export const PropertyView = () => {
     let id = useParams().id;
     let navigate = useNavigate();
@@ -40,14 +40,24 @@ export const PropertyView = () => {
                 setPropertyOwner(x.data[0])
             })
             console.log(x.data[0].propertyId)
-            console.log('Getting comments:')
-            getCommentsByProperty(id).then(x=>{
-                console.log(x)
-            })
         });
     }, [])
+    useEffect(() => {
+        setComments([]);
+        getAllComments().then(x => {
+            x.data.forEach(c => {
+                if (c.property_id == id) {
+                    addComment(c)
+                }
+            })
+            console.log(comments)
+        })
+    }, [propertyOwner])
     const deleteProp = () => {
         deleteProperty(currentProperty.data[0].propertyId).then(navigate('/'));
+    }
+    const addComment = (nc) => {
+        setComments(current => [...current, nc])
     }
     const submitRating = () => {
         currentProperty.data[0].ratingSum += newRating;
@@ -60,19 +70,16 @@ export const PropertyView = () => {
     }
     const _deleteComment = (id) => {
         deleteComment(id)
+        setComments(comments.filter(x=>x.comment_id != id))
     }
     const submitComment = (x) => {
-        let newReview = {
+        let newComment = {
             property_id: currentProperty.data[0].propertyId,
             user_id: currentUser.user_id,
             comment: comment,
             comment_id: ''
         }
-        console.log(newReview)
-        createComment(newReview)
-        getCommentsByProperty(59).then(x=>{
-            console.log(x.data)
-        })
+        createComment(newComment)
     }
     if (!currentProperty) {
         return <>Loading...</>
@@ -85,14 +92,15 @@ export const PropertyView = () => {
                         sx={{ bgcolor: 'text.primary', color: 'secondary.contrastText' }}
                         title={<><h3>{currentProperty.data[0].address}</h3>
                             {currentUser.user_id == propertyOwner.user_id && <>
-                                <Button sx={{ marginX: '1em'}} onClick={() => editProp()} variant="contained" color="primary">Edit</Button>
+                                <Button sx={{ marginX: '1em' }} onClick={() => editProp()} variant="contained" color="primary">Edit</Button>
                                 <>
-                                    {currentUser.account_type == 2 && <Button sx={{ marginX: '1em' }} onClick={() =>{ deleteProp();}} variant="contained" color="primary">Delete</Button>
+                                    {currentUser.account_type == 2 && <Button sx={{ marginX: '1em' }} onClick={() => { deleteProp(); }} variant="contained" color="primary">Delete</Button>
                                     }</>
                             </>}</>} />
                 </Typography>
                 <CardContent>
-                    <Grid container Spacing={2} mx={3}>
+
+                    <Grid container spacing={2} mx={3}>
                         <Grid item xs={7}>
 
                             <Box item component="img"
@@ -111,10 +119,10 @@ export const PropertyView = () => {
                                     <Typography variant="h6">Capacity: {currentProperty.data[0].capacity}</Typography>
                                     <Typography variant="h6">Size: {" " + currentProperty.data[0].sqft + "sqft"}</Typography>
 
-
                                 </Box>
                                 <Box mx={2}>
                                     <Rating value={Math.floor(currentProperty.data[0].ratingSum / currentProperty.data[0].numRatings)}></Rating>
+                                    <Typography>{'(' + currentProperty.numRatings + ')'}</Typography>
                                 </Box>
                             </Card>
                         </Grid>
@@ -200,6 +208,15 @@ export const PropertyView = () => {
                                 </> : <> </>
                             }
                         </>
+
+                    </Grid>
+                    <Grid container>
+                        {comments.map(x => {
+                            return <>
+                                <Comment comment={x}
+                                    deleteComment={_deleteComment}></Comment>
+                            </>
+                        })}
                     </Grid>
                 </CardContent>
             </Card>
