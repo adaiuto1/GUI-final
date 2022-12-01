@@ -575,7 +575,7 @@ app.post('/reset', (req, res) => {
         // if there is no issue obtaining a connection, execute query and release connection
         var query = 'UPDATE applications SET tenant = ?, landlord = ?, property_id = ?, response = ? WHERE application_id = ? '
         //none of this is reffered to as the payload now, update it
-        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, id], function (err, rows, fields) {
+        connection.query(query,[payload.tenant, payload.landlord, payload.property_id, payload.response, payload.application_id], function (err, rows, fields) {
           connection.release();
           if (err) {
             logger.error("Error editing application: \n", err);
