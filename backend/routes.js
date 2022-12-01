@@ -480,13 +480,12 @@ app.post('/reset', (req, res) => {
        logger.error('Problem obtaining MySQL connection',err)
        res.status(400).send('Problem obtaining MySQL connection'); 
      } else {
-       const id = req.params.id // would this just be ID?
        const payload = req.body; // This payload should be an object containing update profile data
        // if there is no issue obtaining a connection, execute query and release connection
        var query = 'UPDATE property_table SET address = ?, monthlyRent = ?, owner = ?, city = ?, zipcode = ?, ratingSum = ?, numRatings = ?, capacity = ?, sqft = ?, allowsPets = ?, allowsSmoking = ?, img = ?, tag1 = ?, tag2 = ?, tag3 = ?, tag4 = ?, tag5 = ?, tag6 = ?, tag7 = ?, WHERE propertyId=? )'
        //none of this is reffered to as the payload now, update it
        connection.query(query,[payload.address, payload.monthlyRent, payload.owner, payload.city, payload.zipcode, payload.ratingSum, payload.numRatings, payload.capacity, payload.sqft, payload.allowsPets,
-       payload.allowsSmoking, payload.img, payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, payload.tag7, id], function (err, rows, fields) {
+       payload.allowsSmoking, payload.img, payload.tag1, payload.tag2, payload.tag3, payload.tag4, payload.tag5, payload.tag6, payload.tag7, req.params.id], function (err, rows, fields) {
          connection.release();
          if (err) {
            logger.error("Error while updating property: \n", err);
