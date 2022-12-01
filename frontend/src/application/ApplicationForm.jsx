@@ -1,7 +1,6 @@
 import { Grid, Card, CardHeader, CardContent, Button, Avatars, CardMedia, Typography, Box, FormControl, Menu, MenuItem, Select, Chip } from '@mui/material'
 import { useEffect } from 'react';
 import { useContext, useState, useParams } from 'react';
-import { currentUser } from '../api/getterApi';
 import { getProperties } from '../api/propertyApi';
 import { UserContext } from '../App';
 import { PropertyList } from '../data/PropertyList';
