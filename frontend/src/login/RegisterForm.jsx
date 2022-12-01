@@ -87,6 +87,8 @@ export const RegisterForm = ({ values, onChange, onSubmit, view, changeView }) =
                         } else {
                             setPassword1Error('');
                         }
+
+                        if (newVal === values.passwordConfirmation) setPassword2Error('');
                     }}/>
                 <TextField
                     margin="normal"
